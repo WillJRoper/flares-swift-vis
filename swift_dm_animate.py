@@ -9,6 +9,7 @@ from guppy import hpy; h=hpy()
 import os
 from swiftsimio import load
 import unyt
+import gc
 
 
 def get_normalised_image(img, vmin=None, vmax=None):
@@ -94,3 +95,4 @@ def single_frame(num):
 
 for num in range(0, 101):
     single_frame(num)
+    gc.collect()
