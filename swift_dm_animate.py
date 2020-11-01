@@ -99,7 +99,7 @@ def single_frame(num, max_pixel):
 
 
 max_pixel = single_frame(100, max_pixel=None)
-
+print(max_pixel)
 for num in range(0, 101):
     single_frame(num, max_pixel=max_pixel)
     gc.collect()
