@@ -35,14 +35,13 @@ def getimage(poss, hsml, max_pixel=None):
 
     img = R.get_image()
 
-    if max_pixel == None:
-        vmax = img.max()
-    else:
-        vmax = max_pixel
+    vmax = max_pixel
     vmin = vmax * 0.5
 
     # Get colormaps
     cmap = cmaps.twilight()
+
+    print(np.max(img))
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin))
@@ -99,7 +98,7 @@ def single_frame(num, max_pixel):
 
 
 max_pixel = single_frame(100, max_pixel=None)
-print(max_pixel)
+
 for num in range(0, 101):
     single_frame(num, max_pixel=max_pixel)
     gc.collect()
