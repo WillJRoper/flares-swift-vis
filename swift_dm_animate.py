@@ -35,7 +35,7 @@ def getimage(poss, hsml, max_pixel=None):
 
     img = R.get_image()
 
-    vmax = max_pixel
+    vmax = img.max()
     vmin = vmax * 0.5
 
     # Get colormaps
