@@ -30,7 +30,7 @@ def getimage(poss, hsml):
 
     # Set up particle objects
     R = QuickView(poss, hsml=hsml, mass=np.ones(poss.shape[0]), plot=False,
-                  r=15, p=0, t=0, ogscale=True)
+                  r="infinity", logscale=True)
 
     img = R.get_image()
 
@@ -88,8 +88,9 @@ def single_frame(num):
                    labeltop=False, labelright=False, labelbottom=False)
 
     fig.savefig('plots/Ani/DM_animation_' + snap + '.png',
-                bbox_inches='tight')
+                bbox_inches='tight', dpi=300)
     plt.close(fig)
 
 
-single_frame(76)
+for num in range(0, 101):
+    single_frame(num)
