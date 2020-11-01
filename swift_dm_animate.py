@@ -25,7 +25,7 @@ def get_normalised_image(img, vmin=None, vmax=None):
     return img
 
 
-def getimage(poss, hsml):
+def getimage(poss, hsml, max_pixel=None):
 
     print('There are', poss.shape[0], 'dark matter particles in the region')
 
@@ -35,7 +35,10 @@ def getimage(poss, hsml):
 
     img = R.get_image()
 
-    vmax = img.max()
+    if max == None:
+        vmax = img.max()
+    else:
+        vmax = max_pixel
     vmin = vmax * 0.5
 
     # Get colormaps
@@ -47,7 +50,7 @@ def getimage(poss, hsml):
     return rgb, R.get_extent()
 
 
-def single_frame(num):
+def single_frame(num, max_pixel):
 
     snap = "%04d" % num
 
@@ -79,7 +82,7 @@ def single_frame(num):
     hsmls = data.dark_matter.softenings.value
 
     # Get images
-    rgb_DM, extent = getimage(poss, hsmls)
+    rgb_DM, extent = getimage(poss, hsmls, max_pixel)
 
     fig = plt.figure(figsize=(4, 4))
     ax = fig.add_subplot(111)
@@ -92,7 +95,11 @@ def single_frame(num):
                 bbox_inches='tight', dpi=300)
     plt.close(fig)
 
+    return rgb_DM.max()
+
+
+max_pixel = single_frame(100, max_pixel=None)
 
 for num in range(0, 101):
-    single_frame(num)
+    single_frame(num, max_pixel=max_pixel)
     gc.collect()
