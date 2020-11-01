@@ -56,11 +56,9 @@ def single_frame(num):
     data = load(path)
 
     meta = data.metadata
-    boxsize = meta.boxsize
+    boxsize = meta.boxsize[0]
 
     print(boxsize)
-
-    print(data.metadata.dark_matter_properties.field_names)
 
     # # Define anchors dict for camera parameters
     # anchors = {}
@@ -77,6 +75,7 @@ def single_frame(num):
     # data = camera_tools.get_camera_trajectory(targets, anchors)
 
     poss = data.dark_matter.coordinates
+    hsmls = data.dark_matter.softenings
 
     # Get images
     rgb_DM, extent = getimage(poss, hsmls)
