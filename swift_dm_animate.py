@@ -35,7 +35,7 @@ def getimage(poss, hsml, max_pixel=None):
 
     img = R.get_image()
 
-    if max == None:
+    if max_pixel == None:
         vmax = img.max()
     else:
         vmax = max_pixel
