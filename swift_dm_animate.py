@@ -74,8 +74,8 @@ def single_frame(num):
     # # Define the camera trajectory
     # data = camera_tools.get_camera_trajectory(targets, anchors)
 
-    poss = data.dark_matter.coordinates
-    hsmls = data.dark_matter.softenings
+    poss = data.dark_matter.coordinates.value
+    hsmls = data.dark_matter.softenings.value
 
     # Get images
     rgb_DM, extent = getimage(poss, hsmls)
