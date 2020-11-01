@@ -48,7 +48,7 @@ def getimage(poss, hsml):
 
 def single_frame(num):
 
-    snap = "%05d" % num
+    snap = "%04d" % num
 
     # Define path
     path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/DMO_test/data/mega_dmo_test_' + snap + ".hdf5"
@@ -92,3 +92,5 @@ def single_frame(num):
                 bbox_inches='tight')
     plt.close(fig)
 
+
+single_frame(76)
