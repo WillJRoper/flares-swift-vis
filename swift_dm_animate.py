@@ -5,6 +5,7 @@ import numpy as np
 import sphviewer as sph
 from sphviewer.tools import QuickView, cmaps, camera_tools
 import matplotlib.pyplot as plt
+from astropy.cosmology import Planck13 as cosmo
 import sys
 from guppy import hpy; h=hpy()
 import os
@@ -83,7 +84,7 @@ def single_frame(num, max_pixel, nframes):
     anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['r'] = [boxsize.value + 5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['t'] = [30, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['p'] = [0, 'pass', 'pass', 'pass', 'pass', 'pass', 'pass', -360]
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['extent'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
@@ -104,7 +105,7 @@ def single_frame(num, max_pixel, nframes):
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
 
-    ax.text(0.8, 0.9, "%.2f" % z,
+    ax.text(0.8, 0.9, "%.2f" % cosmo.age(z),
              bbox=dict(boxstyle="round,pad=0.3", fc='w', ec="k", lw=1,
                        alpha=0.8),
              transform=ax.transAxes, horizontalalignment='right', fontsize=8)
