@@ -87,13 +87,13 @@ def single_frame(num, max_pixel, nframes):
     anchors['extent'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
 
     # Define the camera trajectory
-    data = camera_tools.get_camera_trajectory(targets, anchors)
+    cam_data = camera_tools.get_camera_trajectory(targets, anchors)
 
     poss = data.dark_matter.coordinates.value
     hsmls = data.dark_matter.softenings.value
 
     # Get images
-    rgb_DM, extent = getimage(data, poss, hsmls, max_pixel, num)
+    rgb_DM, extent = getimage(cam_data, poss, hsmls, max_pixel, num)
 
     fig = plt.figure(figsize=(4, 4))
     ax = fig.add_subplot(111)
