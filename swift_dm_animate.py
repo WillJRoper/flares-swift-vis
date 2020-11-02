@@ -93,7 +93,7 @@ def single_frame(num, max_pixel, nframes):
     hsmls = data.dark_matter.softenings.value
 
     # Get images
-    rgb_DM, extent = getimage(cam_data, poss, hsmls, max_pixel, num)
+    rgb_DM, extent = getimage(cam_data, poss, hsmls, num, max_pixel)
 
     fig = plt.figure(figsize=(4, 4))
     ax = fig.add_subplot(111)
