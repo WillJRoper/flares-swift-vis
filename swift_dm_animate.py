@@ -2,7 +2,8 @@
 import matplotlib as ml
 ml.use('Agg')
 import numpy as np
-from sphviewer.tools import QuickView, cmaps
+import sphviewer as sph
+from sphviewer.tools import QuickView, cmaps, camera_tools
 import matplotlib.pyplot as plt
 import sys
 from guppy import hpy; h=hpy()
@@ -25,17 +26,26 @@ def get_normalised_image(img, vmin=None, vmax=None):
     return img
 
 
-def getimage(poss, hsml, max_pixel=None):
+def getimage(data, poss, hsml, num, max_pixel):
 
     print('There are', poss.shape[0], 'dark matter particles in the region')
-
+    
     # Set up particle objects
-    R = QuickView(poss, hsml=hsml, mass=np.ones(poss.shape[0]), plot=False,
-                  r="infinity", logscale=True)
+    P = sph.Particles(poss, mass=np.ones(poss.shape[0]), hsml=hsml)
 
+    # Initialise the scene
+    S = sph.Scene(P)
+
+    i = data[num]
+    i['xsize'] = 5000
+    i['ysize'] = 5000
+    i['roll'] = 0
+    S.update_camera(**i)
+    R = sph.Render(S)
+    R.set_logscale()
     img = R.get_image()
 
-    vmax = img.max()
+    vmax = max_pixel
     vmin = vmax * 0.4
 
     # Get colormaps
@@ -47,7 +57,7 @@ def getimage(poss, hsml, max_pixel=None):
     return rgb, R.get_extent()
 
 
-def single_frame(num, max_pixel):
+def single_frame(num, max_pixel, nframes):
 
     snap = "%04d" % num
 
@@ -60,26 +70,29 @@ def single_frame(num, max_pixel):
     boxsize = meta.boxsize[0]
 
     print(boxsize)
+    
+    # Define targets
+    targets = [[boxsize / 2, boxsize / 2, boxsize / 2]]
 
-    # # Define anchors dict for camera parameters
-    # anchors = {}
-    # anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    # anchors['id_frames'] = [0, 45, 188, 210, 232, 375, 420, 500]
-    # anchors['id_targets'] = [0, 'pass', 2, 'pass', 'pass', 'pass', 'pass', 0]
-    # anchors['r'] = [boxsize * 3 / 4, 'pass', boxsize / 100, 'same', 'pass', 'pass', 'pass', boxsize * 3 / 4]
-    # anchors['t'] = [0, 'pass', 'pass', -180, 'pass', -270, 'pass', -360]
-    # anchors['p'] = [0, 'pass', 'pass', 'pass', 'pass', 'pass', 'pass', 360 * 3]
-    # anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    # anchors['extent'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    #
-    # # Define the camera trajectory
-    # data = camera_tools.get_camera_trajectory(targets, anchors)
+    # Define anchors dict for camera parameters
+    anchors = {}
+    anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
+    anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['r'] = [boxsize + 0.5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['t'] = [35, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['p'] = [25, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['extent'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+
+    # Define the camera trajectory
+    data = camera_tools.get_camera_trajectory(targets, anchors)
 
     poss = data.dark_matter.coordinates.value
     hsmls = data.dark_matter.softenings.value
 
     # Get images
-    rgb_DM, extent = getimage(poss, hsmls, max_pixel)
+    rgb_DM, extent = getimage(data, poss, hsmls, max_pixel, num)
 
     fig = plt.figure(figsize=(4, 4))
     ax = fig.add_subplot(111)
@@ -92,8 +105,6 @@ def single_frame(num, max_pixel):
                 bbox_inches='tight', dpi=300)
     plt.close(fig)
 
-    return rgb_DM.max()
-
-for num in range(0, 101):
-    single_frame(num, max_pixel=7.5)
+for num in range(0, 1001):
+    single_frame(num, max_pixel=7.5, nframes=1000)
     gc.collect()
