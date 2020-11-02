@@ -64,6 +64,8 @@ def single_frame(num, max_pixel, nframes):
     # Define path
     path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/DMO_1000/data/mega_dmo_test_' + snap + ".hdf5"
 
+    snap = "%05d" % num
+
     data = load(path)
 
     meta = data.metadata
@@ -81,8 +83,8 @@ def single_frame(num, max_pixel, nframes):
     anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['r'] = [boxsize.value + 5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['t'] = [-10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['p'] = [0, 'pass', 'pass', 'pass', 'pass', 'pass', 'pass', 4 * -360]
+    anchors['t'] = [30, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['p'] = [0, 'pass', 'pass', 'pass', 'pass', 'pass', 'pass', -360]
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['extent'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
 
