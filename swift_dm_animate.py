@@ -115,7 +115,7 @@ def single_frame(num, max_pixel, nframes):
     plt.close(fig)
 
 if len(sys.argv) > 1:
-    single_frame(sys.argv[1], max_pixel=7.5, nframes=1000)
+    single_frame(int(sys.argv[1]), max_pixel=7.5, nframes=1000)
 else:
 
     for num in range(0, 1001):
