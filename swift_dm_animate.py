@@ -82,7 +82,7 @@ def single_frame(num, max_pixel, nframes):
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['r'] = [boxsize.value + 0.5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['t'] = [35, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['p'] = [25, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['p'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['extent'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
 
