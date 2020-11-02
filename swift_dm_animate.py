@@ -62,7 +62,7 @@ def single_frame(num, max_pixel, nframes):
     snap = "%04d" % num
 
     # Define path
-    path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/DMO_test/data/mega_dmo_test_' + snap + ".hdf5"
+    path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/DMO_test/data/mega_dmo_1000_' + snap + ".hdf5"
 
     data = load(path)
 
