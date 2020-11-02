@@ -68,6 +68,7 @@ def single_frame(num, max_pixel, nframes):
 
     meta = data.metadata
     boxsize = meta.boxsize[0]
+    z = meta.redshift
 
     print(boxsize)
     
@@ -100,6 +101,11 @@ def single_frame(num, max_pixel, nframes):
     ax.imshow(rgb_DM, extent=extent, origin='lower')
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
+
+    ax.text(0.8, 0.9, "%.2f" % z,
+             bbox=dict(boxstyle="round,pad=0.3", fc='w', ec="k", lw=1,
+                       alpha=0.8),
+             transform=ax.transAxes, horizontalalignment='right', fontsize=8)
 
     fig.savefig('plots/Ani/DM_animation_' + snap + '.png',
                 bbox_inches='tight', dpi=300)
