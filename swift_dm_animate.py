@@ -46,13 +46,13 @@ def getimage(data, poss, hsml, num, max_pixel):
     img = R.get_image()
 
     vmax = max_pixel
-    vmin = vmax * 0.4
+    vmin = 1
 
     # Get colormaps
     cmap = cmaps.twilight()
 
     # Convert images to rgb arrays
-    rgb = cmap(get_normalised_image(img, vmin=vmin))
+    rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
 
     return rgb, R.get_extent()
 
