@@ -105,7 +105,7 @@ def single_frame(num, max_pixel, nframes):
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
 
-    ax.text(0.8, 0.9, "%.2f" % cosmo.age(z),
+    ax.text(0.8, 0.9, "%.3f Gyrs" % cosmo.age(z),
              bbox=dict(boxstyle="round,pad=0.3", fc='w', ec="k", lw=1,
                        alpha=0.8),
              transform=ax.transAxes, horizontalalignment='right', fontsize=8)
