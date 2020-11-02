@@ -11,10 +11,10 @@ print((0.01 * u.Gyr).to(u.Myr))
 zs = []
 for t in ts:
     zs.append(z_at_value(cosmo.age, (t * u.Gyr), zmax=127))
-    # print(zs[-1])
+    print("%.16f" % zs[-1])
 print(0.0)
 
 zs.append(0.0)
 
 print(len(zs))
-print(np.array(zs))
+# print(np.array(zs))

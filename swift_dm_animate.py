@@ -105,7 +105,7 @@ def single_frame(num, max_pixel, nframes):
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
 
-    ax.text(0.8, 0.9, "%.3f Gyrs" % cosmo.age(z).value,
+    ax.text(0.87, 0.95, "%.3f Gyrs" % cosmo.age(z).value,
              bbox=dict(boxstyle="round,pad=0.3", fc='w', ec="k", lw=1,
                        alpha=0.8),
              transform=ax.transAxes, horizontalalignment='right', fontsize=8)
@@ -114,6 +114,10 @@ def single_frame(num, max_pixel, nframes):
                 bbox_inches='tight', dpi=300)
     plt.close(fig)
 
-for num in range(0, 1001):
-    single_frame(num, max_pixel=7.5, nframes=1000)
-    gc.collect()
+if len(sys.argv) > 1:
+    single_frame(sys.argv[1], max_pixel=7.5, nframes=1000)
+else:
+
+    for num in range(0, 1001):
+        single_frame(num, max_pixel=7.5, nframes=1000)
+        gc.collect()
