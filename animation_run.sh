@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH -J FLARES-pysphv #Give it something meaningful.
 #SBATCH -o logs/output_flythrough.%J.out
-#SBATCH -p cosma7 #or some other partition, e.g. cosma, cosma6, etc.
+#SBATCH -p cosma6 #or some other partition, e.g. cosma, cosma6, etc.
 #SBATCH -A dp004
 #SBATCH --exclusive
 #SBATCH -t 00:30:00
