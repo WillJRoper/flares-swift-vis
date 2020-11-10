@@ -93,8 +93,7 @@ def single_frame(num, max_pixel, nframes):
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
 
     poss = data.stars.coordinates.value
-    print(dir(data.stars))
-    hsmls = data.stars.softenings.value
+    hsmls = data.stars.smoothing_lengths.value
 
     # Get images
     rgb_DM, extent = getimage(cam_data, poss, hsmls, num, max_pixel)
