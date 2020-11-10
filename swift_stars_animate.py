@@ -50,7 +50,7 @@ def getimage(data, poss, hsml, num, max_pixel):
     vmin = 1
 
     # Get colormaps
-    cmap = cmaps.twilight()
+    cmap = cmaps.night()
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
