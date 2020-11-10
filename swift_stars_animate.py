@@ -93,7 +93,7 @@ def single_frame(num, max_pixel, nframes):
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
 
     poss = data.stars.coordinates.value
-    print(data.metadata.star_properties.field_names)
+    print(data.metadata.field_names)
     hsmls = data.stars.softenings.value
 
     # Get images
