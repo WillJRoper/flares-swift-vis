@@ -121,5 +121,5 @@ if len(sys.argv) > 1:
 else:
 
     for num in range(0, 1001):
-        single_frame(num, max_pixel=7, nframes=1380)
+        single_frame(num, max_pixel=6.5, nframes=1380)
         gc.collect()

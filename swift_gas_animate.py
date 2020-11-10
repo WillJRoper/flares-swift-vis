@@ -47,10 +47,11 @@ def getimage(data, poss, hsml, num, max_pixel):
     img = R.get_image()
 
     vmax = max_pixel
-    vmin = 1
+    vmin = 0.5
 
     # Get colormaps
     cmap = cmaps.sunlight()
+    print(img.max())
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
