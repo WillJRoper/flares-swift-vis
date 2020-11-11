@@ -27,7 +27,7 @@ def get_normalised_image(img, vmin=None, vmax=None):
     return img
 
 
-def getimage(data, poss, hsml, num, max_pixel, cmap):
+def getimage(data, poss, hsml, num, max_pixel, cmap, Type="gas"):
 
     print('There are', poss.shape[0], 'gas particles in the region')
     
@@ -46,8 +46,12 @@ def getimage(data, poss, hsml, num, max_pixel, cmap):
     R.set_logscale()
     img = R.get_image()
 
-    vmax = max_pixel
-    vmin = 0.5
+    if Type == "gas":
+        vmax = 5.5
+        vmin = 0.5
+    else:
+        vmax = 6.5
+        vmin = 1.5
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
@@ -96,7 +100,8 @@ def single_frame(num, max_pixel, nframes):
     hsmls = data.gas.smoothing_lengths.value
 
     # Get images
-    rgb_gas, extent = getimage(cam_data, poss, hsmls, num, max_pixel, cmap)
+    rgb_gas, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
+                               cmap, Type="gas")
 
     # Get colormap
     cmap = ml.cm.Greys_r
@@ -105,7 +110,8 @@ def single_frame(num, max_pixel, nframes):
     hsmls = data.stars.smoothing_lengths.value
 
     # Get images
-    rgb_stars, extent = getimage(cam_data, poss, hsmls, num, max_pixel, cmap)
+    rgb_stars, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
+                                 cmap, Type="star")
 
     blend = Blend.Blend(rgb_gas, rgb_stars)
     rgb_output = blend.Overlay()
