@@ -51,7 +51,7 @@ def getimage(data, poss, hsml, num, max_pixel, cmap, Type="gas"):
         vmin = 1
         print("gas", np.max(img))
     else:
-        vmax = 6
+        vmax = 6.4
         vmin = 3
         print("star", np.max(img))
 
