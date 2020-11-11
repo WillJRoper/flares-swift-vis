@@ -48,11 +48,11 @@ def getimage(data, poss, hsml, num, max_pixel, cmap, Type="gas"):
 
     if Type == "gas":
         vmax = 5.
-        vmin = 0.5
+        vmin = 1
         print("gas", np.max(img))
     else:
         vmax = 6
-        vmin = 3
+        vmin = 1
         print("star", np.max(img))
 
     # Convert images to rgb arrays
@@ -116,7 +116,7 @@ def single_frame(num, max_pixel, nframes):
                                  cmap, Type="star")
 
     blend = Blend.Blend(rgb_gas, rgb_stars)
-    rgb_output = blend.Overlay()
+    rgb_output = blend.Screen()
 
     fig = plt.figure(figsize=(4, 4))
     ax = fig.add_subplot(111)
