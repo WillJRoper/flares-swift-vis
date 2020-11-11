@@ -109,12 +109,15 @@ def single_frame(num, max_pixel, nframes):
     # Get colormap
     cmap = ml.cm.Greys_r
 
-    poss = data.stars.coordinates.value
-    hsmls = data.stars.smoothing_lengths.value
+    try:
+        poss = data.stars.coordinates.value
+        hsmls = data.stars.smoothing_lengths.value
 
-    # Get images
-    rgb_stars, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
-                                 cmap, Type="star")
+        # Get images
+        rgb_stars, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
+                                     cmap, Type="star")
+    except AttributeError:
+        rgb_stars = np.zeros_like(rgb_gas)
 
     blend = Blend.Blend(rgb_gas, rgb_stars)
     rgb_output = blend.Screen()
