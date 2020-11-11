@@ -107,7 +107,7 @@ def single_frame(num, max_pixel, nframes):
     # Get images
     rgb_stars, extent = getimage(cam_data, poss, hsmls, num, max_pixel, cmap)
 
-    blend = Blend.Blend(rgb_stars, rgb_gas)
+    blend = Blend.Blend(rgb_gas, rgb_stars)
     rgb_output = blend.Overlay()
 
     fig = plt.figure(figsize=(4, 4))
