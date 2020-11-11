@@ -96,7 +96,8 @@ def single_frame(num, max_pixel, nframes):
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
 
     # Get colormap
-    cmap = cmaps.sunlight()
+    # cmap = cmaps.sunlight()
+    cmap = ml.cm.magma
 
     poss = data.gas.coordinates.value
     hsmls = data.gas.smoothing_lengths.value
