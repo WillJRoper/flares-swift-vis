@@ -24,8 +24,6 @@ def get_normalised_image(img, vmin=None, vmax=None):
     img = np.clip(img, vmin, vmax)
     img = (img - vmin) / (vmax - vmin)
 
-    img[img == 0.0] = np.nan
-
     return img
 
 
@@ -49,7 +47,7 @@ def getimage(data, poss, hsml, num, max_pixel, cmap, Type="gas"):
     img = R.get_image()
 
     if Type == "gas":
-        vmax = 5.5
+        vmax = 5.4
         vmin = 1
         print("gas", np.max(img))
     else:
