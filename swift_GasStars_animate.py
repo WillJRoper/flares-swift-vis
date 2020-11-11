@@ -47,12 +47,12 @@ def getimage(data, poss, hsml, num, max_pixel, cmap, Type="gas"):
     img = R.get_image()
 
     if Type == "gas":
-        vmax = 5.5
+        vmax = 5.
         vmin = 0.5
         print("gas", np.max(img))
     else:
-        vmax = 6.5
-        vmin = 0
+        vmax = 6
+        vmin = 3
         print("star", np.max(img))
 
     # Convert images to rgb arrays
