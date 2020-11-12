@@ -105,6 +105,9 @@ def single_frame(num, max_pixel, nframes):
     poss = data.gas.coordinates.value - cent
     hsmls = data.gas.smoothing_lengths.value
 
+    print(poss)
+    print(np.min(poss, axis=0), np.max(poss, axis=0))
+
     # Get images
     rgb_gas, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
                                cmap, Type="gas")
