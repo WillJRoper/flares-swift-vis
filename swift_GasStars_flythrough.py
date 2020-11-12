@@ -79,7 +79,7 @@ def single_frame(num, max_pixel, nframes):
     print(boxsize)
 
     # Define centre
-    cent = np.array([12, 4.25, 0.5])
+    cent = np.array([12, 4.2, 0.75])
     
     # Define targets
     targets = [[0, 0, 0]]
