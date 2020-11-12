@@ -89,7 +89,7 @@ def single_frame(num, max_pixel, nframes):
     anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['id_frames'] = [0, 120, 300, 500, 750, 1000, 1200, 1379]
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['r'] = [boxsize.value + 5, 'pass', 'pass', 3, 'same', 'pass', 'pass', boxsize.value + 5]
+    anchors['r'] = [boxsize.value + 5, 'pass', 'pass', 2, 'pass', 'pass', 'pass', boxsize.value + 5]
     anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['p'] = [0, 'pass', 'pass', 'pass', 'pass', 'pass', 'pass', -360]
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
