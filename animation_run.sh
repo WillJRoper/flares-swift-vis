@@ -1,8 +1,7 @@
 #!/bin/bash -l
 #SBATCH --ntasks 1 # The number of cores you need...
-# #SBATCH --array=1-1000
 #SBATCH --array=1-381
-#SBATCH --cpus-per-task=28
+# #SBATCH --cpus-per-task=28
 #SBATCH -J FLARES-pysphv #Give it something meaningful.
 #SBATCH -o logs/output_flythrough.%J.out
 #SBATCH -p cosma7 #or some other partition, e.g. cosma, cosma6, etc.
@@ -19,15 +18,16 @@ module load pythonconda3/4.5.4
 
 source activate flares-env
 
-# i=$(($SLURM_ARRAY_TASK_ID - 1))
-i=$(($SLURM_ARRAY_TASK_ID - 1 + 1000))
+i=$(($SLURM_ARRAY_TASK_ID - 1))
+# i=$(($SLURM_ARRAY_TASK_ID - 1 + 1000))
 
 # Run the program
 #./swift_dm_animate.py $i
 #./swift_gas_animate.py $i
 #./swift_stars_animate.py $i
-./swift_GasStars_animate.py $i
-./swift_DMGas_animate.py $i
+#./swift_GasStars_animate.py $i
+#./swift_DMGas_animate.py $i
+./swift_GasStars_flythrough.py $i
 
 source deactivate
 
