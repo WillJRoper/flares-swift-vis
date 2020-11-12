@@ -87,9 +87,9 @@ def single_frame(num, max_pixel, nframes):
     # Define anchors dict for camera parameters
     anchors = {}
     anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['id_frames'] = [0, 120, 240, 500, 750, 1000, 1200, 1379]
+    anchors['id_frames'] = [0, 120, 300, 500, 750, 1000, 1200, 1379]
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['r'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['r'] = [boxsize.value + 5, 'pass', 4, 'same', 'same', 'pass', 'pass', boxsize.value + 5]
     anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['p'] = [0, 'pass', 'pass', 'pass', 'pass', 'pass', 'pass', -360]
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
