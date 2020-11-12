@@ -77,9 +77,12 @@ def single_frame(num, max_pixel, nframes):
     z = meta.redshift
 
     print(boxsize)
+
+    # Define centre
+    cent = np.array([12, 3, 1]) - boxsize
     
     # Define targets
-    targets = [[0, 0, 0]]
+    targets = [[boxsize / 2, boxsize / 2, boxsize / 2]]
 
     # Define anchors dict for camera parameters
     anchors = {}
@@ -99,7 +102,7 @@ def single_frame(num, max_pixel, nframes):
     # cmap = cmaps.sunlight()
     cmap = ml.cm.magma
 
-    poss = data.gas.coordinates.value - np.array([12, 3, 1])
+    poss = data.gas.coordinates.value - cent
     hsmls = data.gas.smoothing_lengths.value
 
     # Get images
@@ -110,7 +113,7 @@ def single_frame(num, max_pixel, nframes):
     cmap = ml.cm.Greys_r
 
     try:
-        poss = data.stars.coordinates.value - np.array([12, 3, 1])
+        poss = data.stars.coordinates.value - cent
         hsmls = data.stars.smoothing_lengths.value
 
         # Get images
