@@ -110,7 +110,7 @@ def single_frame(num, max_pixel, nframes):
     cmap = ml.cm.Greys_r
 
     try:
-        poss = data.stars.coordinates.value
+        poss = data.stars.coordinates.value - np.array([12, 3, 1])
         hsmls = data.stars.smoothing_lengths.value
 
         # Get images
@@ -134,7 +134,7 @@ def single_frame(num, max_pixel, nframes):
                        alpha=0.8),
              transform=ax.transAxes, horizontalalignment='right', fontsize=8)
 
-    fig.savefig('plots/Ani/GasStars_animation_' + snap + '.png',
+    fig.savefig('plots/Ani/GasStars_flythrough_' + snap + '.png',
                 bbox_inches='tight', dpi=300)
     plt.close(fig)
 
