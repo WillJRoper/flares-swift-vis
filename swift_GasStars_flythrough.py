@@ -79,10 +79,10 @@ def single_frame(num, max_pixel, nframes):
     print(boxsize)
 
     # Define centre
-    cent = np.array([12, 3, 1]) - boxsize
+    cent = np.array([12, 3, 1]) - boxsize.value
     
     # Define targets
-    targets = [[boxsize / 2, boxsize / 2, boxsize / 2]]
+    targets = [[boxsize.value / 2, boxsize.value / 2, boxsize.value / 2]]
 
     # Define anchors dict for camera parameters
     anchors = {}
