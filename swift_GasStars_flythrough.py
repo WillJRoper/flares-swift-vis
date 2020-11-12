@@ -105,8 +105,9 @@ def single_frame(num, max_pixel, nframes):
     poss = data.gas.coordinates.value - cent
     hsmls = data.gas.smoothing_lengths.value
 
-    print(poss)
-    print(np.min(poss, axis=0), np.max(poss, axis=0))
+    poss[np.where(poss > boxsize.value)] += boxsize.value
+
+    print(np.min(poss), np.max(poss))
 
     # Get images
     rgb_gas, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
@@ -118,6 +119,8 @@ def single_frame(num, max_pixel, nframes):
     try:
         poss = data.stars.coordinates.value - cent
         hsmls = data.stars.smoothing_lengths.value
+
+        poss[np.where(poss > boxsize.value)] += boxsize.value
 
         # Get images
         rgb_stars, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
