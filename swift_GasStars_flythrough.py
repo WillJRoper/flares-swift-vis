@@ -79,10 +79,10 @@ def single_frame(num, max_pixel, nframes):
     print(boxsize)
 
     # Define centre
-    cent = np.array([12, 3, 1]) - boxsize.value
+    cent = np.array([12, 3, 1])
     
     # Define targets
-    targets = [[boxsize.value / 2, boxsize.value / 2, boxsize.value / 2]]
+    targets = [[0, 0, 0]]
 
     # Define anchors dict for camera parameters
     anchors = {}
@@ -105,7 +105,8 @@ def single_frame(num, max_pixel, nframes):
     poss = data.gas.coordinates.value - cent
     hsmls = data.gas.smoothing_lengths.value
 
-    poss[np.where(poss > boxsize.value)] += boxsize.value
+    poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
+    poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
     print(np.min(poss), np.max(poss))
 
@@ -120,7 +121,8 @@ def single_frame(num, max_pixel, nframes):
         poss = data.stars.coordinates.value - cent
         hsmls = data.stars.smoothing_lengths.value
 
-        poss[np.where(poss > boxsize.value)] += boxsize.value
+        poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
+        poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
         # Get images
         rgb_stars, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
