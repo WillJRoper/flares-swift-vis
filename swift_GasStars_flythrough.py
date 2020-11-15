@@ -107,7 +107,7 @@ def single_frame(num, max_pixel, nframes):
 
     print(np.linalg.norm(poss, axis=1).shape)
 
-    print(np.mean(poss[np.linalg.norm(poss, axis=1) < 1]))
+    print(np.mean(poss[np.linalg.norm(poss, axis=1) < 1, :], axis=0))
 
     poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
