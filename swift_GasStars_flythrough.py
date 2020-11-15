@@ -79,7 +79,7 @@ def single_frame(num, max_pixel, nframes):
     print(boxsize)
 
     # Define centre
-    cent = np.array([12., 3.8, 1.35])
+    cent = np.array([11.75251423, 3.82534069, 1.25642188])
     
     # Define targets
     targets = [[0, 0, 0]]
@@ -104,17 +104,15 @@ def single_frame(num, max_pixel, nframes):
 
     poss = data.gas.coordinates.value
 
-    print(np.linalg.norm(poss, axis=1).shape)
-    cent = np.mean(poss[np.linalg.norm(poss - cent, axis=1) < 1, :], axis=0)
-    print(cent)
+    # print(np.linalg.norm(poss, axis=1).shape)
+    # cent = np.mean(poss[np.linalg.norm(poss - cent, axis=1) < 1, :], axis=0)
+    # print(cent)
 
     poss -= cent
     hsmls = data.gas.smoothing_lengths.value
 
     poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
-
-    print(np.min(poss), np.max(poss))
 
     # Get images
     rgb_gas, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
