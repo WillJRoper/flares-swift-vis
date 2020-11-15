@@ -105,6 +105,10 @@ def single_frame(num, max_pixel, nframes):
     poss = data.gas.coordinates.value - cent
     hsmls = data.gas.smoothing_lengths.value
 
+    print(np.linalg.norm(poss, axis=1).shape)
+
+    print(np.mean(poss[np.linalg.norm(poss, axis=1) < 1]))
+
     poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
