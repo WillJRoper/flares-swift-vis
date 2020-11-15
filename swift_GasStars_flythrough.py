@@ -102,12 +102,14 @@ def single_frame(num, max_pixel, nframes):
     # cmap = cmaps.sunlight()
     cmap = ml.cm.magma
 
-    poss = data.gas.coordinates.value - cent
-    hsmls = data.gas.smoothing_lengths.value
+    poss = data.gas.coordinates.value
 
     print(np.linalg.norm(poss, axis=1).shape)
+    recent = np.mean(poss[np.linalg.norm(poss - cent, axis=1) < 1, :], axis=0)
+    print(recent)
 
-    print(np.mean(poss[np.linalg.norm(poss, axis=1) < 1, :], axis=0))
+    poss -= recent
+    hsmls = data.gas.smoothing_lengths.value
 
     poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
