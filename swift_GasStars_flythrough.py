@@ -89,7 +89,7 @@ def single_frame(num, max_pixel, nframes):
     anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['id_frames'] = [0, 120, 240, 500, 900, 1000, 1200, 1379]
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['r'] = [boxsize.value + 5, 'pass', 0.25, 'same', 'same', 'pass', 'pass', boxsize.value + 5]
+    anchors['r'] = [boxsize.value + 5, 'pass', 0.3, 'same', 'same', 'pass', 'pass', boxsize.value + 5]
     anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['p'] = [0, 'same', 'same', 'pass', 'pass', 'pass', 'pass', -360]
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
@@ -103,9 +103,10 @@ def single_frame(num, max_pixel, nframes):
     cmap = ml.cm.magma
 
     poss = data.gas.coordinates.value
+    rho_gas = data.gas.densities.value
 
-    print(np.linalg.norm(poss, axis=1).shape)
-    cent = np.mean(poss[np.linalg.norm(poss - cent, axis=1) < 1, :], axis=0)
+    okinds = np.linalg.norm(poss - cent, axis=1) < 1
+    cent = poss[np.argmax(rho_gas[okinds], axis=0), :]
     print(cent)
 
     poss -= cent
