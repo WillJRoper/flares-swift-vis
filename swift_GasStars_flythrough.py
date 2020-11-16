@@ -87,7 +87,7 @@ def single_frame(num, max_pixel, nframes):
     # Define anchors dict for camera parameters
     anchors = {}
     anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['id_frames'] = [0, 120, 240, 500, 800, 1000, 1200, 1379]
+    anchors['id_frames'] = [0, 120, 240, 500, 950, 1000, 1200, 1379]
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['r'] = [boxsize.value + 5, 'pass', 0.5, 'same', 'pass', 'pass', 'pass', boxsize.value + 5]
     anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
@@ -104,9 +104,9 @@ def single_frame(num, max_pixel, nframes):
 
     poss = data.gas.coordinates.value
 
-    # print(np.linalg.norm(poss, axis=1).shape)
-    # cent = np.mean(poss[np.linalg.norm(poss - cent, axis=1) < 0.5, :], axis=0)
-    # print(cent)
+    print(np.linalg.norm(poss, axis=1).shape)
+    cent = np.mean(poss[np.linalg.norm(poss - cent, axis=1) < 1, :], axis=0)
+    print(cent)
 
     poss -= cent
     hsmls = data.gas.smoothing_lengths.value
