@@ -106,7 +106,7 @@ def single_frame(num, max_pixel, nframes):
     rho_gas = data.gas.densities.value
 
     okinds = np.linalg.norm(poss - cent, axis=1) < 1
-    cent = poss[np.argmax(rho_gas[okinds], axis=0), :]
+    cent = np.average(poss[okinds], weights=rho_gas[okinds], axis=0)
     print(cent)
 
     poss -= cent
