@@ -5,11 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/animation_run1.sh" beforeDir="false" afterPath="$PROJECT_DIR$/animation_run1.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/animation_run2.sh" beforeDir="false" afterPath="$PROJECT_DIR$/animation_run2.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swift_DMGas_animate.py" beforeDir="false" afterPath="$PROJECT_DIR$/swift_DMGas_animate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swift_GasStars_animate.py" beforeDir="false" afterPath="$PROJECT_DIR$/swift_GasStars_animate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swift_dm_animate.py" beforeDir="false" afterPath="$PROJECT_DIR$/swift_dm_animate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swift_gas_animate.py" beforeDir="false" afterPath="$PROJECT_DIR$/swift_gas_animate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swift_stars_animate.py" beforeDir="false" afterPath="$PROJECT_DIR$/swift_stars_animate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swift_GasStars_flythrough.py" beforeDir="false" afterPath="$PROJECT_DIR$/swift_GasStars_flythrough.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +107,7 @@
       <option name="presentableId" value="Default" />
       <updated>1604264374406</updated>
       <workItem from="1604264384142" duration="4110000" />
-      <workItem from="1604316709814" duration="33852000" />
+      <workItem from="1604316709814" duration="34847000" />
     </task>
     <servers />
   </component>
