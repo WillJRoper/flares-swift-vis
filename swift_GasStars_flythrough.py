@@ -159,9 +159,9 @@ def single_frame(num, max_pixel, nframes):
                                      cmap, Type="star")
     except AttributeError:
         rgb_stars = np.zeros_like(rgb_gas)
-        
-    extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
-              0, 2 * anchors["r"][num] / anchors["zoom"][num]]
+
+    # extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
+    #           0, 2 * anchors["r"][num] / anchors["zoom"][num]]
 
     blend = Blend.Blend(rgb_gas, rgb_stars)
     rgb_output = blend.Screen()
