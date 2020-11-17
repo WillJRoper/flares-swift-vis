@@ -166,9 +166,12 @@ def single_frame(num, max_pixel, nframes):
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
 
-    ax.text(0.99, 0.99, "%.1f Gyr" % cosmo.age(z).value,
+    ax.text(0.95, 0.95, "$t_{\mathrm{age}=%.1f Gyr" % cosmo.age(z).value,
             transform=ax.transAxes, verticalalignment="top",
-            horizontalalignment='right', fontsize=8, color="w")
+            horizontalalignment='right', fontsize=6, color="w")
+
+    ax.plot([0.05, 0.15], [0.1, 0.1], lw=3, color='w', clip_on=False,
+            transform=ax.transAxes)
 
     plt.margins(0, 0)
 
