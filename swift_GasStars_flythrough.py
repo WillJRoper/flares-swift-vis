@@ -89,7 +89,7 @@ def single_frame(num, max_pixel, nframes):
     decay = lambda t: (boxsize.value + 5) * np.exp(-0.01637823848547536 * t)
     anti_decay = lambda t: 1.5 * np.exp(0.005139614587492267 * (t - 901))
 
-    id_frames = np.arange(0, 1380, dtype=int)
+    id_frames = np.arange(0, 1381, dtype=int)
     rs = np.zeros(len(id_frames), dtype=float)
     rs[0: 151] = decay(id_frames[0:151])
     rs[151:901] = 1.5
@@ -100,7 +100,7 @@ def single_frame(num, max_pixel, nframes):
     ts = np.full(len(id_frames), 5)
     ps = np.zeros(len(id_frames))
     ps[0:151] = 0
-    ps[151:] = ang_v * id_frames[151:]
+    ps[151:] = ang_v * (id_frames[151:] - 151)
     ps[-1] = -360
     zoom = np.full(len(id_frames), 1)
     extent = np.full(len(id_frames), 10)
@@ -173,11 +173,16 @@ def single_frame(num, max_pixel, nframes):
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
 
-    ax.text(0.95, 0.1, "$t_{\mathrm{age}}=$%.1f Gyr" % cosmo.age(z).value,
+    ax.text(0.95, 0.05, "$t_{\mathrm{age}}=$%.1f Gyr" % cosmo.age(z).value,
             transform=ax.transAxes, verticalalignment="top",
             horizontalalignment='right', fontsize=6, color="w")
 
-    ax.plot([0.05, 0.15], [0.075, 0.075], lw=0.75, color='w', clip_on=False,
+    ax.plot([0.05, 0.15], [0.025, 0.025], lw=0.75, color='w', clip_on=False,
+            transform=ax.transAxes)
+
+    ax.plot([0.05, 0.05], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
+            transform=ax.transAxes)
+    ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
             transform=ax.transAxes)
 
     print(extent)
@@ -188,15 +193,15 @@ def single_frame(num, max_pixel, nframes):
     dist = right[0] - left[0]
 
     if dist > 0.1:
-        ax.text(0.1, 0.1, "%.1f cMpc" % dist,
+        ax.text(0.1, 0.05, "%.1f cMpc" % dist,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=5, color="w")
     elif 100 > dist * 10**3 > 1:
-        ax.text(0.1, 0.1, "%.1f ckpc" % dist * 10**3,
+        ax.text(0.1, 0.05, "%.1f ckpc" % dist * 10**3,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=5, color="w")
     else:
-        ax.text(0.1, 0.1, "%.1f cpc" % dist * 10**6,
+        ax.text(0.1, 0.05, "%.1f cpc" % dist * 10**6,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=5, color="w")
 
