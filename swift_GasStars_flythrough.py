@@ -116,6 +116,9 @@ def single_frame(num, max_pixel, nframes):
     anchors['zoom'] = zoom
     anchors['extent'] = extent
 
+    for key, val in anchors.items():
+        print("Processing:", key, val[num])
+
     # Define the camera trajectory
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
 
@@ -166,7 +169,7 @@ def single_frame(num, max_pixel, nframes):
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
 
-    ax.text(0.95, 0.95, "$t_{\mathrm{age}=$%.1f Gyr" % cosmo.age(z).value,
+    ax.text(0.95, 0.95, "$t_{\mathrm{age}}=$%.1f Gyr" % cosmo.age(z).value,
             transform=ax.transAxes, verticalalignment="top",
             horizontalalignment='right', fontsize=6, color="w")
 
