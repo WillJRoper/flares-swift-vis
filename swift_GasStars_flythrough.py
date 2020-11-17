@@ -84,8 +84,6 @@ def single_frame(num, max_pixel, nframes):
     # Define targets
     targets = [[0, 0, 0]]
 
-    v_final = 0.43938161106590723
-    zoom_acc = - v_final / 150
     ang_v = -360 / (1379 - 150)
 
     decay = lambda t: boxsize.value + 5 * np.exp(-0.01637823848547536 * t)
@@ -172,7 +170,7 @@ def single_frame(num, max_pixel, nframes):
             transform=ax.transAxes, horizontalalignment='right', fontsize=8)
 
     fig.savefig('plots/Ani/GasStars_flythrough_' + snap + '.png',
-                bbox_inches='tight', dpi=600)
+                bbox_inches='tight', dpi=1200)
     plt.close(fig)
 
 if len(sys.argv) > 1:
