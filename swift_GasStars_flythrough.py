@@ -168,7 +168,7 @@ def single_frame(num, max_pixel, nframes):
 
     ax.text(0.99, 0.99, "%.1f Gyr" % cosmo.age(z).value,
             transform=ax.transAxes, verticalalignment="top",
-            horizontalalignment='right', fontsize=8)
+            horizontalalignment='right', fontsize=8, color="w")
 
     plt.margins(0, 0)
 
