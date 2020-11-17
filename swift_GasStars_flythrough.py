@@ -167,10 +167,15 @@ def single_frame(num, max_pixel, nframes):
                    labeltop=False, labelright=False, labelbottom=False)
 
     ax.text(0.99, 0.99, "%.1f Gyr" % cosmo.age(z).value,
-            transform=ax.transAxes, horizontalalignment='right', fontsize=8)
+            transform=ax.transAxes, verticalalignment="top",
+            horizontalalignment='right', fontsize=8)
+
+    plt.margins(0, 0)
 
     fig.savefig('plots/Ani/GasStars_flythrough_' + snap + '.png',
-                bbox_inches='tight', dpi=1200)
+                bbox_inches='tight', dpi=1200,
+                pad_inches=0)
+
     plt.close(fig)
 
 if len(sys.argv) > 1:
