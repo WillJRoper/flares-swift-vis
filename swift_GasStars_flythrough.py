@@ -182,7 +182,7 @@ def single_frame(num, max_pixel, nframes):
     dist = right[0] - left[0]
     print(dist)
 
-    ax.text(0.1, 0.1, "$$%.1f cMpc" % dist,
+    ax.text(0.1, 0.1, "%.1f cMpc" % dist,
             transform=ax.transAxes, fontsize=6, color="w")
 
     plt.margins(0, 0)
