@@ -160,12 +160,12 @@ def single_frame(num, max_pixel, nframes):
     except AttributeError:
         rgb_stars = np.zeros_like(rgb_gas)
 
-    # extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
-    #           0, 2 * anchors["r"][num] / anchors["zoom"][num]]
-
     blend = Blend.Blend(rgb_gas, rgb_stars)
     rgb_output = blend.Screen()
 
+    extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
+              0, 2 * anchors["r"][num] / anchors["zoom"][num]]
+    print(extent)
     fig = plt.figure(figsize=(4, 4))
     ax = fig.add_subplot(111)
 
