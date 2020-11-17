@@ -84,16 +84,39 @@ def single_frame(num, max_pixel, nframes):
     # Define targets
     targets = [[0, 0, 0]]
 
+    v_final = 0.43938161106590723
+    zoom_acc = - v_final / 150
+    ang_v = -360 / (1379 - 150)
+
+    decay = lambda t: boxsize.value + 5 * np.exp(-0.01637823848547536 * t)
+    anti_decay = lambda t: 1.5 * np.exp(0.005139614587492267 * (t - 901))
+
+    id_frames = np.arange(0, 1380)
+    rs = np.zeros(len(id_frames), dtype=float)
+    rs[0: 151] = decay(id_frames[0:151])
+    rs[151:901] = 1.5
+    rs[901:] = anti_decay(id_frames[901:])
+
+    simtimes = np.zeros(len(id_frames))
+    id_targets = np.zeros(len(id_frames))
+    ts = np.full(len(id_frames), 5)
+    ps = np.zeros(len(id_frames))
+    ps[0:151] = 0
+    ps[151:] = ang_v * id_frames[151:]
+    ps[-1] = -360
+    zoom = np.full(len(id_frames), 1)
+    extent = np.full(len(id_frames), 10)
+
     # Define anchors dict for camera parameters
     anchors = {}
-    anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['id_frames'] = [0, 120, 150, 500, 900, 1000, 1200, 1379]
-    anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['r'] = [boxsize.value + 5, 'pass', 1.5, 'same', 'same', 'pass', 'pass', boxsize.value + 5]
-    anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['p'] = [0, 'same', 'same', 'pass', 'pass', 'pass', 'pass', -360]
-    anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['extent'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['sim_times'] = simtimes
+    anchors['id_frames'] = id_frames
+    anchors['id_targets'] = id_targets
+    anchors['r'] = rs
+    anchors['t'] = ts
+    anchors['p'] = ps
+    anchors['zoom'] = zoom
+    anchors['extent'] = extent
 
     # Define the camera trajectory
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
@@ -145,13 +168,11 @@ def single_frame(num, max_pixel, nframes):
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
 
-    ax.text(0.9, 0.9, "%.3f Gyrs" % cosmo.age(z).value,
-             bbox=dict(boxstyle="round,pad=0.3", fc='w', ec="k", lw=1,
-                       alpha=0.8),
-             transform=ax.transAxes, horizontalalignment='right', fontsize=8)
+    ax.text(0.99, 0.99, "%.1f Gyr" % cosmo.age(z).value,
+            transform=ax.transAxes, horizontalalignment='right', fontsize=8)
 
     fig.savefig('plots/Ani/GasStars_flythrough_' + snap + '.png',
-                bbox_inches='tight', dpi=300)
+                bbox_inches='tight', dpi=600)
     plt.close(fig)
 
 if len(sys.argv) > 1:
