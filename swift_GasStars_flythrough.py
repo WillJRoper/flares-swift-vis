@@ -86,7 +86,7 @@ def single_frame(num, max_pixel, nframes):
 
     ang_v = -360 / (1379 - 150)
 
-    decay = lambda t: boxsize.value + 5 * np.exp(-0.01637823848547536 * t)
+    decay = lambda t: (boxsize.value + 5) * np.exp(-0.01637823848547536 * t)
     anti_decay = lambda t: 1.5 * np.exp(0.005139614587492267 * (t - 901))
 
     id_frames = np.arange(0, 1380, dtype=int)
@@ -117,7 +117,7 @@ def single_frame(num, max_pixel, nframes):
     anchors['extent'] = extent
 
     for key, val in anchors.items():
-        print("Processing:", key, val[num])
+        print("Processing:", key, "=", val[num])
 
     # Define the camera trajectory
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
@@ -173,8 +173,17 @@ def single_frame(num, max_pixel, nframes):
             transform=ax.transAxes, verticalalignment="top",
             horizontalalignment='right', fontsize=6, color="w")
 
-    ax.plot([0.05, 0.15], [0.075, 0.075], lw=1, color='w', clip_on=False,
+    ax.plot([0.05, 0.15], [0.075, 0.075], lw=0.75, color='w', clip_on=False,
             transform=ax.transAxes)
+
+    axis_to_data = ax.transAxes + ax.transData.inverted()
+    left = axis_to_data.transform(0.05)
+    right = axis_to_data.transform(0.15)
+    dist = right - left
+    print(dist)
+    
+    ax.text(0.1, 0.1, "$$%.1f cMpc" % dist,
+            transform=ax.transAxes, fontsize=6, color="w")
 
     plt.margins(0, 0)
 
