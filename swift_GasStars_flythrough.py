@@ -177,11 +177,12 @@ def single_frame(num, max_pixel, nframes):
             transform=ax.transAxes)
 
     axis_to_data = ax.transAxes + ax.transData.inverted()
-    left = axis_to_data.transform(0.05)
-    right = axis_to_data.transform(0.15)
+    left = axis_to_data.transform((0.05, 0.075))
+    right = axis_to_data.transform((0.05, 0.075))
+    print(left, right)
     dist = right - left
     print(dist)
-    
+
     ax.text(0.1, 0.1, "$$%.1f cMpc" % dist,
             transform=ax.transAxes, fontsize=6, color="w")
 
