@@ -173,9 +173,9 @@ def single_frame(num, max_pixel, nframes):
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
 
-    ax.text(0.95, 0.05, "$t_{\mathrm{age}}=$%.1f Gyr" % cosmo.age(z).value,
+    ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
             transform=ax.transAxes, verticalalignment="top",
-            horizontalalignment='right', fontsize=6, color="w")
+            horizontalalignment='right', fontsize=5, color="w")
 
     ax.plot([0.05, 0.15], [0.025, 0.025], lw=0.75, color='w', clip_on=False,
             transform=ax.transAxes)
@@ -193,15 +193,15 @@ def single_frame(num, max_pixel, nframes):
     dist = right[0] - left[0]
 
     if dist > 0.1:
-        ax.text(0.1, 0.05, "%.1f cMpc" % dist,
+        ax.text(0.1, 0.06, "%.1f cMpc" % dist,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=5, color="w")
     elif 100 > dist * 10**3 > 1:
-        ax.text(0.1, 0.05, "%.1f ckpc" % dist * 10**3,
+        ax.text(0.1, 0.06, "%.1f ckpc" % dist * 10**3,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=5, color="w")
     else:
-        ax.text(0.1, 0.05, "%.1f cpc" % dist * 10**6,
+        ax.text(0.1, 0.06, "%.1f cpc" % dist * 10**6,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=5, color="w")
 
