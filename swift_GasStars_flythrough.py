@@ -159,13 +159,16 @@ def single_frame(num, max_pixel, nframes):
                                      cmap, Type="star")
     except AttributeError:
         rgb_stars = np.zeros_like(rgb_gas)
+        
+    extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
+              0, 2 * anchors["r"][num] / anchors["zoom"][num]]
 
     blend = Blend.Blend(rgb_gas, rgb_stars)
     rgb_output = blend.Screen()
 
     fig = plt.figure(figsize=(4, 4))
     ax = fig.add_subplot(111)
-    print(extent)
+
     ax.imshow(rgb_output, extent=extent, origin='lower')
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
