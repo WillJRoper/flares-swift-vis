@@ -186,7 +186,6 @@ def single_frame(num, max_pixel, nframes):
     left = axis_to_data.transform((0.05, 0.075))
     right = axis_to_data.transform((0.15, 0.075))
     dist = right[0] - left[0]
-    print(dist)
 
     if dist > 1:
         ax.text(0.1, 0.1, "%.1f cMpc" % dist,
@@ -202,6 +201,8 @@ def single_frame(num, max_pixel, nframes):
                 horizontalalignment='center', fontsize=5, color="w")
 
     plt.margins(0, 0)
+
+    print(dist)
 
     fig.savefig('plots/Ani/GasStars_flythrough_' + snap + '.png',
                 bbox_inches='tight', dpi=1200,
