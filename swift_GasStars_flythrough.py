@@ -107,14 +107,14 @@ def single_frame(num, max_pixel, nframes):
 
     # Define anchors dict for camera parameters
     anchors = {}
-    anchors['sim_times'] = simtimes
-    anchors['id_frames'] = id_frames
-    anchors['id_targets'] = id_targets
-    anchors['r'] = rs
-    anchors['t'] = ts
-    anchors['p'] = ps
-    anchors['zoom'] = zoom
-    anchors['extent'] = extent
+    anchors['sim_times'] = list(simtimes)
+    anchors['id_frames'] = list(id_frames)
+    anchors['id_targets'] = list(id_targets)
+    anchors['r'] = list(rs)
+    anchors['t'] = list(ts)
+    anchors['p'] = list(ps)
+    anchors['zoom'] = list(zoom)
+    anchors['extent'] = list(extent)
 
     print("Processing frame with properties:")
     for key, val in anchors.items():
@@ -165,12 +165,12 @@ def single_frame(num, max_pixel, nframes):
 
     fig = plt.figure(figsize=(4, 4))
     ax = fig.add_subplot(111)
-
+    print(extent)
     ax.imshow(rgb_output, extent=extent, origin='lower')
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
 
-    ax.text(0.95, 0.95, "$t_{\mathrm{age}}=$%.1f Gyr" % cosmo.age(z).value,
+    ax.text(0.95, 0.1, "$t_{\mathrm{age}}=$%.1f Gyr" % cosmo.age(z).value,
             transform=ax.transAxes, verticalalignment="top",
             horizontalalignment='right', fontsize=6, color="w")
 
@@ -184,14 +184,16 @@ def single_frame(num, max_pixel, nframes):
 
     if dist > 1:
         ax.text(0.1, 0.1, "%.1f cMpc" % dist,
-                transform=ax.transAxes, fontsize=6, color="w")
+                transform=ax.transAxes, verticalalignment="top",
+                horizontalalignment='center', fontsize=5, color="w")
     elif 1000 > dist * 10**3 > 1:
         ax.text(0.1, 0.1, "%.1f ckpc" % dist * 10**3,
-                transform=ax.transAxes, fontsize=6, color="w")
+                transform=ax.transAxes, verticalalignment="top",
+                horizontalalignment='center', fontsize=5, color="w")
     else:
         ax.text(0.1, 0.1, "%.1f cpc" % dist * 10**6,
-                transform=ax.transAxes, fontsize=6, color="w")
-
+                transform=ax.transAxes, verticalalignment="top",
+                horizontalalignment='center', fontsize=5, color="w")
 
     plt.margins(0, 0)
 
