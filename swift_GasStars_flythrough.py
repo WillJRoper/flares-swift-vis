@@ -165,7 +165,7 @@ def single_frame(num, max_pixel, nframes):
 
     extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
               0, 2 * anchors["r"][num] / anchors["zoom"][num]]
-    print(extent)
+
     fig = plt.figure(figsize=(4, 4))
     ax = fig.add_subplot(111)
 
@@ -180,10 +180,13 @@ def single_frame(num, max_pixel, nframes):
     ax.plot([0.05, 0.15], [0.075, 0.075], lw=0.75, color='w', clip_on=False,
             transform=ax.transAxes)
 
+    print(extent)
+
     axis_to_data = ax.transAxes + ax.transData.inverted()
     left = axis_to_data.transform((0.05, 0.075))
     right = axis_to_data.transform((0.15, 0.075))
     dist = right[0] - left[0]
+    
 
     if dist > 1:
         ax.text(0.1, 0.1, "%.1f cMpc" % dist,
