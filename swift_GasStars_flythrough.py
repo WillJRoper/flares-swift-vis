@@ -91,14 +91,14 @@ def single_frame(num, max_pixel, nframes):
     decay = lambda t: boxsize.value + 5 * np.exp(-0.01637823848547536 * t)
     anti_decay = lambda t: 1.5 * np.exp(0.005139614587492267 * (t - 901))
 
-    id_frames = np.arange(0, 1380)
+    id_frames = np.arange(0, 1380, dtype=int)
     rs = np.zeros(len(id_frames), dtype=float)
     rs[0: 151] = decay(id_frames[0:151])
     rs[151:901] = 1.5
     rs[901:] = anti_decay(id_frames[901:])
 
-    simtimes = np.zeros(len(id_frames))
-    id_targets = np.zeros(len(id_frames))
+    simtimes = np.zeros(len(id_frames), dtype=int)
+    id_targets = np.zeros(len(id_frames), dtype=int)
     ts = np.full(len(id_frames), 5)
     ps = np.zeros(len(id_frames))
     ps[0:151] = 0
