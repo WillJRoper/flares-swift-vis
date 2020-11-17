@@ -76,7 +76,7 @@ def single_frame(num, max_pixel, nframes):
     boxsize = meta.boxsize[0]
     z = meta.redshift
 
-    print(boxsize)
+    print("Boxsize:", boxsize)
 
     # Define centre
     cent = np.array([11.76119931, 3.95795609, 1.26561173])
@@ -116,8 +116,9 @@ def single_frame(num, max_pixel, nframes):
     anchors['zoom'] = zoom
     anchors['extent'] = extent
 
+    print("Processing frame with properties:")
     for key, val in anchors.items():
-        print("Processing:", key, "=", val[num])
+        print(key, "=", val[num])
 
     # Define the camera trajectory
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
@@ -180,10 +181,17 @@ def single_frame(num, max_pixel, nframes):
     left = axis_to_data.transform((0.05, 0.075))
     right = axis_to_data.transform((0.15, 0.075))
     dist = right[0] - left[0]
-    print(dist)
 
-    ax.text(0.1, 0.1, "%.1f cMpc" % dist,
-            transform=ax.transAxes, fontsize=6, color="w")
+    if dist > 1:
+        ax.text(0.1, 0.1, "%.1f cMpc" % dist,
+                transform=ax.transAxes, fontsize=6, color="w")
+    elif 1000 > dist * 10**3 > 1:
+        ax.text(0.1, 0.1, "%.1f ckpc" % dist * 10**3,
+                transform=ax.transAxes, fontsize=6, color="w")
+    else:
+        ax.text(0.1, 0.1, "%.1f cpc" % dist * 10**6,
+                transform=ax.transAxes, fontsize=6, color="w")
+
 
     plt.margins(0, 0)
 
