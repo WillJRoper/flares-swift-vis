@@ -89,7 +89,7 @@ def single_frame(num, max_pixel, nframes):
     decay = lambda t: (boxsize.value + 5) * np.exp(-0.01637823848547536 * t)
     anti_decay = lambda t: 1.5 * np.exp(0.005139614587492267 * (t - 901))
 
-    id_frames = np.arange(0, 1380, dtype=int)
+    id_frames = np.arange(0, 1381, dtype=int)
     rs = np.zeros(len(id_frames), dtype=float)
     rs[0: 151] = decay(id_frames[0:151])
     rs[151:901] = 1.5
@@ -101,7 +101,7 @@ def single_frame(num, max_pixel, nframes):
     ps = np.zeros(len(id_frames))
     ps[0:151] = 0
     ps[151:] = ang_v * (id_frames[151:] - 151)
-    ps[-1] = -360
+    ps[-2:] = -360
     zoom = np.full(len(id_frames), 1)
     extent = np.full(len(id_frames), 10)
 
