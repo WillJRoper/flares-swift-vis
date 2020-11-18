@@ -79,10 +79,9 @@ def single_frame(num, max_pixel, nframes):
     print("Boxsize:", boxsize)
     print(data.metadata.stars_properties.field_names)
     for fn in data.metadata.stars_properties.field_names:
-        print(exec('data.stars.' + fn))
         print(fn,
-              np.min(exec('data.stars.' + fn)),
-              np.max(exec('data.stars.' + fn)))
+              np.min(data.stars.__dict__[fn]),
+              np.max(data.stars.__dict__[fn]))
 
     # Define centre
     cent = np.array([11.76119931, 3.95795609, 1.26561173])
