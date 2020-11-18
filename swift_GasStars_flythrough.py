@@ -77,7 +77,7 @@ def single_frame(num, max_pixel, nframes):
     z = meta.redshift
 
     print("Boxsize:", boxsize)
-    print(data.metadata.stars_properties.field_names)
+    print(data.stars.__dict__)
     for fn in data.metadata.stars_properties.field_names:
         print(fn,
               np.min(data.stars.__dict__[fn]),
