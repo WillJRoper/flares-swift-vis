@@ -135,7 +135,7 @@ def single_frame(num, max_pixel, nframes):
 
     # okinds = np.linalg.norm(poss - cent, axis=1) < 1
     # cent = np.average(poss[okinds], weights=rho_gas[okinds], axis=0)
-    print(cent)
+    print("Centered on:", cent)
 
     poss -= cent
     hsmls = data.gas.smoothing_lengths.value
@@ -153,6 +153,8 @@ def single_frame(num, max_pixel, nframes):
     try:
         poss = data.stars.coordinates.value - cent
         hsmls = data.stars.smoothing_lengths.value
+        
+        print(hsmls)
 
         poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
         poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
@@ -188,8 +190,6 @@ def single_frame(num, max_pixel, nframes):
     ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
             transform=ax.transAxes)
 
-    print(extent)
-
     axis_to_data = ax.transAxes + ax.transData.inverted()
     left = axis_to_data.transform((0.05, 0.075))
     right = axis_to_data.transform((0.15, 0.075))
@@ -209,8 +209,6 @@ def single_frame(num, max_pixel, nframes):
                 horizontalalignment='center', fontsize=5, color="w")
 
     plt.margins(0, 0)
-
-    print(dist)
 
     fig.savefig('plots/Ani/GasStars_flythrough_' + snap + '.png',
                 bbox_inches='tight', dpi=1200,
