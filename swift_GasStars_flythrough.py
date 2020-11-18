@@ -77,7 +77,7 @@ def single_frame(num, max_pixel, nframes):
     z = meta.redshift
 
     print("Boxsize:", boxsize)
-    print(data.metadata.star_properties.field_names)
+    print(data.metadata.stellar_properties.field_names)
 
     # Define centre
     cent = np.array([11.76119931, 3.95795609, 1.26561173])
