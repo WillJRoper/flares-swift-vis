@@ -79,6 +79,7 @@ def single_frame(num, max_pixel, nframes):
     print("Boxsize:", boxsize)
     print(data.metadata.stars_properties.field_names)
     for fn in data.metadata.stars_properties.field_names:
+        print(exec('data.stars.' + fn))
         print(fn,
               np.min(exec('data.stars.' + fn)),
               np.max(exec('data.stars.' + fn)))
