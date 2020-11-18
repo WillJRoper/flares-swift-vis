@@ -167,7 +167,7 @@ def single_frame(num, max_pixel, nframes):
             data = load(path)
             old_hsmls = data.stars.smoothing_lengths.value
             hsmls[:old_hsmls.size] = old_hsmls
-            hsmls[old_hsmls.size:] = np.mean(old_hsmls)
+            hsmls[old_hsmls.size:] = np.median(old_hsmls)
 
         print(np.min(hsmls), np.max(hsmls))
 
