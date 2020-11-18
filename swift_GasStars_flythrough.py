@@ -77,11 +77,11 @@ def single_frame(num, max_pixel, nframes):
     z = meta.redshift
 
     print("Boxsize:", boxsize)
-    print(data.stars.__dict__)
+    print(data.metadata.stars_properties.field_names)
     for fn in data.metadata.stars_properties.field_names:
         print(fn,
-              np.min(data.stars.__dict__[fn]),
-              np.max(data.stars.__dict__[fn]))
+              np.min(exec('data.stars.' + fn + ".value")),
+              np.max(exec('data.stars.' + fn + ".value")))
 
     # Define centre
     cent = np.array([11.76119931, 3.95795609, 1.26561173])
