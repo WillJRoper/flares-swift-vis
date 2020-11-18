@@ -77,11 +77,6 @@ def single_frame(num, max_pixel, nframes):
     z = meta.redshift
 
     print("Boxsize:", boxsize)
-    print(data.metadata.stars_properties.field_names)
-    for fn in data.metadata.stars_properties.field_names:
-        print(fn,
-              np.min(exec('data.stars.' + fn + ".value")),
-              np.max(exec('data.stars.' + fn + ".value")))
 
     # Define centre
     cent = np.array([11.76119931, 3.95795609, 1.26561173])
@@ -157,6 +152,12 @@ def single_frame(num, max_pixel, nframes):
         hsmls = data.stars.smoothing_lengths.value
 
         print(np.min(hsmls), np.max(hsmls))
+
+        print(data.metadata.stars_properties.field_names)
+        for fn in data.metadata.stars_properties.field_names:
+            print(fn,
+                  np.min(exec('data.stars.' + fn + ".value")),
+                  np.max(exec('data.stars.' + fn + ".value")))
 
         if hsmls.max() == 0.0:
             print("Ill-defined smoothing lengths")
