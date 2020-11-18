@@ -153,8 +153,8 @@ def single_frame(num, max_pixel, nframes):
     try:
         poss = data.stars.coordinates.value - cent
         hsmls = data.stars.smoothing_lengths.value
-        
-        print(hsmls)
+
+        print(np.min(hsmls), np.max(hsmls))
 
         poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
         poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
