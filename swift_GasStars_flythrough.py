@@ -159,7 +159,7 @@ def single_frame(num, max_pixel, nframes):
         if hsmls.max() == 0.0:
             print("Ill-defined smoothing lengths")
 
-            last_snap = "%04d" % num
+            last_snap = "%04d" % (num - 1)
 
             # Define path
             path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/hydro_1380/data/ani_hydro_' + last_snap + ".hdf5"
@@ -168,6 +168,8 @@ def single_frame(num, max_pixel, nframes):
             old_hsmls = data.stars.smoothing_lengths.value
             hsmls[:old_hsmls.size] = old_hsmls
             hsmls[old_hsmls.size:] = np.mean(old_hsmls)
+
+        print(np.min(hsmls), np.max(hsmls))
 
         poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
         poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
