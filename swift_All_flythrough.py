@@ -76,8 +76,6 @@ def single_frame(num, max_pixel, nframes):
     boxsize = meta.boxsize[0]
     z = meta.redshift
 
-    print(data.metadata.star_properties.field_names)
-
     print("Boxsize:", boxsize)
 
     # Define centre
