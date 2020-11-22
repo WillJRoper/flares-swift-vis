@@ -34,6 +34,8 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
     # Set up particle objects
     P = sph.Particles(poss, mass=mass, hsml=hsml)
 
+    print(np.min(mass))
+
     # Initialise the scene
     S = sph.Scene(P)
 
@@ -48,11 +50,11 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
 
     if Type == "gas":
         vmax = 2
-        vmin = 0.1
+        vmin = np.min(mass)
         print("gas", np.max(img))
     else:
         vmax = 2.7
-        vmin = 0.2
+        vmin = np.min(mass)
         print("star", np.max(img))
 
     # Convert images to rgb arrays
