@@ -48,7 +48,7 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
     R.set_logscale()
     img = R.get_image()
 
-    vmax = 11
+    vmax = 10.5
     vmin = 6
     print("gas temperature", np.min(img), np.max(img))
 
