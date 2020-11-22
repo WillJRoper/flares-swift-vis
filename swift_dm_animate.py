@@ -47,7 +47,7 @@ def getimage(data, poss, hsml, num, max_pixel):
     img = R.get_image()
 
     vmax = 6
-    vmin = 0.01
+    vmin = 0
 
     # Get colormaps
     cmap = cmaps.twilight()
