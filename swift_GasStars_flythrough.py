@@ -54,7 +54,7 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
         print("gas", np.max(img))
     else:
         vmax = 12
-        vmin = 8
+        vmin = 7
         print("star", np.max(img))
 
     # Convert images to rgb arrays
@@ -77,8 +77,6 @@ def single_frame(num, max_pixel, nframes):
     meta = data.metadata
     boxsize = meta.boxsize[0]
     z = meta.redshift
-
-    print("Softening:", data.dark_matter.softenings.value.max())
 
     print("Boxsize:", boxsize)
 
