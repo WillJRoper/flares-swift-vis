@@ -27,7 +27,7 @@ def get_normalised_image(img, vmin=None, vmax=None):
     return img
 
 
-def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
+def getimage(data, poss, hsml, num, max_pixel, cmap, Type="gas"):
 
     print('There are', poss.shape[0], 'gas particles in the region')
     
@@ -128,7 +128,6 @@ def single_frame(num, max_pixel, nframes):
     cmap = ml.cm.magma
 
     poss = data.gas.coordinates.value
-    mass = data.gas.masses.value
     rho_gas = data.gas.densities.value
 
     # okinds = np.linalg.norm(poss - cent, axis=1) < 1
@@ -142,7 +141,7 @@ def single_frame(num, max_pixel, nframes):
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
     # Get images
-    rgb_gas, extent = getimage(cam_data, poss, mass, hsmls, num, max_pixel,
+    rgb_gas, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
                                cmap, Type="gas")
 
     # Get colormap
@@ -150,7 +149,6 @@ def single_frame(num, max_pixel, nframes):
 
     try:
         poss = data.stars.coordinates.value - cent
-        mass = data.stars.masses.value
         hsmls = data.stars.smoothing_lengths.value
 
         if hsmls.max() == 0.0:
@@ -172,8 +170,8 @@ def single_frame(num, max_pixel, nframes):
         poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
         # Get images
-        rgb_stars, extent = getimage(cam_data, poss, mass, hsmls, num,
-                                     max_pixel, cmap, Type="star")
+        rgb_stars, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
+                                     cmap, Type="star")
     except AttributeError:
         rgb_stars = np.zeros_like(rgb_gas)
 
