@@ -78,6 +78,8 @@ def single_frame(num, max_pixel, nframes):
     boxsize = meta.boxsize[0]
     z = meta.redshift
 
+    print("Softening:", data.dark_matter.softenings.value.max())
+
     print("Boxsize:", boxsize)
 
     # Define centre
