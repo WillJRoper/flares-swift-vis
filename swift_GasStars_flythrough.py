@@ -32,7 +32,7 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
     print('There are', poss.shape[0], 'gas particles in the region')
     
     # Set up particle objects
-    P = sph.Particles(poss, mass=np.ones(poss.shape[0]), hsml=hsml)
+    P = sph.Particles(poss, mass=mass, hsml=hsml)
 
     # Initialise the scene
     S = sph.Scene(P)

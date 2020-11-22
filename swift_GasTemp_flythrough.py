@@ -27,12 +27,12 @@ def get_normalised_image(img, vmin=None, vmax=None):
     return img
 
 
-def getimage(data, poss, hsml, num, max_pixel, cmap, Type="gas"):
+def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
 
     print('There are', poss.shape[0], 'gas particles in the region')
     
     # Set up particle objects
-    P = sph.Particles(poss, mass=np.ones(poss.shape[0]), hsml=hsml)
+    P = sph.Particles(poss, mass=mass, hsml=hsml)
 
     # Initialise the scene
     S = sph.Scene(P)
@@ -128,7 +128,7 @@ def single_frame(num, max_pixel, nframes):
     cmap = ml.cm.magma
 
     poss = data.gas.coordinates.value
-    rho_gas = data.gas.densities.value
+    temp = data.gas.temperatures.value
 
     # okinds = np.linalg.norm(poss - cent, axis=1) < 1
     # cent = np.average(poss[okinds], weights=rho_gas[okinds], axis=0)
@@ -141,11 +141,8 @@ def single_frame(num, max_pixel, nframes):
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
     # Get images
-    rgb_output, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
+    rgb_output, extent = getimage(cam_data, poss, temp, hsmls, num, max_pixel,
                                cmap, Type="gas")
-
-    # Get colormap
-    cmap = ml.cm.Greys_r
 
     extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
               0, 2 * anchors["r"][num] / anchors["zoom"][num]]
@@ -189,7 +186,7 @@ def single_frame(num, max_pixel, nframes):
 
     plt.margins(0, 0)
 
-    fig.savefig('plots/Ani/GasStars_flythrough_' + snap + '.png',
+    fig.savefig('plots/Ani/GasTemp_flythrough_' + snap + '.png',
                 bbox_inches='tight', dpi=1200,
                 pad_inches=0)
 
