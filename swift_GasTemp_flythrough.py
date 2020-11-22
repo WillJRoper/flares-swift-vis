@@ -34,6 +34,8 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
     # Set up particle objects
     P = sph.Particles(poss, mass=mass, hsml=hsml)
 
+    print("gas temperature", np.min(mass), np.max(mass))
+
     # Initialise the scene
     S = sph.Scene(P)
 
@@ -46,12 +48,13 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
     R.set_logscale()
     img = R.get_image()
 
-    vmax = 10
-    vmin = 1
-    print("gas temperature", np.max(img))
-
-    # Convert images to rgb arrays
-    rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
+    # vmax = 10
+    # vmin = 1
+    print("gas temperature", np.min(img), np.max(img))
+    #
+    # # Convert images to rgb arrays
+    # rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
+    rgb = img
 
     return rgb, R.get_extent()
 
