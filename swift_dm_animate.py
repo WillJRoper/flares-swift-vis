@@ -46,7 +46,7 @@ def getimage(data, poss, hsml, num, max_pixel):
     R.set_logscale()
     img = R.get_image()
 
-    vmax = 6
+    vmax = 6.8
     vmin = 0
 
     # Get colormaps
@@ -104,16 +104,46 @@ def single_frame(num, max_pixel, nframes):
     ax = fig.add_subplot(111)
 
     ax.imshow(rgb_DM, extent=extent, origin='lower')
-    ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
+    ax.tick_params(axis='both', left=False, top=False, right=False,
+                   bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
 
-    ax.text(0.9, 0.9, "%.3f Gyrs" % cosmo.age(z).value,
-             bbox=dict(boxstyle="round,pad=0.3", fc='w', ec="k", lw=1,
-                       alpha=0.8),
-             transform=ax.transAxes, horizontalalignment='right', fontsize=8)
+
+    ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
+            transform=ax.transAxes, verticalalignment="top",
+            horizontalalignment='right', fontsize=5, color="w")
+
+    ax.plot([0.05, 0.15], [0.025, 0.025], lw=0.75, color='w', clip_on=False,
+            transform=ax.transAxes)
+
+    ax.plot([0.05, 0.05], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
+            transform=ax.transAxes)
+    ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
+            transform=ax.transAxes)
+
+    axis_to_data = ax.transAxes + ax.transData.inverted()
+    left = axis_to_data.transform((0.05, 0.075))
+    right = axis_to_data.transform((0.15, 0.075))
+    dist = right[0] - left[0]
+
+    if dist > 0.1:
+        ax.text(0.1, 0.06, "%.1f cMpc" % dist,
+                transform=ax.transAxes, verticalalignment="top",
+                horizontalalignment='center', fontsize=5, color="w")
+    elif 100 > dist * 10**3 > 1:
+        ax.text(0.1, 0.06, "%.1f ckpc" % dist * 10**3,
+                transform=ax.transAxes, verticalalignment="top",
+                horizontalalignment='center', fontsize=5, color="w")
+    else:
+        ax.text(0.1, 0.06, "%.1f cpc" % dist * 10**6,
+                transform=ax.transAxes, verticalalignment="top",
+                horizontalalignment='center', fontsize=5, color="w")
+
+    plt.margins(0, 0)
 
     fig.savefig('plots/Ani/DM_animation_' + snap + '.png',
-                bbox_inches='tight', dpi=300)
+                bbox_inches='tight', dpi=1200,
+                pad_inches=0)
     plt.close(fig)
 
 if len(sys.argv) > 1:
