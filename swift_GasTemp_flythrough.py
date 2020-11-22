@@ -141,42 +141,11 @@ def single_frame(num, max_pixel, nframes):
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
     # Get images
-    rgb_gas, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
+    rgb_output, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
                                cmap, Type="gas")
 
     # Get colormap
     cmap = ml.cm.Greys_r
-
-    try:
-        poss = data.stars.coordinates.value - cent
-        hsmls = data.stars.smoothing_lengths.value
-
-        if hsmls.max() == 0.0:
-            print("Ill-defined smoothing lengths")
-
-            last_snap = "%04d" % (num - 1)
-
-            # Define path
-            path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/hydro_1380/data/ani_hydro_' + last_snap + ".hdf5"
-
-            data = load(path)
-            old_hsmls = data.stars.smoothing_lengths.value
-            hsmls[:old_hsmls.size] = old_hsmls
-            hsmls[old_hsmls.size:] = np.median(old_hsmls)
-
-        print(np.min(hsmls), np.max(hsmls))
-
-        poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
-        poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
-
-        # Get images
-        rgb_stars, extent = getimage(cam_data, poss, hsmls, num, max_pixel,
-                                     cmap, Type="star")
-    except AttributeError:
-        rgb_stars = np.zeros_like(rgb_gas)
-
-    blend = Blend.Blend(rgb_gas, rgb_stars)
-    rgb_output = blend.Screen()
 
     extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
               0, 2 * anchors["r"][num] / anchors["zoom"][num]]
