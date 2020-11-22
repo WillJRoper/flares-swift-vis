@@ -46,14 +46,9 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
     R.set_logscale()
     img = R.get_image()
 
-    if Type == "gas":
-        vmax = 4.8
-        vmin = 1
-        print("gas", np.max(img))
-    else:
-        vmax = 5.
-        vmin = 2
-        print("star", np.max(img))
+    vmax = 10
+    vmin = 1
+    print("gas temperature", np.max(img))
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
