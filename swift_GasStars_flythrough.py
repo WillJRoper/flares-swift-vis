@@ -47,11 +47,11 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
     img = R.get_image()
 
     if Type == "gas":
-        vmax = 4.8
+        vmax = 5
         vmin = 1
         print("gas", np.max(img))
     else:
-        vmax = 5.
+        vmax = 6.3
         vmin = 2
         print("star", np.max(img))
 
