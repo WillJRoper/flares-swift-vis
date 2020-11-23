@@ -46,8 +46,8 @@ def getimage(data, poss, hsml, num, max_pixel):
     R.set_logscale()
     img = R.get_image()
 
-    vmax = 6
-    vmin = 0.2
+    vmax = 5.8
+    vmin = 1
 
     # Get colormaps
     cmap = cmaps.twilight()
