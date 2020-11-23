@@ -194,7 +194,7 @@ def single_frame(num, max_pixel, nframes):
     cbaxes = ax.inset_axes([0.05, 0.95, 0.3, 0.02])
     cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
     cbar.ax.set_xticks([3, 4, 5, 6, 7, 8])
-    labels = [item.get_text() for item in ax.get_xticklabels()]
+    labels = [item.get_text() for item in cbar.ax.get_xticklabels()]
     labels[-1] = "$8\geq$"
     cbar.ax.set_xticklabels(labels)
     for tick in cbar.ax.xaxis.get_major_ticks():
