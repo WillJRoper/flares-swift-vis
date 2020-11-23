@@ -85,7 +85,7 @@ def single_frame(num, max_pixel, nframes):
     anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['r'] = [boxsize.value + 3, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['r'] = [boxsize.value + 4, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['p'] = [0, 'pass', 'pass', 'pass', 'pass', 'pass', 'pass', -360]
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
@@ -99,6 +99,9 @@ def single_frame(num, max_pixel, nframes):
 
     # Get images
     rgb_DM, extent = getimage(cam_data, poss, hsmls, num, max_pixel)
+
+    extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
+              0, 2 * anchors["r"][num] / anchors["zoom"][num]]
 
     fig = plt.figure(figsize=(4, 4))
     ax = fig.add_subplot(111)
