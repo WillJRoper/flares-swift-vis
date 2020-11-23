@@ -21,13 +21,13 @@ source activate flares-env
 i=$(($SLURM_ARRAY_TASK_ID - 1 + 1000))
 
 # Run the program
-./swift_dm_animate.py $i
+#./swift_dm_animate.py $i
 #./swift_gas_animate.py $i
 #./swift_stars_animate.py $i
 #./swift_GasStars_animate.py $i
 #./swift_DMGas_animate.py $i
 #./swift_GasStars_flythrough.py $i
-#./swift_GasTemp_flythrough.py $i
+./swift_GasTemp_flythrough.py $i
 
 source deactivate
 

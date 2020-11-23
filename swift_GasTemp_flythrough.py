@@ -128,7 +128,7 @@ def single_frame(num, max_pixel, nframes):
 
     # Get colormap
     # cmap = cmaps.sunlight()
-    cmap = ml.cm.plasma
+    cmap = ml.cm.magma
     norm = plt.Normalize(vmin=3, vmax=7)
 
     poss = data.gas.coordinates.value
@@ -194,13 +194,14 @@ def single_frame(num, max_pixel, nframes):
     cbaxes = ax.inset_axes([0.05, 0.95, 0.3, 0.02])
     cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
     cbar.set_ticks([3, 4, 5, 6, 7])
-    labels = ["3", "4", "5", "6", "7\leq$"]
+    labels = ["3", "4", "5", "6", "$7\leq$"]
     cbar.ax.set_xticklabels(labels)
     for tick in cbar.ax.xaxis.get_major_ticks():
         tick.label.set_fontsize(3)
         tick.label.set_color("w")
     cbar.ax.tick_params(axis='x', color='w', size=1)
     cbar.ax.set_xlabel("$\log_{10}(T / [\mathrm{K}])$", color='w', fontsize=4)
+    cbar.outline.set_edgecolor('white')
 
     plt.margins(0, 0)
 
