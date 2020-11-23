@@ -48,8 +48,8 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
     R.set_logscale()
     img = R.get_image()
 
-    vmax = 10.5
-    vmin = 6
+    vmax = 10.2
+    vmin = 6.5
     print("gas temperature", np.min(img), np.max(img))
 
     # Convert images to rgb arrays
