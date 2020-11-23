@@ -197,7 +197,7 @@ def single_frame(num, max_pixel, nframes):
 
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     sm._A = []  # # fake up the array of the scalar mappable
-    cbaxes = ax.inset_axes([0.05, 0.95, 0.3, 0.02])
+    cbaxes = ax.inset_axes([0.05, 0.95, 0.25, 0.015])
     cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
     cbar.set_ticks([4, 5, 6, 7])
     labels = ["$\leq4$", "5", "6", "$7\leq$"]
@@ -208,7 +208,7 @@ def single_frame(num, max_pixel, nframes):
     cbar.ax.tick_params(axis='x', color='w', size=1)
     cbar.ax.set_xlabel("$\log_{10}(T / [\mathrm{K}])$", color='w', fontsize=4)
     cbar.outline.set_edgecolor('white')
-    cbar.outline.set_linewidth(0.5)
+    cbar.outline.set_linewidth(0.2)
 
     plt.margins(0, 0)
 
