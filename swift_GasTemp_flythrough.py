@@ -128,7 +128,7 @@ def single_frame(num, max_pixel, nframes):
 
     # Get colormap
     # cmap = cmaps.sunlight()
-    cmap = ml.cm.magma
+    cmap = ml.cm.plasma
     norm = plt.Normalize(vmin=3, vmax=7)
 
     poss = data.gas.coordinates.value
