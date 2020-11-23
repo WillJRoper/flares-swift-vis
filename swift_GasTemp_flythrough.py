@@ -54,7 +54,7 @@ def getimage(data, poss, temp, mass, hsml, num, max_pixel, cmap, Type="gas"):
     img2 = R2.get_image()
     img = img1 - img2
 
-    vmax = 9
+    vmax = 8
     vmin = 3
     print("gas temperature", np.min(img), np.max(img))
 
@@ -129,7 +129,7 @@ def single_frame(num, max_pixel, nframes):
     # Get colormap
     # cmap = cmaps.sunlight()
     cmap = ml.cm.magma
-    norm = plt.Normalize(vmin=3, vmax=9)
+    norm = plt.Normalize(vmin=3, vmax=8)
 
     poss = data.gas.coordinates.value
     temp = data.gas.temperatures.value
@@ -195,6 +195,7 @@ def single_frame(num, max_pixel, nframes):
     cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
     for tick in cbar.ax.xaxis.get_major_ticks():
         tick.label.set_fontsize(8)
+        tick.label.set_color("w")
     cbar.ax.tick_params(axis='x', color='w')
     cbar.ax.set_xlabel("$T / [\mathrm{K}]$", color='w', fontsize=8)
 
