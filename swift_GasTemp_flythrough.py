@@ -27,26 +27,33 @@ def get_normalised_image(img, vmin=None, vmax=None):
     return img
 
 
-def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
+def getimage(data, poss, temp, mass, hsml, num, max_pixel, cmap, Type="gas"):
 
     print('There are', poss.shape[0], 'gas particles in the region')
     
     # Set up particle objects
-    P = sph.Particles(poss, mass=mass, hsml=hsml)
+    P1 = sph.Particles(poss, mass=temp * mass, hsml=hsml)
+    P2 = sph.Particles(poss, mass=mass, hsml=hsml)
 
     print("gas temperature", np.log10(np.min(mass)), np.log10(np.max(mass)))
 
     # Initialise the scene
-    S = sph.Scene(P)
+    S1 = sph.Scene(P1)
+    S2 = sph.Scene(P2)
 
     i = data[num]
     i['xsize'] = 5000
     i['ysize'] = 5000
     i['roll'] = 0
-    S.update_camera(**i)
-    R = sph.Render(S)
-    R.set_logscale()
-    img = R.get_image()
+    S1.update_camera(**i)
+    S2.update_camera(**i)
+    R1 = sph.Render(S1)
+    R2 = sph.Render(S2)
+    R1.set_logscale()
+    R2.set_logscale()
+    img1 = R1.get_image()
+    img2 = R2.get_image()
+    img = img1 - img2
 
     vmax = 10
     vmin = 6.5
@@ -55,7 +62,7 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
 
-    return rgb, R.get_extent()
+    return rgb, R1.get_extent()
 
 
 def single_frame(num, max_pixel, nframes):
@@ -126,6 +133,7 @@ def single_frame(num, max_pixel, nframes):
 
     poss = data.gas.coordinates.value
     temp = data.gas.temperatures.value
+    mass = data.gas.masses.value * 10 ** 10
 
     # okinds = np.linalg.norm(poss - cent, axis=1) < 1
     # cent = np.average(poss[okinds], weights=rho_gas[okinds], axis=0)
@@ -138,8 +146,8 @@ def single_frame(num, max_pixel, nframes):
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
     # Get images
-    rgb_output, extent = getimage(cam_data, poss, temp, hsmls, num, max_pixel,
-                               cmap, Type="gas")
+    gas_tempm, extent = getimage(cam_data, poss, temp, mass, hsmls, num,
+                                  max_pixel, cmap, Type="gas")
 
     extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
               0, 2 * anchors["r"][num] / anchors["zoom"][num]]
