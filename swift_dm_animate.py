@@ -100,8 +100,8 @@ def single_frame(num, max_pixel, nframes):
     # Get images
     rgb_DM, extent = getimage(cam_data, poss, hsmls, num, max_pixel)
 
-    extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
-              0, 2 * anchors["r"][num] / anchors["zoom"][num]]
+    extent = [0, 2 * boxsize.value + 4,
+              0, 2 * boxsize.value + 4]
 
     fig = plt.figure(figsize=(4, 4))
     ax = fig.add_subplot(111)
