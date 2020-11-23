@@ -193,7 +193,9 @@ def single_frame(num, max_pixel, nframes):
     sm._A = []  # # fake up the array of the scalar mappable
     cbaxes = ax.inset_axes([0.05, 0.9, 0.3, 0.02])
     cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
-    cbar.ax.tick_params(axis='x', colors='w', fontsize=8)
+    for tick in cbar.ax.xaxis.get_major_ticks():
+        tick.label.set_fontsize(8)
+    cbar.ax.tick_params(axis='x', colors='w')
     cbar.ax.set_xlabel("$T / [\mathrm{K}]$", colors='w', fontsize=8)
 
     plt.margins(0, 0)
