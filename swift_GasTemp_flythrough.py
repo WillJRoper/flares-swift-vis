@@ -54,7 +54,7 @@ def getimage(data, poss, temp, mass, hsml, num, max_pixel, cmap, Type="gas"):
     img2 = R2.get_image()
     img = img1 - img2
 
-    vmax = 8
+    vmax = 7
     vmin = 3
     print("gas temperature", np.min(img), np.max(img))
 
@@ -129,7 +129,7 @@ def single_frame(num, max_pixel, nframes):
     # Get colormap
     # cmap = cmaps.sunlight()
     cmap = ml.cm.magma
-    norm = plt.Normalize(vmin=3, vmax=8)
+    norm = plt.Normalize(vmin=3, vmax=7)
 
     poss = data.gas.coordinates.value
     temp = data.gas.temperatures.value
@@ -193,8 +193,8 @@ def single_frame(num, max_pixel, nframes):
     sm._A = []  # # fake up the array of the scalar mappable
     cbaxes = ax.inset_axes([0.05, 0.95, 0.3, 0.02])
     cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
-    cbar.set_ticks([3, 4, 5, 6, 7, 8])
-    labels = ["3", "4", "5", "6", "7", "$8\leq$"]
+    cbar.set_ticks([3, 4, 5, 6, 7])
+    labels = ["3", "4", "5", "6", "7\leq$"]
     cbar.ax.set_xticklabels(labels)
     for tick in cbar.ax.xaxis.get_major_ticks():
         tick.label.set_fontsize(3)
