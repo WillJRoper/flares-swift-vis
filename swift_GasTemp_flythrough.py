@@ -193,7 +193,7 @@ def single_frame(num, max_pixel, nframes):
     sm._A = []  # # fake up the array of the scalar mappable
     cbaxes = ax.inset_axes([0.05, 0.95, 0.3, 0.02])
     cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
-    cbar.set_xticks([3, 4, 5, 6, 7, 8])
+    cbar.set_ticks([3, 4, 5, 6, 7, 8])
     labels = [item.get_text() for item in cbar.ax.get_xticklabels()]
     labels[-1] = "$8\leq$"
     cbar.ax.set_xticklabels(labels)
