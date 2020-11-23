@@ -4,6 +4,7 @@ ml.use('Agg')
 import numpy as np
 import sphviewer as sph
 from sphviewer.tools import QuickView, cmaps, camera_tools, Blend
+from matplotlib.colors import LogNorm
 import matplotlib.pyplot as plt
 from astropy.cosmology import Planck13 as cosmo
 import sys
@@ -53,8 +54,8 @@ def getimage(data, poss, temp, mass, hsml, num, max_pixel, cmap, Type="gas"):
     img2 = R2.get_image()
     img = img1 - img2
 
-    vmax = 10
-    vmin = 6.5
+    vmax = 9
+    vmin = 3
     print("gas temperature", np.min(img), np.max(img))
 
     # Convert images to rgb arrays
@@ -128,6 +129,7 @@ def single_frame(num, max_pixel, nframes):
     # Get colormap
     # cmap = cmaps.sunlight()
     cmap = ml.cm.magma
+    norm = LogNorm(vmin=3, vmax=9)
 
     poss = data.gas.coordinates.value
     temp = data.gas.temperatures.value
@@ -186,6 +188,13 @@ def single_frame(num, max_pixel, nframes):
         ax.text(0.1, 0.06, "%.1f cpc" % dist * 10**6,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=5, color="w")
+
+    sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+    sm._A = []  # # fake up the array of the scalar mappable
+    cbaxes = ax.inset_axes([0.1, 0.85, 0.3, 0.04])
+    cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
+    cbaxes.xaxis.set_ticks_position("top")
+    cbar.ax.set_xlabel("$T / [\mathrm{K}]$", labelpad=-30)
 
     plt.margins(0, 0)
 
