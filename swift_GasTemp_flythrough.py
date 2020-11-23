@@ -191,13 +191,13 @@ def single_frame(num, max_pixel, nframes):
 
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     sm._A = []  # # fake up the array of the scalar mappable
-    cbaxes = ax.inset_axes([0.05, 0.9, 0.3, 0.02])
+    cbaxes = ax.inset_axes([0.05, 0.95, 0.3, 0.02])
     cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
     for tick in cbar.ax.xaxis.get_major_ticks():
-        tick.label.set_fontsize(8)
+        tick.label.set_fontsize(5)
         tick.label.set_color("w")
     cbar.ax.tick_params(axis='x', color='w')
-    cbar.ax.set_xlabel("$T / [\mathrm{K}]$", color='w', fontsize=8)
+    cbar.ax.set_xlabel("$T / [\mathrm{K}]$", color='w', fontsize=6)
 
     plt.margins(0, 0)
 
