@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="434f4938-e556-4aae-b9a9-5cc711a21831" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/animation_run1.sh" beforeDir="false" afterPath="$PROJECT_DIR$/animation_run1.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/animation_run2.sh" beforeDir="false" afterPath="$PROJECT_DIR$/animation_run2.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swift_GasTemp_flythrough.py" beforeDir="false" afterPath="$PROJECT_DIR$/swift_GasTemp_flythrough.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -106,7 +105,7 @@
       <option name="presentableId" value="Default" />
       <updated>1604264374406</updated>
       <workItem from="1604264384142" duration="4110000" />
-      <workItem from="1604316709814" duration="76537000" />
+      <workItem from="1604316709814" duration="77083000" />
     </task>
     <servers />
   </component>

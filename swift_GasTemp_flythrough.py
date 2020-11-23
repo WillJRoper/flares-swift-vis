@@ -55,7 +55,7 @@ def getimage(data, poss, temp, mass, hsml, num, max_pixel, cmap, Type="gas"):
     img = img1 - img2
 
     vmax = 7
-    vmin = 3
+    vmin = 4
     print("gas temperature", np.min(img), np.max(img))
 
     # Convert images to rgb arrays
@@ -129,7 +129,7 @@ def single_frame(num, max_pixel, nframes):
     # Get colormap
     # cmap = cmaps.sunlight()
     cmap = ml.cm.magma
-    norm = plt.Normalize(vmin=3, vmax=7)
+    norm = plt.Normalize(vmin=4, vmax=7)
 
     poss = data.gas.coordinates.value
     temp = data.gas.temperatures.value
@@ -160,6 +160,12 @@ def single_frame(num, max_pixel, nframes):
                    labeltop=False, labelright=False, labelbottom=False)
 
     ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
+            transform=ax.transAxes, verticalalignment="top",
+            horizontalalignment='right', fontsize=5, color="w")
+
+    ax.text(0.975, 0.95,
+            "$\log_{10}(T_{\mathrm{min}})=$%.1f K \n" % np.log10(np.min(temp))
+            + "$\log_{10}(T_{\mathrm{max}})=$%.1f K" % np.log10(np.max(temp)),
             transform=ax.transAxes, verticalalignment="top",
             horizontalalignment='right', fontsize=5, color="w")
 
@@ -194,14 +200,15 @@ def single_frame(num, max_pixel, nframes):
     cbaxes = ax.inset_axes([0.05, 0.95, 0.3, 0.02])
     cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
     cbar.set_ticks([3, 4, 5, 6, 7])
-    labels = ["3", "4", "5", "6", "$7\leq$"]
+    labels = ["$\leq4$", "5", "6", "$7\leq$"]
     cbar.ax.set_xticklabels(labels)
     for tick in cbar.ax.xaxis.get_major_ticks():
-        tick.label.set_fontsize(3)
+        tick.label.set_fontsize(4)
         tick.label.set_color("w")
     cbar.ax.tick_params(axis='x', color='w', size=1)
     cbar.ax.set_xlabel("$\log_{10}(T / [\mathrm{K}])$", color='w', fontsize=4)
     cbar.outline.set_edgecolor('white')
+    cbar.outline.set_linewidth(2)
 
     plt.margins(0, 0)
 
