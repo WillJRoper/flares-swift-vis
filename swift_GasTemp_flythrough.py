@@ -129,7 +129,7 @@ def single_frame(num, max_pixel, nframes):
     # Get colormap
     # cmap = cmaps.sunlight()
     cmap = ml.cm.magma
-    norm = LogNorm(vmin=3, vmax=9)
+    norm = plt.Normalize(vmin=3, vmax=9)
 
     poss = data.gas.coordinates.value
     temp = data.gas.temperatures.value
@@ -191,10 +191,10 @@ def single_frame(num, max_pixel, nframes):
 
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     sm._A = []  # # fake up the array of the scalar mappable
-    cbaxes = ax.inset_axes([0.1, 0.85, 0.3, 0.04])
+    cbaxes = ax.inset_axes([0.05, 0.9, 0.3, 0.02])
     cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
-    cbaxes.xaxis.set_ticks_position("top")
-    cbar.ax.set_xlabel("$T / [\mathrm{K}]$", labelpad=-30)
+    cbar.ax.tick_params(axis='x', colors='w', fontsize=8)
+    cbar.ax.set_xlabel("$T / [\mathrm{K}]$", colors='w', fontsize=8)
 
     plt.margins(0, 0)
 
