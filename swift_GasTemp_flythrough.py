@@ -196,7 +196,7 @@ def single_frame(num, max_pixel, nframes):
     for tick in cbar.ax.xaxis.get_major_ticks():
         tick.label.set_fontsize(8)
     cbar.ax.tick_params(axis='x', color='w')
-    cbar.ax.set_xlabel("$T / [\mathrm{K}]$", colors='w', fontsize=8)
+    cbar.ax.set_xlabel("$T / [\mathrm{K}]$", color='w', fontsize=8)
 
     plt.margins(0, 0)
 
