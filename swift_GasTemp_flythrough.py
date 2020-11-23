@@ -195,7 +195,7 @@ def single_frame(num, max_pixel, nframes):
     cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
     for tick in cbar.ax.xaxis.get_major_ticks():
         tick.label.set_fontsize(8)
-    cbar.ax.tick_params(axis='x', colors='w')
+    cbar.ax.tick_params(axis='x', color='w')
     cbar.ax.set_xlabel("$T / [\mathrm{K}]$", colors='w', fontsize=8)
 
     plt.margins(0, 0)
