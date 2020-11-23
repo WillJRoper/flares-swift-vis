@@ -35,8 +35,6 @@ def getimage(data, poss, temp, mass, hsml, num, max_pixel, cmap, Type="gas"):
     P1 = sph.Particles(poss, mass=temp * mass, hsml=hsml)
     P2 = sph.Particles(poss, mass=mass, hsml=hsml)
 
-    print("gas temperature", np.log10(np.min(mass)), np.log10(np.max(mass)))
-
     # Initialise the scene
     S1 = sph.Scene(P1)
     S2 = sph.Scene(P2)
@@ -146,7 +144,7 @@ def single_frame(num, max_pixel, nframes):
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
     # Get images
-    gas_tempm, extent = getimage(cam_data, poss, temp, mass, hsmls, num,
+    rgb_output, extent = getimage(cam_data, poss, temp, mass, hsmls, num,
                                   max_pixel, cmap, Type="gas")
 
     extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
