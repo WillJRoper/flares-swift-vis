@@ -199,7 +199,7 @@ def single_frame(num, max_pixel, nframes):
     sm._A = []  # # fake up the array of the scalar mappable
     cbaxes = ax.inset_axes([0.05, 0.95, 0.3, 0.02])
     cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
-    cbar.set_ticks([3, 4, 5, 6, 7])
+    cbar.set_ticks([4, 5, 6, 7])
     labels = ["$\leq4$", "5", "6", "$7\leq$"]
     cbar.ax.set_xticklabels(labels)
     for tick in cbar.ax.xaxis.get_major_ticks():
