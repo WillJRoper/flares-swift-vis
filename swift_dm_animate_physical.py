@@ -38,8 +38,8 @@ def getimage(data, poss, hsml, num, z):
     S = sph.Scene(P)
 
     i = data[num]
-    i['xsize'] = 1000 * (1 + z)
-    i['ysize'] = 1000 * (1 + z)
+    i['xsize'] = int(1000 * (1 + z))
+    i['ysize'] = int(1000 * (1 + z))
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
