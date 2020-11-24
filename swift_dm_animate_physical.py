@@ -78,14 +78,16 @@ def single_frame(num, max_pixel, nframes):
     print(boxsize)
     
     # Define targets
-    targets = [[boxsize / 2, boxsize / 2, boxsize / 2]]
+    targets = [[boxsize / 2 / (1 + z),
+                boxsize / 2 / (1 + z),
+                boxsize / 2 / (1 + z)]]
 
     # Define anchors dict for camera parameters
     anchors = {}
     anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['r'] = [boxsize.value + 4, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['r'] = [boxsize.value, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['p'] = [0, 'pass', 'pass', 'pass', 'pass', 'pass', 'pass', -360]
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
