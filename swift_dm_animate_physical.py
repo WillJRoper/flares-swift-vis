@@ -100,7 +100,7 @@ def single_frame(num, max_pixel, nframes):
     hsmls = data.dark_matter.softenings.value / (1 + z)
 
     # Get images
-    rgb_DM, extent = getimage(cam_data, poss, hsmls, num, max_pixel)
+    rgb_DM, extent = getimage(cam_data, poss, hsmls, num, z)
 
     extent = [0, 2 * boxsize.value + 4,
               0, 2 * boxsize.value + 4]
