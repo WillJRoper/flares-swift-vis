@@ -27,7 +27,7 @@ def get_normalised_image(img, vmin=None, vmax=None):
     return img
 
 
-def getimage(data, poss, hsml, num, max_pixel):
+def getimage(data, poss, hsml, num, z):
 
     print('There are', poss.shape[0], 'dark matter particles in the region')
     
@@ -38,8 +38,8 @@ def getimage(data, poss, hsml, num, max_pixel):
     S = sph.Scene(P)
 
     i = data[num]
-    i['xsize'] = 1000
-    i['ysize'] = 1000
+    i['xsize'] = 1000 * (1 + z)
+    i['ysize'] = 1000 * (1 + z)
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
