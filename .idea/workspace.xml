@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="434f4938-e556-4aae-b9a9-5cc711a21831" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/swift_GasTemp_flythrough.py" beforeDir="false" afterPath="$PROJECT_DIR$/swift_GasTemp_flythrough.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/animation_run1.sh" beforeDir="false" afterPath="$PROJECT_DIR$/animation_run1.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/animation_run2.sh" beforeDir="false" afterPath="$PROJECT_DIR$/animation_run2.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +67,9 @@
       <module name="flares-swift-vis" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="$USER_HOME$/anaconda3/bin/python3" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -104,7 +109,8 @@
       <option name="presentableId" value="Default" />
       <updated>1604264374406</updated>
       <workItem from="1604264384142" duration="4110000" />
-      <workItem from="1604316709814" duration="77427000" />
+      <workItem from="1604316709814" duration="80432000" />
+      <workItem from="1606234121949" duration="1750000" />
     </task>
     <servers />
   </component>
