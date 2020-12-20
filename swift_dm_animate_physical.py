@@ -46,13 +46,11 @@ def getimage(data, poss, hsml, num, z):
     R.set_logscale()
     img = R.get_image()
 
-    vmax = 5.8
-    vmin = 1
+    vmax = 5.0
+    vmin = 0.3
 
     # Get colormaps
     cmap = cmaps.twilight()
-
-    print(img.max())
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
@@ -75,12 +73,13 @@ def single_frame(num, max_pixel, nframes):
     boxsize = meta.boxsize[0]
     z = meta.redshift
 
-    print(boxsize)
-    
+    print(boxsize, z)
+
+    # Define centre
+    cent = np.array([11.76119931, 3.95795609, 1.26561173])
+
     # Define targets
-    targets = [[boxsize / 2 / (1 + z),
-                boxsize / 2 / (1 + z),
-                boxsize / 2 / (1 + z)]]
+    targets = [[0, 0, 0]]
 
     # Define anchors dict for camera parameters
     anchors = {}
@@ -96,8 +95,15 @@ def single_frame(num, max_pixel, nframes):
     # Define the camera trajectory
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
 
-    poss = data.dark_matter.coordinates.value / (1 + z)
+    poss = data.dark_matter.coordinates.value
     hsmls = data.dark_matter.softenings.value / (1 + z)
+
+    poss -= cent
+
+    poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
+    poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
+
+    poss /= (1 + z)
 
     # Get images
     rgb_DM, extent = getimage(cam_data, poss, hsmls, num, z)
