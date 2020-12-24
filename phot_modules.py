@@ -51,7 +51,7 @@ def lum(num, data, kappa, z, BC_fac, cent, campos, IMF='Chabrier_300',
 
     # print(data.metadata.gas_properties.field_names)
     # print(data.metadata.field_names)
-    print(dir(data.metadata))
+    print(data.metadata.stars_properties.field_names)
 
     # S_mass_ini = data.
     S_Z = data.stars.metallicities.value
