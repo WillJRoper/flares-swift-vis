@@ -49,7 +49,7 @@ def lum(num, data, kappa, z, BC_fac, cent, IMF='Chabrier_300',
     header = kinp['header']
     kbins = header.item()['bins']
 
-    print(data.metadata.gas_properties.field_names)
+    # print(data.metadata.gas_properties.field_names)
     print(data.metadata.star_properties.field_names)
 
     # S_mass_ini = data.
