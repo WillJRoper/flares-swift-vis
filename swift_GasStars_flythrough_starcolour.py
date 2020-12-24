@@ -13,6 +13,7 @@ from swiftsimio import load
 import unyt
 import gc
 import phot_modules as photm
+import FLARE
 
 
 def get_normalised_image(img, vmin=None, vmax=None):
@@ -69,7 +70,8 @@ def single_frame(num, max_pixel, nframes):
     snap = "%04d" % num
 
     # Define path
-    path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/hydro_1380_data/ani_hydro_' + snap + ".hdf5"
+    path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/' \
+           'hydro_1380_data/ani_hydro_' + snap + ".hdf5"
 
     snap = "%05d" % num
 
@@ -80,6 +82,9 @@ def single_frame(num, max_pixel, nframes):
     z = meta.redshift
 
     print("Boxsize:", boxsize)
+
+    filters = FLARE.filters.NIRCam
+    print(filters)
 
     # Define centre
     cent = np.array([11.76119931, 3.95795609, 1.26561173])
@@ -155,33 +160,36 @@ def single_frame(num, max_pixel, nframes):
         mass = data.stars.masses.value * 10 ** 10
         hsmls = data.stars.smoothing_lengths.value
 
-        Lum = photm.lum(num, data, kappa=0.007895, z=z, BC_fac=1, cent=cent,
-                        campos=rs[num], IMF='Chabrier_300',
-                        filters=('FAKE.TH.FUV',), Type='Total', log10t_BC=7.,
-                        extinction='default')
-
         if hsmls.max() == 0.0:
             print("Ill-defined smoothing lengths")
 
             last_snap = "%04d" % (num - 1)
 
             # Define path
-            path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/hydro_1380/data/ani_hydro_' + last_snap + ".hdf5"
+            path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/' \
+                   'hydro_1380/data/ani_hydro_' + last_snap + ".hdf5"
 
             data = load(path)
             old_hsmls = data.stars.smoothing_lengths.value
             hsmls[:old_hsmls.size] = old_hsmls
             hsmls[old_hsmls.size:] = np.median(old_hsmls)
 
-        print(np.min(hsmls), np.max(hsmls))
+        Lum = photm.lum(num, data, kappa=0.007895, z=z, BC_fac=1, cent=cent,
+                        campos=rs[num], IMF='Chabrier_300',
+                        filters=filters, Type='Total', log10t_BC=7.,
+                        extinction='default')
 
         poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
         poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
-        # Get images
-        rgb_stars, extent = getimage(cam_data, poss, mass, hsmls, num,
-                                     max_pixel, cmap, Type="star")
-    except AttributeError:
+        for f in filters:
+
+            # Get images
+            rgb_stars, extent = getimage(cam_data, poss, mass, hsmls, num,
+                                         max_pixel, cmap, Type="star")
+
+    except AttributeError as e:
+        print(e)
         rgb_stars = np.zeros_like(rgb_gas)
 
     blend = Blend.Blend(rgb_gas, rgb_stars)
