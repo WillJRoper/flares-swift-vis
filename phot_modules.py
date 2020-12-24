@@ -53,8 +53,8 @@ def lum(num, data, kappa, z, BC_fac, cent, campos, IMF='Chabrier_300',
     S_Z = data.stars.metal_mass_fractions.value
     S_age = util.calc_ages(z, data.stars.birth_scale_factors.value)
     G_Z = data.gas.metal_mass_fractions.value
-    G_sml = data.stars.smoothing_lengths.value
-    S_sml = data.gas.smoothing_lengths.value
+    S_sml = data.stars.smoothing_lengths.value
+    G_sml = data.gas.smoothing_lengths.value
     G_mass = data.gas.masses.value * 10 ** 10
     S_coords = data.stars.coordinates.value - cent
     G_coords = data.gas.coordinates.value - cent
@@ -107,12 +107,6 @@ def lum(num, data, kappa, z, BC_fac, cent, campos, IMF='Chabrier_300',
         F)  # --- create new L grid for each filter. In units of erg/s/Hz
 
     okinds = G_coords[:, 2] * (1 + z) < campos
-
-    print(G_coords.shape)
-    print(G_coords.shape, G_mass.shape, G_Z.shape,
-          G_sml.shape)
-    print(G_coords[okinds, :].shape, G_mass[okinds].shape, G_Z[okinds].shape,
-          G_sml[okinds].shape)
 
     MetSurfaceDensities = util.get_Z_LOS(S_coords, G_coords[okinds, :],
                                          G_mass[okinds], G_Z[okinds],
