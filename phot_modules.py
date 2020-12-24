@@ -38,9 +38,9 @@ def DTM_fit(Z, Age):
     return DTM
 
 
-def lum(num, data, kappa, z, BC_fac, cent, IMF='Chabrier_300',
+def lum(num, data, kappa, z, BC_fac, cent, campos, IMF='Chabrier_300',
         filters=('FAKE.TH.FUV',), Type='Total', log10t_BC=7.,
-        extinction='default'):
+        extinction='default', ):
 
     kinp = np.load('/cosma7/data/dp004/dc-payy1/my_files/'
                    'los/kernel_sph-anarchy.npz',
@@ -50,7 +50,8 @@ def lum(num, data, kappa, z, BC_fac, cent, IMF='Chabrier_300',
     kbins = header.item()['bins']
 
     # print(data.metadata.gas_properties.field_names)
-    print(data.metadata.stellar_properties.field_names)
+    print(data.metadata.field_names)
+    print(data.metadata.star_properties.field_names)
 
     # S_mass_ini = data.
     S_Z = data.stars.metallicities.value
@@ -109,10 +110,11 @@ def lum(num, data, kappa, z, BC_fac, cent, IMF='Chabrier_300',
     model.create_Lnu_grid(
         F)  # --- create new L grid for each filter. In units of erg/s/Hz
 
+    okinds = G_coords[:, 2] < campos
 
-    MetSurfaceDensities = util.get_Z_LOS(S_coords, G_coords,
-                                         G_mass, G_Z,
-                                         G_sml, (0, 1, 2),
+    MetSurfaceDensities = util.get_Z_LOS(S_coords, G_coords[okinds, :],
+                                         G_mass[okinds], G_Z[okinds],
+                                         G_sml[okinds], (0, 1, 2),
                                          lkernel, kbins)
 
     # Mage = np.nansum(S_mass_ini * S_age) / np.nansum(Masses)

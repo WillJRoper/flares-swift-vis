@@ -156,8 +156,8 @@ def single_frame(num, max_pixel, nframes):
         hsmls = data.stars.smoothing_lengths.value
 
         Lum = photm.lum(num, data, kappa=0.007895, z=z, BC_fac=1, cent=cent,
-                        IMF='Chabrier_300', filters=('FAKE.TH.FUV',),
-                        Type='Total', log10t_BC=7.,
+                        campos=rs[num], IMF='Chabrier_300',
+                        filters=('FAKE.TH.FUV',), Type='Total', log10t_BC=7.,
                         extinction='default')
 
         if hsmls.max() == 0.0:
