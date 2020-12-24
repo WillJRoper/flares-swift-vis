@@ -50,9 +50,9 @@ def lum(num, data, kappa, z, BC_fac, cent, campos, IMF='Chabrier_300',
     kbins = header.item()['bins']
 
     S_mass_ini = data.stars.initial_masses.value
-    S_Z = data.stars.metallicities.value
+    S_Z = data.stars.metal_mass_fractions.value
     S_age = util.calc_ages(z, data.stars.birth_scale_factors.value)
-    G_Z = data.gas.metallicities.value
+    G_Z = data.gas.metal_mass_fractions.value
     G_sml = data.stars.smoothing_lengths.value
     S_sml = data.gas.smoothing_lengths.value
     G_mass = data.gas.masses.value * 10 ** 10

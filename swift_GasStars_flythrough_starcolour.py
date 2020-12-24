@@ -181,11 +181,14 @@ def single_frame(num, max_pixel, nframes):
         poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
         poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
-        for f in filters:
+        rgb_stars = np.zeros((5000, 5000, 3))
+
+        for i, f in enumerate(filters):
 
             # Get images
-            rgb_stars, extent = getimage(cam_data, poss, mass, hsmls, num,
-                                         max_pixel, cmap, Type="star")
+            rgb_stars[:, :, i], extent = getimage(cam_data, poss, mass,
+                                                  hsmls, num, max_pixel,
+                                                  cmap, Type="star")
 
     except AttributeError as e:
         print(e)
