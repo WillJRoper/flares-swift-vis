@@ -108,6 +108,12 @@ def lum(num, data, kappa, z, BC_fac, cent, campos, IMF='Chabrier_300',
 
     okinds = G_coords[:, 2] < campos
 
+    print(G_coords.shape)
+    print(G_coords.shape, G_mass.shape, G_Z.shape,
+          G_sml.shape)
+    print(G_coords[okinds, :].shape, G_mass[okinds].shape, G_Z[okinds].shape,
+          G_sml[okinds].shape)
+
     MetSurfaceDensities = util.get_Z_LOS(S_coords, G_coords[okinds, :],
                                          G_mass[okinds], G_Z[okinds],
                                          G_sml[okinds], (0, 1, 2),
