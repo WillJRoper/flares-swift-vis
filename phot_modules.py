@@ -57,7 +57,7 @@ def lum(num, data, kappa, z, BC_fac, cent, campos, IMF='Chabrier_300',
     S_sml = data.gas.smoothing_lengths.value
     G_mass = data.gas.masses.value * 10 ** 10
     S_coords = data.stars.coordinates.value - cent
-    G_coords = data.data.gas.coordinates.value - cent
+    G_coords = data.gas.coordinates.value - cent
     S_mass = data.stars.masses.value * 10 ** 10
 
     if S_sml.max() == 0.0:

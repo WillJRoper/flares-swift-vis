@@ -185,6 +185,8 @@ def single_frame(num, max_pixel, nframes):
 
         for i, f in enumerate(filters):
 
+            print(f)
+
             # Get images
             rgb_stars[:, :, i], extent = getimage(cam_data, poss, mass,
                                                   hsmls, num, max_pixel,
