@@ -57,8 +57,8 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
         # Convert images to rgb arrays
         rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
     else:
-        vmax = 13
-        vmin = 7.5
+        vmax = 11.3
+        vmin = 5.5
         print("star", np.max(img))
         # Convert images to rgb arrays
         rgb = get_normalised_image(img, vmin=vmin, vmax=vmax)
@@ -84,7 +84,7 @@ def single_frame(num, max_pixel, nframes):
 
     print("Boxsize:", boxsize)
 
-    filters = ('JWST.NIRCAM.F150W', 'JWST.NIRCAM.F277W', 'JWST.NIRCAM.F480M')
+    filters = ('JWST.NIRCAM.F480M', 'JWST.NIRCAM.F277W', 'JWST.NIRCAM.F150W')
 
     # Define centre
     cent = np.array([11.76119931, 3.95795609, 1.26561173])
@@ -206,7 +206,7 @@ def single_frame(num, max_pixel, nframes):
     fig = plt.figure(figsize=(4, 4))
     ax = fig.add_subplot(111)
 
-    ax.imshow(rgb_output, extent=extent, origin='lower')
+    ax.imshow(rgb_stars, extent=extent, origin='lower')
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
 
