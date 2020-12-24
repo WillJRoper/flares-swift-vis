@@ -54,13 +54,14 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
         vmax =11
         vmin = 6
         print("gas", np.max(img))
+        # Convert images to rgb arrays
+        rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
     else:
         vmax = 13
         vmin = 7.5
         print("star", np.max(img))
-
-    # Convert images to rgb arrays
-    rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
+        # Convert images to rgb arrays
+        rgb = get_normalised_image(img, vmin=vmin, vmax=vmax)
 
     return rgb, R.get_extent()
 
