@@ -106,7 +106,7 @@ def lum(num, data, kappa, z, BC_fac, cent, campos, IMF='Chabrier_300',
     model.create_Lnu_grid(
         F)  # --- create new L grid for each filter. In units of erg/s/Hz
 
-    okinds = G_coords[:, 2] < campos
+    okinds = G_coords[:, 2] * (1 + z) < campos
 
     print(G_coords.shape)
     print(G_coords.shape, G_mass.shape, G_Z.shape,
