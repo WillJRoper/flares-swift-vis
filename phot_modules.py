@@ -69,7 +69,7 @@ def lum(num, data, kappa, z, BC_fac, cent, IMF='Chabrier_300',
         last_snap = "%04d" % (num - 1)
 
         # Define path
-        path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/hydro_1380/data/ani_hydro_' + last_snap + ".hdf5"
+        path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/hydro_1380_data/ani_hydro_' + last_snap + ".hdf5"
 
         olddata = load(path)
         old_hsmls = olddata.stars.smoothing_lengths.value
