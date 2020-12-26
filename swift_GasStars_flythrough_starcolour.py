@@ -42,8 +42,8 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
     S = sph.Scene(P)
 
     i = data[num]
-    i['xsize'] = 5000
-    i['ysize'] = 5000
+    i['xsize'] = 500
+    i['ysize'] = 500
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
@@ -182,7 +182,7 @@ def single_frame(num, max_pixel, nframes):
         poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
         poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
-        rgb_stars = np.zeros((5000, 5000, 3))
+        rgb_stars = np.zeros((500, 500, 3))
 
         for i, f in enumerate(filters):
 
