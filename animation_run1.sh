@@ -7,7 +7,7 @@
 #SBATCH -p cosma6 #or some other partition, e.g. cosma, cosma6, etc.
 #SBATCH -A dp004
 #SBATCH --exclusive
-#SBATCH -t 00:30:00
+#SBATCH -t 72:00:00
 
 # Run the job from the following directory - change this to point to your own personal space on /lustre
 cd /cosma/home/dp004/dc-rope1/cosma7/SWIFT/flares-swift-vis
