@@ -192,7 +192,7 @@ def single_frame(num, max_pixel, nframes):
                                                   hsmls, num, max_pixel,
                                                   cmap, Type="star")
 
-        rgb_stars = get_normalised_image(rgb_stars, vmin=17, vmax=22.5)
+        rgb_stars = get_normalised_image(rgb_stars, vmin=14, vmax=22.5)
 
     except AttributeError as e:
         print(e)
