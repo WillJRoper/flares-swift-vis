@@ -60,8 +60,7 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
         vmax = 21.6
         vmin = 15.0
         print("star", np.min(img[img != 0]), np.max(img))
-        # Convert images to rgb arrays
-        rgb = get_normalised_image(img, vmin=vmin, vmax=vmax)
+        rgb = img
 
     return rgb, R.get_extent()
 
@@ -192,6 +191,8 @@ def single_frame(num, max_pixel, nframes):
             rgb_stars[:, :, i], extent = getimage(cam_data, poss, Lum[f],
                                                   hsmls, num, max_pixel,
                                                   cmap, Type="star")
+
+        rgb_stars = get_normalised_image(rgb_stars, vmin=15, vmax=21.5)
 
     except AttributeError as e:
         print(e)
