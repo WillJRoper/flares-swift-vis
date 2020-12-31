@@ -189,7 +189,7 @@ def single_frame(num, max_pixel, nframes):
             print(f)
 
             # Get images
-            rgb_stars[:, :, i], extent = getimage(cam_data, poss, mass,
+            rgb_stars[:, :, i], extent = getimage(cam_data, poss, Lum[f],
                                                   hsmls, num, max_pixel,
                                                   cmap, Type="star")
 
