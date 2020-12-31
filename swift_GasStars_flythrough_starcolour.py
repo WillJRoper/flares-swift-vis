@@ -83,7 +83,7 @@ def single_frame(num, max_pixel, nframes):
 
     print("Boxsize:", boxsize)
 
-    filters = ('JWST.NIRCAM.F480M', 'JWST.NIRCAM.F277W', 'JWST.NIRCAM.F150W')
+    filters = ('JWST.NIRCAM.F480M', 'JWST.NIRCAM.F150W', 'JWST.NIRCAM.F090W')
 
     # Define centre
     cent = np.array([11.76119931, 3.95795609, 1.26561173])
