@@ -89,16 +89,16 @@ def get_Z_LOS(s_cood, g_cood, g_mass, g_Z, g_sml, dimens, lkernel, kbins):
     # particle orientation to face-on
     xdir, ydir, zdir = dimens
 
-    rs = np.zeros_like(g_cood[:, (xdir, ydir)])
-    rs[:, xdir] = g_cood[:, xdir] / g_sml
-    rs[:, ydir] = g_cood[:, ydir] / g_sml
-
-    tree = cKDTree(rs)
-
     for ii in range(n):
         thisspos = s_cood[ii]
 
-        ok = tree.query_ball_point(thisspos[0:2], r=1)
+        rs = np.zeros_like(g_cood[:, (xdir, ydir)])
+        rs[:, xdir] = (g_cood[:, xdir] - thisspos[xdir]) / g_sml
+        rs[:, ydir] = (g_cood[:, ydir] - thisspos[ydir]) / g_sml
+
+        tree = cKDTree(rs)
+
+        ok = tree.query_ball_point((0, 0), r=1)
         thisgpos = g_cood[ok]
         thisgsml = g_sml[ok]
         thisgZ = g_Z[ok]
