@@ -59,7 +59,7 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
     else:
         vmax = 21.0
         vmin = 5.5
-        print("star", np.max(img))
+        print("star", np.min(img[img != 0]), np.max(img))
         # Convert images to rgb arrays
         rgb = get_normalised_image(img, vmin=vmin, vmax=vmax)
 
