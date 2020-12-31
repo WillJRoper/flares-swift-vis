@@ -89,20 +89,28 @@ def get_Z_LOS(s_cood, g_cood, g_mass, g_Z, g_sml, dimens, lkernel, kbins):
     # particle orientation to face-on
     xdir, ydir, zdir = dimens
 
+    gas_parts_in_los = {}
+
+    tree = cKDTree(s_cood[:, (xdir, ydir)])
+
+    for ind in range(g_cood.shape[0]):
+
+        thisgsml = g_sml[ind]
+
+        query_inds = tree.query_ball_point(g_cood[ind, (xdir, ydir)],
+                                           r=thisgsml)
+
+        for res in query_inds:
+
+            gas_parts_in_los.setdefault(res, []).append(ind)
+
     for ii in range(n):
         thisspos = s_cood[ii]
 
-        rs = np.zeros_like(g_cood[:, (xdir, ydir)])
-        rs[:, xdir] = (g_cood[:, xdir] - thisspos[xdir]) / g_sml
-        rs[:, ydir] = (g_cood[:, ydir] - thisspos[ydir]) / g_sml
-
-        tree = cKDTree(rs)
-
-        ok = tree.query_ball_point((0, 0), r=1)
-        thisgpos = g_cood[ok]
-        thisgsml = g_sml[ok]
-        thisgZ = g_Z[ok]
-        thisgmass = g_mass[ok]
+        thisgpos = g_cood[gas_parts_in_los[ii]]
+        thisgsml = g_sml[gas_parts_in_los[ii]]
+        thisgZ = g_Z[gas_parts_in_los[ii]]
+        thisgmass = g_mass[gas_parts_in_los[ii]]
 
         ok = np.where(thisgpos[:, zdir] > thisspos[zdir])[0]
         thisgpos = thisgpos[ok]
