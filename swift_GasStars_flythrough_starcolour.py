@@ -84,6 +84,9 @@ def single_frame(num, max_pixel, nframes):
     print("Boxsize:", boxsize)
 
     filters = ('JWST.NIRCAM.F480M', 'JWST.NIRCAM.F150W', 'JWST.NIRCAM.F090W')
+    weights = {'JWST.NIRCAM.F480M': 1,
+               'JWST.NIRCAM.F150W': 0.99,
+               'JWST.NIRCAM.F090W': 1}
 
     # Define centre
     cent = np.array([11.76119931, 3.95795609, 1.26561173])
@@ -98,9 +101,10 @@ def single_frame(num, max_pixel, nframes):
 
     id_frames = np.arange(0, 1381, dtype=int)
     rs = np.zeros(len(id_frames), dtype=float)
-    rs[0: 151] = decay(id_frames[0:151])
-    rs[151:901] = 1.5
-    rs[901:] = anti_decay(id_frames[901:])
+    # rs[0: 151] = decay(id_frames[0:151])
+    # rs[151:901] = 1.5
+    # rs[901:] = anti_decay(id_frames[901:])
+    rs[:] = 0.75
 
     simtimes = np.zeros(len(id_frames), dtype=int)
     id_targets = np.zeros(len(id_frames), dtype=int)
@@ -190,7 +194,8 @@ def single_frame(num, max_pixel, nframes):
             # Get images
             rgb_stars[:, :, i], extent = getimage(cam_data, poss, Lum[f],
                                                   hsmls, num, max_pixel,
-                                                  cmap, Type="star")
+                                                  cmap, Type="star") \
+                                         * weights[f]
 
         rgb_stars = get_normalised_image(rgb_stars, vmin=16.5, vmax=22.5)
 
