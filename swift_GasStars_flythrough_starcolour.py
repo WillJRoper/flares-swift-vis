@@ -233,18 +233,18 @@ def single_frame(num, max_pixel, nframes):
     right = axis_to_data.transform((0.15, 0.075))
     dist = right[0] - left[0]
 
-    if dist > 0.1:
-        ax.text(0.025, 0.06, "%.1f cMpc" % dist,
-                transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='left', fontsize=5, color="w")
-    elif 100 > dist * 10**3 > 1:
-        ax.text(0.025, 0.06, "%.1f ckpc" % dist * 10**3,
-                transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='left', fontsize=5, color="w")
-    else:
-        ax.text(0.025, 0.06, "%.1f cpc" % dist * 10**6,
-                transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='left', fontsize=5, color="w")
+    # if dist > 0.1:
+    #     ax.text(0.025, 0.06, "%.1f cMpc" % dist,
+    #             transform=ax.transAxes, verticalalignment="top",
+    #             horizontalalignment='left', fontsize=5, color="w")
+    # elif 100 > dist * 10**3 > 1:
+    #     ax.text(0.025, 0.06, "%.1f ckpc" % dist * 10**3,
+    #             transform=ax.transAxes, verticalalignment="top",
+    #             horizontalalignment='left', fontsize=5, color="w")
+    # else:
+    #     ax.text(0.025, 0.06, "%.1f cpc" % dist * 10**6,
+    #             transform=ax.transAxes, verticalalignment="top",
+    #             horizontalalignment='left', fontsize=5, color="w")
 
     plt.margins(0, 0)
 
