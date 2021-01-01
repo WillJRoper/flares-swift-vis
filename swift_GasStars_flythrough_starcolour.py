@@ -104,7 +104,7 @@ def single_frame(num, max_pixel, nframes):
     # rs[0: 151] = decay(id_frames[0:151])
     # rs[151:901] = 1.5
     # rs[901:] = anti_decay(id_frames[901:])
-    rs[:] = 0.2
+    rs[:] = 1
 
     simtimes = np.zeros(len(id_frames), dtype=int)
     id_targets = np.zeros(len(id_frames), dtype=int)
@@ -220,31 +220,31 @@ def single_frame(num, max_pixel, nframes):
             transform=ax.transAxes, verticalalignment="top",
             horizontalalignment='right', fontsize=5, color="w")
     #
-    # ax.plot([0.05, 0.15], [0.025, 0.025], lw=0.75, color='w', clip_on=False,
-    #         transform=ax.transAxes)
-    #
-    # ax.plot([0.05, 0.05], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
-    #         transform=ax.transAxes)
-    # ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
-    #         transform=ax.transAxes)
+    ax.plot([0.05, 0.15], [0.025, 0.025], lw=0.75, color='w', clip_on=False,
+            transform=ax.transAxes)
+
+    ax.plot([0.05, 0.05], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
+            transform=ax.transAxes)
+    ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
+            transform=ax.transAxes)
 
     axis_to_data = ax.transAxes + ax.transData.inverted()
     left = axis_to_data.transform((0.05, 0.075))
     right = axis_to_data.transform((0.15, 0.075))
     dist = right[0] - left[0]
 
-    # if dist > 0.1:
-    #     ax.text(0.025, 0.06, "%.1f cMpc" % dist,
-    #             transform=ax.transAxes, verticalalignment="top",
-    #             horizontalalignment='left', fontsize=5, color="w")
-    # elif 100 > dist * 10**3 > 1:
-    #     ax.text(0.025, 0.06, "%.1f ckpc" % dist * 10**3,
-    #             transform=ax.transAxes, verticalalignment="top",
-    #             horizontalalignment='left', fontsize=5, color="w")
-    # else:
-    #     ax.text(0.025, 0.06, "%.1f cpc" % dist * 10**6,
-    #             transform=ax.transAxes, verticalalignment="top",
-    #             horizontalalignment='left', fontsize=5, color="w")
+    if dist > 0.1:
+        ax.text(0.1, 0.06, "%.1f cMpc" % dist,
+                transform=ax.transAxes, verticalalignment="top",
+                horizontalalignment='center', fontsize=5, color="w")
+    elif 100 > dist * 10**3 > 1:
+        ax.text(0.1, 0.06, "%.1f ckpc" % dist * 10**3,
+                transform=ax.transAxes, verticalalignment="top",
+                horizontalalignment='center', fontsize=5, color="w")
+    else:
+        ax.text(0.1, 0.06, "%.1f cpc" % dist * 10**6,
+                transform=ax.transAxes, verticalalignment="top",
+                horizontalalignment='center', fontsize=5, color="w")
 
     plt.margins(0, 0)
 
