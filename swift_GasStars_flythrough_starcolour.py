@@ -104,7 +104,7 @@ def single_frame(num, max_pixel, nframes):
     # rs[0: 151] = decay(id_frames[0:151])
     # rs[151:901] = 1.5
     # rs[901:] = anti_decay(id_frames[901:])
-    rs[:] = 0.6
+    rs[:] = 0.4
 
     simtimes = np.zeros(len(id_frames), dtype=int)
     id_targets = np.zeros(len(id_frames), dtype=int)
@@ -234,17 +234,17 @@ def single_frame(num, max_pixel, nframes):
     dist = right[0] - left[0]
 
     if dist > 0.1:
-        ax.text(0.1, 0.06, "%.1f cMpc" % dist,
+        ax.text(0.025, 0.06, "%.1f cMpc" % dist,
                 transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='center', fontsize=5, color="w")
+                horizontalalignment='left', fontsize=5, color="w")
     elif 100 > dist * 10**3 > 1:
-        ax.text(0.1, 0.06, "%.1f ckpc" % dist * 10**3,
+        ax.text(0.025, 0.06, "%.1f ckpc" % dist * 10**3,
                 transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='center', fontsize=5, color="w")
+                horizontalalignment='left', fontsize=5, color="w")
     else:
-        ax.text(0.1, 0.06, "%.1f cpc" % dist * 10**6,
+        ax.text(0.025, 0.06, "%.1f cpc" % dist * 10**6,
                 transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='center', fontsize=5, color="w")
+                horizontalalignment='left', fontsize=5, color="w")
 
     plt.margins(0, 0)
 
