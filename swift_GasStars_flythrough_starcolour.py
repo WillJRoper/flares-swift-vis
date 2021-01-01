@@ -194,8 +194,8 @@ def single_frame(num, max_pixel, nframes):
             # Get images
             rgb_stars[:, :, i], extent = getimage(cam_data, poss, Lum[f],
                                                   hsmls, num, max_pixel,
-                                                  cmap, Type="star") \
-                                         * weights[f]
+                                                  cmap, Type="star")
+            rgb_stars[:, :, i] *= weights[f]
 
         rgb_stars = get_normalised_image(rgb_stars, vmin=16.5, vmax=22.5)
 
