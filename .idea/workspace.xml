@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="434f4938-e556-4aae-b9a9-5cc711a21831" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/swift_GasStars_flythrough_starcolour.py" beforeDir="false" afterPath="$PROJECT_DIR$/swift_GasStars_flythrough_starcolour.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/flares-swift-vis.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/flares-swift-vis.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +39,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
@@ -111,7 +114,10 @@
       <workItem from="1606234121949" duration="4023000" />
       <workItem from="1606318743722" duration="591000" />
       <workItem from="1606946958461" duration="1015000" />
-      <workItem from="1608465638948" duration="15708000" />
+      <workItem from="1608465638948" duration="16068000" />
+      <workItem from="1611314384910" duration="299000" />
+      <workItem from="1620224061529" duration="319000" />
+      <workItem from="1620821636765" duration="245000" />
     </task>
     <servers />
   </component>
@@ -119,14 +125,13 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="423" y="212" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1604340825715">
+    <state x="468" y="190" key="SettingsEditor" timestamp="1620821695730">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state x="423" y="212" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.1057/-1680.283.1680.1027/1920.23.1920.1057@0.23.1920.1057" timestamp="1604340825715" />
-    <state x="651" y="383" key="com.intellij.ide.util.TipDialog" timestamp="1606318756521">
+    <state x="468" y="190" key="SettingsEditor/0.23.1920.1057/1920.23.1920.1057/-1680.283.1680.1027@0.23.1920.1057" timestamp="1620821695730" />
+    <state x="531" y="368" key="com.intellij.ide.util.TipDialog" timestamp="1620224377886">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state x="651" y="383" key="com.intellij.ide.util.TipDialog/0.23.1920.1057/-1680.283.1680.1027/1920.23.1920.1057@0.23.1920.1057" timestamp="1604316713336" />
-    <state x="651" y="383" key="com.intellij.ide.util.TipDialog/0.23.1920.1057/1920.23.1920.1057/-1680.283.1680.1027@0.23.1920.1057" timestamp="1606318756521" />
+    <state x="531" y="368" key="com.intellij.ide.util.TipDialog/0.23.1920.1057/-1680.283.1680.1027/1920.23.1920.1057@0.23.1920.1057" timestamp="1620224377886" />
   </component>
 </project>
