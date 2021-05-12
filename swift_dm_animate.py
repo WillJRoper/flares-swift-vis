@@ -46,7 +46,7 @@ def getimage(data, poss, hsml, num, max_pixel):
     R.set_logscale()
     img = R.get_image()
 
-    vmax = 5.8
+    vmax = 7
     vmin = 1
 
     # Get colormaps
