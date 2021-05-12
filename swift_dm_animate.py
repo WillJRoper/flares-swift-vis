@@ -37,18 +37,16 @@ def getimage(data, poss, hsml, num, max_pixel):
     # Initialise the scene
     S = sph.Scene(P)
 
-    print(hsml.min(), hsml.max(), 20 / hsml.max())
-
     i = data[num]
-    i['xsize'] = 1000
-    i['ysize'] = 1000
+    i['xsize'] = int(20 / hsml.max())
+    i['ysize'] = int(20 / hsml.max())
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
     R.set_logscale()
     img = R.get_image()
 
-    vmax = 7
+    vmax = 5
     vmin = 1
 
     # Get colormaps
