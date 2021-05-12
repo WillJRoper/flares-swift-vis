@@ -37,6 +37,8 @@ def getimage(data, poss, hsml, num, max_pixel):
     # Initialise the scene
     S = sph.Scene(P)
 
+    print(hsml.min(), hsml.max(), 20 / hsml.max())
+
     i = data[num]
     i['xsize'] = 1000
     i['ysize'] = 1000
