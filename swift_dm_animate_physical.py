@@ -60,13 +60,13 @@ def getimage(data, poss, hsml, num, z):
     vmin = 0
 
     # Get colormaps
-    cmap1 = cmr.dusk(np.linspace(0, 1, 64))
-    cmap2 = cmr.gothic(np.linspace(0.4, 0.7, 64))
-    cmap3 = cmr.gem(np.linspace(0.4, 0.7, 64))
-    cmap4 = cmr.cosmic(np.linspace(0.4, 1, 64))
+    cmap1 = cmr.dusk(np.linspace(0, 1, 128))
+    # cmap2 = cmr.gothic(np.linspace(0.4, 0.7, 64))
+    # cmap3 = cmr.gem(np.linspace(0.4, 0.7, 64))
+    cmap4 = cmr.ghostlight(np.linspace(0.1, 1, 128))
 
     # combine them and build a new colormap
-    colors = np.vstack((cmap1, cmap2, cmap3, cmap4))
+    colors = np.vstack((cmap1, cmap4))
     cmap = mcolors.LinearSegmentedColormap.from_list('my_colormap', colors)
 
     # cmap = cmr.amethyst
