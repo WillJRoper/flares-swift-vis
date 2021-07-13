@@ -59,17 +59,17 @@ def getimage(data, poss, hsml, num, z):
     vmax = 6
     vmin = 0
 
-    # # Get colormaps
-    # cmap1 = red(np.linspace(0, 0.7, 64))
-    # cmap2 = evermore(np.linspace(0, 1, 64))
-    # cmap3 = folklore(np.linspace(0, 1, 64))
-    # cmap4 = lover(np.linspace(0.8, 1, 64))
-    #
-    # # combine them and build a new colormap
-    # colors = np.vstack((cmap1, cmap4))
-    # cmap = mcolors.LinearSegmentedColormap.from_list('my_colormap', colors)
+    # Get colormaps
+    cmap1 = cmr.amethyst(np.linspace(0, 0.6, 128))
+    cmap2 = evermore(np.linspace(0, 1, 64))
+    cmap3 = folklore(np.linspace(0, 1, 64))
+    cmap4 = cmr.cosmic(np.linspace(0.4, 1, 128))
 
-    cmap = cmr.amethyst
+    # combine them and build a new colormap
+    colors = np.vstack((cmap1, cmap4))
+    cmap = mcolors.LinearSegmentedColormap.from_list('my_colormap', colors)
+
+    # cmap = cmr.amethyst
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
