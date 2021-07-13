@@ -52,22 +52,23 @@ def getimage(data, poss, hsml, num, z):
           np.percentile(img, 99),
           np.percentile(img, 95),
           np.percentile(img, 90),
+          np.percentile(img, 67.5),
           np.percentile(img, 50))
 
     vmax = 6
     vmin = np.percentile(img, 67.5)
 
-    # Get colormaps
-    cmap1 = red(np.linspace(0, 0.7, 64))
+    # # Get colormaps
+    # cmap1 = red(np.linspace(0, 0.7, 64))
     # cmap2 = evermore(np.linspace(0, 1, 64))
     # cmap3 = folklore(np.linspace(0, 1, 64))
-    cmap4 = lover(np.linspace(0.8, 1, 64))
+    # cmap4 = lover(np.linspace(0.8, 1, 64))
+    #
+    # # combine them and build a new colormap
+    # colors = np.vstack((cmap1, cmap4))
+    # cmap = mcolors.LinearSegmentedColormap.from_list('my_colormap', colors)
 
-    # combine them and build a new colormap
-    colors = np.vstack((cmap1, cmap4))
-    cmap = mcolors.LinearSegmentedColormap.from_list('my_colormap', colors)
-
-    # cmap = red
+    cmap = folklore
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
