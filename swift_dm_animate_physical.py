@@ -45,7 +45,7 @@ def getimage(data, poss, hsml, num, z):
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
-    # R.set_logscale()
+    R.set_logscale()
     img = R.get_image()
 
     print(np.percentile(img, 99),
