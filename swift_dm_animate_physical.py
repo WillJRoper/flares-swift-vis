@@ -7,7 +7,7 @@ from sphviewer.tools import QuickView, cmaps, camera_tools
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from astropy.cosmology import Planck13 as cosmo
-from swiftascmaps import red, evermore
+from swiftascmaps import red, evermore, lover, folklore
 import sys
 from guppy import hpy; h=hpy()
 import os
@@ -58,11 +58,13 @@ def getimage(data, poss, hsml, num, z):
     vmin = np.percentile(img, 67.5)
 
     # Get colormaps
-    cmap1 = red(np.linspace(0, 1, 128))
-    cmap2 = evermore(np.linspace(0.3, 1, 128))
+    cmap1 = red(np.linspace(0, 1, 64))
+    cmap2 = evermore(np.linspace(0, 1, 64))
+    cmap3 = folklore(np.linspace(0, 1, 64))
+    cmap4 = lover(np.linspace(0, 1, 64))
 
     # combine them and build a new colormap
-    colors = np.vstack((cmap1, cmap2))
+    colors = np.vstack((cmap1, cmap2, cmap3, cmap4))
     cmap = mcolors.LinearSegmentedColormap.from_list('my_colormap', colors)
 
     # cmap = red
