@@ -104,6 +104,7 @@ def single_frame(num, max_pixel, nframes):
 
     poss = data.dark_matter.coordinates.value
     hsmls = data.dark_matter.softenings.value / (1 + z)
+    print(hsmls)
 
     poss -= cent
 
