@@ -48,7 +48,8 @@ def getimage(data, poss, hsml, num, z):
     R.set_logscale()
     img = R.get_image()
 
-    print(np.percentile(img, 99),
+    print(img.max(),
+          np.percentile(img, 99),
           np.percentile(img, 95),
           np.percentile(img, 90),
           np.percentile(img, 50))
