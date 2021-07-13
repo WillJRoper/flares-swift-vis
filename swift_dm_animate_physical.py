@@ -67,7 +67,7 @@ def getimage(data, poss, hsml, num, z):
 
     # combine them and build a new colormap
     colors = np.vstack((cmap1, cmap4))
-    cmap = mcolors.LinearSegmentedColormap.from_list('my_colormap', colors)
+    cmap = mcolors.LinearSegmentedColormap.from_list('colormap', colors)
 
     # cmap = cmr.amethyst
 

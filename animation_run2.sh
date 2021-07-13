@@ -1,7 +1,7 @@
 #!/bin/bash -l
 #SBATCH --ntasks 1 # The number of cores you need...
 #SBATCH --array=1-381
-#SBATCH --cpus-per-task=14
+#SBATCH --cpus-per-task=16
 #SBATCH -J FLARES-pysphv #Give it something meaningful.
 #SBATCH -o logs/output_flythrough.%J.out
 #SBATCH -p cosma6 #or some other partition, e.g. cosma, cosma6, etc.
