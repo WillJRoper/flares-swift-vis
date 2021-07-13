@@ -51,7 +51,7 @@ def getimage(data, poss, hsml, num, z):
     print(np.percentile(img, 99),
           np.percentile(img, 95),
           np.percentile(img, 90),
-          np.percentile(img, 31.75))
+          np.percentile(img, 50))
 
     vmax = np.percentile(img, 99)
     vmin = 1
