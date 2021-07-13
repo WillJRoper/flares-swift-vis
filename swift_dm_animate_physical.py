@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from astropy.cosmology import Planck13 as cosmo
 from swiftascmaps import red, evermore, lover, folklore, nineteen_eighty_nine
+import cmasher as cmr
 import sys
 from guppy import hpy; h=hpy()
 import os
@@ -68,7 +69,7 @@ def getimage(data, poss, hsml, num, z):
     # colors = np.vstack((cmap1, cmap4))
     # cmap = mcolors.LinearSegmentedColormap.from_list('my_colormap', colors)
 
-    cmap = nineteen_eighty_nine
+    cmap = cmr.amethyst
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
