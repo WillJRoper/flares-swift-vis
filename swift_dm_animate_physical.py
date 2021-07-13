@@ -39,8 +39,8 @@ def getimage(data, poss, hsml, num, z):
     S = sph.Scene(P)
 
     i = data[num]
-    i['xsize'] = 4096
-    i['ysize'] = 3072
+    i['xsize'] = 3840
+    i['ysize'] = 2160
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
@@ -57,7 +57,7 @@ def getimage(data, poss, hsml, num, z):
 
     # Get colormaps
     cmap = red
-    print(cmap(np.linspace(0, 1, 128)))
+    # print(cmap(np.linspace(0, 1, 128)))
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
@@ -118,7 +118,7 @@ def single_frame(num, max_pixel, nframes):
     # extent = [0, 2 * boxsize.value + 4,
     #           0, 2 * boxsize.value + 4]
 
-    dpi = rgb_DM.shape[1]
+    dpi = rgb_DM.shape[0]
     print(dpi, rgb_DM.shape)
     fig = plt.figure(figsize=(1, 1.77777777778), dpi=dpi)
     ax = fig.add_subplot(111)
