@@ -54,7 +54,7 @@ def getimage(data, poss, hsml, num, z):
           np.percentile(img, 31.75))
 
     vmax = np.percentile(img, 99)
-    vmin = np.percentile(img, 31.75)
+    vmin = 1
 
     # Get colormaps
     cmap1 = red(np.linspace(0, 1, 128))
