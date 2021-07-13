@@ -41,8 +41,8 @@ def getimage(data, poss, hsml, num, z):
     S = sph.Scene(P)
 
     i = data[num]
-    i['xsize'] = 3840
-    i['ysize'] = 2160
+    i['xsize'] = 1920
+    i['ysize'] = 1080
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
@@ -56,7 +56,7 @@ def getimage(data, poss, hsml, num, z):
           np.percentile(img, 67.5),
           np.percentile(img, 50))
 
-    vmax = 6
+    vmax = 7
     vmin = 0
 
     # Get colormaps
