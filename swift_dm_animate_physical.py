@@ -114,7 +114,7 @@ def single_frame(num, max_pixel, nframes):
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
 
     poss = data.dark_matter.coordinates.value
-    hsmls = data.dark_matter.softenings.value / (1 + z) * 10
+    hsmls = data.dark_matter.softenings.value / (1 + z)
     print(hsmls)
 
     poss -= cent
