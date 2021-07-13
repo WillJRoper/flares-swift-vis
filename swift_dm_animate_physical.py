@@ -45,7 +45,7 @@ def getimage(data, poss, hsml, num, z):
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
-    R.set_logscale()
+    # R.set_logscale()
     img = R.get_image()
 
     print(np.percentile(img, 99),
@@ -54,7 +54,7 @@ def getimage(data, poss, hsml, num, z):
           np.percentile(img, 50))
 
     vmax = np.percentile(img, 95)
-    vmin = 1
+    vmin = np.percentile(img, 31.75)
 
     # Get colormaps
     cmap1 = red(np.linspace(0, 1, 128))
