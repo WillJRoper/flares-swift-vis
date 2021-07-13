@@ -6,7 +6,7 @@ import sphviewer as sph
 from sphviewer.tools import QuickView, cmaps, camera_tools
 import matplotlib.pyplot as plt
 from astropy.cosmology import Planck13 as cosmo
-from swiftascmaps import red
+from swiftascmaps import red, evermore
 import sys
 from guppy import hpy; h=hpy()
 import os
@@ -52,12 +52,12 @@ def getimage(data, poss, hsml, num, z):
           np.percentile(img, 90),
           np.percentile(img, 31.75))
 
-    vmax = 5.0
-    vmin = 0.3
+    vmax = np.percentile(img, 99)
+    vmin = np.percentile(img, 31.75)
 
     # Get colormaps
-    cmap = red
-    print(cmap)
+    cmap = evermore
+    print(cmap(np.linspace(0., 1, 128)))
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
