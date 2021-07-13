@@ -56,7 +56,7 @@ def getimage(data, poss, hsml, num, z):
     vmin = np.percentile(img, 31.75)
 
     # Get colormaps
-    cmap = evermore
+    cmap = red
     print(cmap(np.linspace(0., 1, 128)))
 
     # Convert images to rgb arrays
