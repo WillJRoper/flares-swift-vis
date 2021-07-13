@@ -56,7 +56,7 @@ def getimage(data, poss, hsml, num, z):
           np.percentile(img, 50))
 
     vmax = 6
-    vmin = np.percentile(img, 67.5)
+    vmin = 0
 
     # # Get colormaps
     # cmap1 = red(np.linspace(0, 0.7, 64))
@@ -114,7 +114,7 @@ def single_frame(num, max_pixel, nframes):
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
 
     poss = data.dark_matter.coordinates.value
-    hsmls = data.dark_matter.softenings.value / (1 + z)
+    hsmls = data.dark_matter.softenings.value / (1 + z) * 10
     print(hsmls)
 
     poss -= cent
