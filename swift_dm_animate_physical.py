@@ -56,7 +56,7 @@ def getimage(data, poss, hsml, num, z):
           np.percentile(img, 67.5),
           np.percentile(img, 50))
 
-    vmax = 7
+    vmax = 6
     vmin = 0
 
     # Get colormaps
