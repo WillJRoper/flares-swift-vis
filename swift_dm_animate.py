@@ -27,7 +27,7 @@ def get_normalised_image(img, vmin=None, vmax=None):
     return img
 
 
-def getimage(data, poss, hsml, num, max_pixel):
+def getimage(data, poss, hsml, num, boxsize):
 
     print('There are', poss.shape[0], 'dark matter particles in the region')
     
@@ -38,8 +38,8 @@ def getimage(data, poss, hsml, num, max_pixel):
     S = sph.Scene(P)
 
     i = data[num]
-    i['xsize'] = int(20 / hsml.max())
-    i['ysize'] = int(20 / hsml.max())
+    i['xsize'] = int(boxsize / hsml.max())
+    i['ysize'] = int(boxsize / hsml.max())
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
@@ -99,7 +99,7 @@ def single_frame(num, max_pixel, nframes):
     hsmls = data.dark_matter.softenings.value
 
     # Get images
-    rgb_DM, extent = getimage(cam_data, poss, hsmls, num, max_pixel)
+    rgb_DM, extent = getimage(cam_data, poss, hsmls, num, boxsize)
 
     extent = [0, 2 * boxsize.value + 4,
               0, 2 * boxsize.value + 4]

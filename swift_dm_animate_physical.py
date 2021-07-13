@@ -6,6 +6,7 @@ import sphviewer as sph
 from sphviewer.tools import QuickView, cmaps, camera_tools
 import matplotlib.pyplot as plt
 from astropy.cosmology import Planck13 as cosmo
+from swiftascmaps import red
 import sys
 from guppy import hpy; h=hpy()
 import os
@@ -38,8 +39,8 @@ def getimage(data, poss, hsml, num, z):
     S = sph.Scene(P)
 
     i = data[num]
-    i['xsize'] = 500
-    i['ysize'] = 500
+    i['xsize'] = 1920
+    i['ysize'] = 1080
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
@@ -50,7 +51,7 @@ def getimage(data, poss, hsml, num, z):
     vmin = 0.3
 
     # Get colormaps
-    cmap = cmaps.twilight()
+    cmap = red
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
@@ -76,17 +77,17 @@ def single_frame(num, max_pixel, nframes):
     print(boxsize, z)
 
     # Define centre
-    cent = np.array([11.76119931, 3.95795609, 1.26561173])
+    cent = np.array([boxsize / 2, boxsize / 2, boxsize / 2])
 
     # Define targets
-    targets = [[0, 0, 0]]
+    targets = [[0, 0, 0], ]
 
     # Define anchors dict for camera parameters
     anchors = {}
     anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['r'] = [0.1, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['r'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['p'] = [0, 'pass', 'pass', 'pass', 'pass', 'pass', 'pass', -360]
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
@@ -108,10 +109,12 @@ def single_frame(num, max_pixel, nframes):
     # Get images
     rgb_DM, extent = getimage(cam_data, poss, hsmls, num, z)
 
-    extent = [0, 2 * boxsize.value + 4,
-              0, 2 * boxsize.value + 4]
+    # extent = [0, 2 * boxsize.value + 4,
+    #           0, 2 * boxsize.value + 4]
 
-    fig = plt.figure(figsize=(4, 4))
+    dpi = rgb_DM.shape[1]
+
+    fig = plt.figure(figsize=(1, 1.77777777778), dpi=dpi)
     ax = fig.add_subplot(111)
 
     ax.imshow(rgb_DM, extent=extent, origin='lower')
@@ -152,8 +155,7 @@ def single_frame(num, max_pixel, nframes):
     plt.margins(0, 0)
 
     fig.savefig('plots/Ani/DMphysical_animation_' + snap + '.png',
-                bbox_inches='tight', dpi=1200,
-                pad_inches=0)
+                bbox_inches='tight', pad_inches=0)
     plt.close(fig)
 
 if len(sys.argv) > 1:
