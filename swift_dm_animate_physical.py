@@ -56,13 +56,15 @@ def getimage(data, poss, hsml, num, z):
     vmax = np.percentile(img, 95)
     vmin = 500
 
-    # Get colormaps
-    cmap1 = red(np.linspace(0, 1, 128))
-    cmap2 = evermore(np.linspace(0.3, 1, 128))
+    # # Get colormaps
+    # cmap1 = red(np.linspace(0, 1, 128))
+    # cmap2 = evermore(np.linspace(0.3, 1, 128))
+    #
+    # # combine them and build a new colormap
+    # colors = np.vstack((cmap1, cmap2))
+    # cmap = mcolors.LinearSegmentedColormap.from_list('my_colormap', colors)
 
-    # combine them and build a new colormap
-    colors = np.vstack((cmap1, cmap2))
-    cmap = mcolors.LinearSegmentedColormap.from_list('my_colormap', colors)
+    cmap = red
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
