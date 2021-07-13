@@ -7,7 +7,7 @@ from sphviewer.tools import QuickView, cmaps, camera_tools
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from astropy.cosmology import Planck13 as cosmo
-from swiftascmaps import red, evermore, lover, folklore, 1989
+from swiftascmaps import red, evermore, lover, folklore
 import sys
 from guppy import hpy; h=hpy()
 import os
