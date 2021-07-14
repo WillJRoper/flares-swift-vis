@@ -72,7 +72,7 @@ def getimage(data, poss, hsml, num, z):
 
     cmap = cmr.ghostlight
 
-    img = ndimage.gaussian_filter(img, sigma=(3, 3), order=0)
+    img = ndimage.gaussian_filter(img, sigma=(5, 5), order=0)
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
@@ -108,7 +108,7 @@ def single_frame(num, max_pixel, nframes):
     anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['r'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['r'] = [8, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['p'] = [-50, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
