@@ -108,7 +108,7 @@ def single_frame(num, max_pixel, nframes):
     anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['r'] = [1, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['r'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['p'] = [0, 'pass', 'pass', 'pass', 'pass', 'pass', 'pass', -360]
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
@@ -132,7 +132,7 @@ def single_frame(num, max_pixel, nframes):
     rgb_DM, ang_extent = getimage(cam_data, poss, hsmls, num, z)
     i = cam_data[num]
     extent = [0, 2 * np.tan(ang_extent[1]) * i['r'],
-                  0, 2 * np.tan(ang_extent[-1]) * i['r']]
+              0, 2 * np.tan(ang_extent[-1]) * i['r']]
     print(ang_extent, extent)
 
     dpi = rgb_DM.shape[0]
@@ -140,7 +140,7 @@ def single_frame(num, max_pixel, nframes):
     fig = plt.figure(figsize=(1, 1.77777777778), dpi=dpi)
     ax = fig.add_subplot(111)
 
-    ax.imshow(rgb_DM, extent=extent, origin='lower')
+    ax.imshow(rgb_DM, extent=ang_extent, origin='lower')
     ax.tick_params(axis='both', left=False, top=False, right=False,
                    bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
@@ -160,9 +160,10 @@ def single_frame(num, max_pixel, nframes):
     axis_to_data = ax.transAxes + ax.transData.inverted()
     left = axis_to_data.transform((0.05, 0.075))
     right = axis_to_data.transform((0.15, 0.075))
-    dist = right[0] - left[0]
+    dist = extent[1] * (right[0] - left[0]) / (ang_extent[1] - ang_extent[0])
 
-    print(left, right, dist)
+    print(left, right,
+          (right[0] - left[0]) / (ang_extent[1] - ang_extent[0]), dist)
 
     if dist > 0.1:
         ax.text(0.1, 0.065, "%.1f pMpc" % dist,
