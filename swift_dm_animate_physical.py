@@ -57,7 +57,7 @@ def getimage(data, poss, hsml, num, z):
           np.percentile(img, 50))
 
     vmax = 6
-    vmin = 0.5
+    vmin = 1
 
     # # Get colormaps
     # cmap1 = cmr.dusk(np.linspace(0, 1, 128))
@@ -69,7 +69,7 @@ def getimage(data, poss, hsml, num, z):
     # colors = np.vstack((cmap1, cmap4))
     # cmap = mcolors.LinearSegmentedColormap.from_list('colormap', colors)
 
-    cmap = cmr.cosmic
+    cmap = cmr.ghostlight
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
