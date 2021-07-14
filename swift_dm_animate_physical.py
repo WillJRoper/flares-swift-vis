@@ -162,15 +162,15 @@ def single_frame(num, max_pixel, nframes):
     dist = right[0] - left[0]
 
     if dist > 0.1:
-        ax.text(0.1, 0.06, "%.1f cMpc" % dist,
+        ax.text(0.1, 0.06, "%.1f pMpc" % dist,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=1, color="w")
     elif 100 > dist * 10**3 > 1:
-        ax.text(0.1, 0.06, "%.1f ckpc" % dist * 10**3,
+        ax.text(0.1, 0.06, "%.1f pkpc" % dist * 10**3,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=1, color="w")
     else:
-        ax.text(0.1, 0.06, "%.1f cpc" % dist * 10**6,
+        ax.text(0.1, 0.06, "%.1f pkpc" % dist * 10**6,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=1, color="w")
 
