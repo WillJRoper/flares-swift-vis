@@ -72,7 +72,7 @@ def getimage(data, poss, hsml, num, z):
 
     cmap = cmr.ghostlight
 
-    img = ndimage.gaussian_filter(img, sigma=(5, 5), order=0)
+    img = ndimage.gaussian_filter(img, sigma=(4, 4), order=0)
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
