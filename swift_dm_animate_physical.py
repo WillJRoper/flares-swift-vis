@@ -5,6 +5,7 @@ import numpy as np
 import sphviewer as sph
 from sphviewer.tools import QuickView, cmaps, camera_tools
 import matplotlib.pyplot as plt
+import scipy.ndimage as ndimage
 import matplotlib.colors as mcolors
 from astropy.cosmology import Planck13 as cosmo
 from swiftascmaps import red, evermore, lover, folklore, nineteen_eighty_nine
@@ -70,6 +71,8 @@ def getimage(data, poss, hsml, num, z):
     # cmap = mcolors.LinearSegmentedColormap.from_list('colormap', colors)
 
     cmap = cmr.ghostlight
+
+    img = ndimage.gaussian_filter(img, sigma=(5, 5, 0), order=0)
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
