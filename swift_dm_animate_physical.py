@@ -57,7 +57,7 @@ def getimage(data, poss, hsml, num, z):
           np.percentile(img, 50))
 
     vmax = 6
-    vmin = 0
+    vmin = 0.5
 
     # # Get colormaps
     # cmap1 = cmr.dusk(np.linspace(0, 1, 128))
@@ -107,7 +107,7 @@ def single_frame(num, max_pixel, nframes):
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['r'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['p'] = [0, 'pass', 'pass', 'pass', 'pass', 'pass', 'pass', -360]
+    anchors['p'] = [-50, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['extent'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
 
