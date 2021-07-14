@@ -6,7 +6,7 @@ import sphviewer as sph
 from sphviewer.tools import QuickView, cmaps, camera_tools
 import matplotlib.pyplot as plt
 import scipy.ndimage as ndimage
-# import matplotlib.colors as mcolors
+import matplotlib.colors as mcolors
 from astropy.cosmology import Planck13 as cosmo
 # from swiftascmaps import red, evermore, lover, folklore, nineteen_eighty_nine
 import cmasher as cmr
@@ -60,17 +60,16 @@ def getimage(data, poss, hsml, num, z):
     vmax = 6.2
     vmin = 0
 
-    # # Get colormaps
-    # cmap1 = cmr.dusk(np.linspace(0, 1, 128))
-    # # cmap2 = cmr.gothic(np.linspace(0.4, 0.7, 64))
-    # # cmap3 = cmr.gem(np.linspace(0.4, 0.7, 64))
-    # cmap4 = cmr.ghostlight(np.linspace(0.1, 1, 128))
-    #
-    # # combine them and build a new colormap
-    # colors = np.vstack((cmap1, cmap4))
-    # cmap = mcolors.LinearSegmentedColormap.from_list('colormap', colors)
+    # Get colormaps
+    cmap1 = cmr.amethyst(np.linspace(0, 1, 64))
+    cmap2 = cmr.cosmic_r(np.linspace(0, 1, 128 - 32))
+    cmap3 = cmr.ghostlight(np.linspace(0, 1, 128 - 32))
 
-    cmap = cmr.ghostlight
+    # combine them and build a new colormap
+    colors = np.vstack((cmap1, cmap2, cmap3))
+    cmap = mcolors.LinearSegmentedColormap.from_list('colormap', colors)
+
+    # cmap = cmr.ghostlight
 
     img = ndimage.gaussian_filter(img, sigma=(3, 3), order=0)
 
