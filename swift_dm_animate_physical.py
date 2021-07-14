@@ -6,9 +6,9 @@ import sphviewer as sph
 from sphviewer.tools import QuickView, cmaps, camera_tools
 import matplotlib.pyplot as plt
 import scipy.ndimage as ndimage
-import matplotlib.colors as mcolors
+# import matplotlib.colors as mcolors
 from astropy.cosmology import Planck13 as cosmo
-from swiftascmaps import red, evermore, lover, folklore, nineteen_eighty_nine
+# from swiftascmaps import red, evermore, lover, folklore, nineteen_eighty_nine
 import cmasher as cmr
 import sys
 from guppy import hpy; h=hpy()
@@ -144,35 +144,35 @@ def single_frame(num, max_pixel, nframes):
                    bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
 
-    # ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
-    #         transform=ax.transAxes, verticalalignment="top",
-    #         horizontalalignment='right', fontsize=5, color="k")
-    #
-    # ax.plot([0.05, 0.15], [0.025, 0.025], lw=0.75, color='k', clip_on=False,
-    #         transform=ax.transAxes)
-    #
-    # ax.plot([0.05, 0.05], [0.022, 0.027], lw=0.75, color='k', clip_on=False,
-    #         transform=ax.transAxes)
-    # ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.75, color='k', clip_on=False,
-    #         transform=ax.transAxes)
+    ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
+            transform=ax.transAxes, verticalalignment="top",
+            horizontalalignment='right', fontsize=1, color="w")
 
-    # axis_to_data = ax.transAxes + ax.transData.inverted()
-    # left = axis_to_data.transform((0.05, 0.075))
-    # right = axis_to_data.transform((0.15, 0.075))
-    # dist = right[0] - left[0]
-    #
-    # if dist > 0.1:
-    #     ax.text(0.1, 0.06, "%.1f cMpc" % dist,
-    #             transform=ax.transAxes, verticalalignment="top",
-    #             horizontalalignment='center', fontsize=5, color="k")
-    # elif 100 > dist * 10**3 > 1:
-    #     ax.text(0.1, 0.06, "%.1f ckpc" % dist * 10**3,
-    #             transform=ax.transAxes, verticalalignment="top",
-    #             horizontalalignment='center', fontsize=5, color="k")
-    # else:
-    #     ax.text(0.1, 0.06, "%.1f cpc" % dist * 10**6,
-    #             transform=ax.transAxes, verticalalignment="top",
-    #             horizontalalignment='center', fontsize=5, color="k")
+    ax.plot([0.05, 0.15], [0.025, 0.025], lw=0.75, color='w', clip_on=False,
+            transform=ax.transAxes)
+
+    ax.plot([0.05, 0.05], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
+            transform=ax.transAxes)
+    ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
+            transform=ax.transAxes)
+
+    axis_to_data = ax.transAxes + ax.transData.inverted()
+    left = axis_to_data.transform((0.05, 0.075))
+    right = axis_to_data.transform((0.15, 0.075))
+    dist = right[0] - left[0]
+
+    if dist > 0.1:
+        ax.text(0.1, 0.06, "%.1f cMpc" % dist,
+                transform=ax.transAxes, verticalalignment="top",
+                horizontalalignment='center', fontsize=1, color="w")
+    elif 100 > dist * 10**3 > 1:
+        ax.text(0.1, 0.06, "%.1f ckpc" % dist * 10**3,
+                transform=ax.transAxes, verticalalignment="top",
+                horizontalalignment='center', fontsize=1, color="w")
+    else:
+        ax.text(0.1, 0.06, "%.1f cpc" % dist * 10**6,
+                transform=ax.transAxes, verticalalignment="top",
+                horizontalalignment='center', fontsize=1, color="w")
 
     plt.margins(0, 0)
 
