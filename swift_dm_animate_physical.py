@@ -148,12 +148,12 @@ def single_frame(num, max_pixel, nframes):
             transform=ax.transAxes, verticalalignment="top",
             horizontalalignment='right', fontsize=1, color="w")
 
-    ax.plot([0.05, 0.15], [0.025, 0.025], lw=0.75, color='w', clip_on=False,
+    ax.plot([0.05, 0.15], [0.025, 0.025], lw=0.1, color='w', clip_on=False,
             transform=ax.transAxes)
 
-    ax.plot([0.05, 0.05], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
+    ax.plot([0.05, 0.05], [0.022, 0.027], lw=0.1, color='w', clip_on=False,
             transform=ax.transAxes)
-    ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
+    ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.1, color='w', clip_on=False,
             transform=ax.transAxes)
 
     axis_to_data = ax.transAxes + ax.transData.inverted()
