@@ -129,11 +129,11 @@ def single_frame(num, max_pixel, nframes):
     poss /= (1 + z)
 
     # Get images
-    rgb_DM, extent = getimage(cam_data, poss, hsmls, num, z)
+    rgb_DM, ang_extent = getimage(cam_data, poss, hsmls, num, z)
     i = cam_data[num]
-    print(i['r'])
-    # extent = [0, 2 * boxsize.value + 4,
-    #           0, 2 * boxsize.value + 4]
+    extent = [0, 2 * np.tan(ang_extent[1]) * i['r'],
+                  0, 2 * np.tan(ang_extent[-1]) * i['r']]
+    print(ang_extent, extent)
 
     dpi = rgb_DM.shape[0]
     print(dpi, rgb_DM.shape)
