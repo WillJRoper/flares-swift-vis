@@ -130,7 +130,8 @@ def single_frame(num, max_pixel, nframes):
 
     # Get images
     rgb_DM, extent = getimage(cam_data, poss, hsmls, num, z)
-    print(extent)
+    i = cam_data[num]
+    print(i['r'])
     # extent = [0, 2 * boxsize.value + 4,
     #           0, 2 * boxsize.value + 4]
 
