@@ -61,9 +61,9 @@ def getimage(data, poss, hsml, num, z):
     vmin = 0
 
     # Get colormaps
-    cmap1 = cmr.amethyst(np.linspace(0, 1, 64))
+    cmap1 = cmr.ghostlight(np.linspace(0, 1, 64))
     cmap2 = cmr.cosmic_r(np.linspace(0, 1, 128 - 32))
-    cmap3 = cmr.ghostlight(np.linspace(0, 1, 128 - 32))
+    cmap3 = cmr.amethyst(np.linspace(0, 1, 128 - 32))
 
     # combine them and build a new colormap
     colors = np.vstack((cmap1, cmap2, cmap3))
