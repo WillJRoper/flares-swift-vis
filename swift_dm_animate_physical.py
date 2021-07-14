@@ -42,8 +42,8 @@ def getimage(data, poss, hsml, num, z):
     S = sph.Scene(P)
 
     i = data[num]
-    i['xsize'] = 1920
-    i['ysize'] = 1080
+    i['xsize'] = 3840
+    i['ysize'] = 2160
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
@@ -58,7 +58,7 @@ def getimage(data, poss, hsml, num, z):
           np.percentile(img, 50))
 
     vmax = 5.5
-    vmin = 1
+    vmin = 0.1
 
     # # Get colormaps
     # cmap1 = cmr.dusk(np.linspace(0, 1, 128))
@@ -72,7 +72,7 @@ def getimage(data, poss, hsml, num, z):
 
     cmap = cmr.ghostlight
 
-    img = ndimage.gaussian_filter(img, sigma=(2, 2), order=0)
+    img = ndimage.gaussian_filter(img, sigma=(3, 3), order=0)
 
     # Convert images to rgb arrays
     rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
