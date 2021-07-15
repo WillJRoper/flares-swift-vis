@@ -61,12 +61,11 @@ def getimage(data, poss, hsml, num, z):
     vmin = 0
 
     # Get colormaps
-    cmap1 = cmr.ghostlight(np.linspace(0, 1, 64))
-    cmap2 = cmr.cosmic_r(np.linspace(0, 1, 128 - 32))
-    cmap3 = cmr.amethyst(np.linspace(0, 1, 128 - 32))
+    cmap2 = cmr.torch_r(np.linspace(0, 1, 128))
+    cmap3 = cmr.swamp(np.linspace(0, 1, 128))
 
     # combine them and build a new colormap
-    colors = np.vstack((cmap1, cmap2, cmap3))
+    colors = np.vstack((cmap2, cmap3))
     cmap = mcolors.LinearSegmentedColormap.from_list('colormap', colors)
 
     # cmap = cmr.ghostlight
@@ -151,9 +150,17 @@ def single_frame(num, max_pixel, nframes):
     ax.plot([0.05, 0.15], [0.025, 0.025], lw=0.1, color='w', clip_on=False,
             transform=ax.transAxes)
 
-    ax.plot([0.05, 0.05], [0.022, 0.027], lw=0.1, color='w', clip_on=False,
+    ax.plot([0.05, 0.05], [0.022, 0.027], lw=0.15, color='w', clip_on=False,
             transform=ax.transAxes)
-    ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.1, color='w', clip_on=False,
+    ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.15, color='w', clip_on=False,
+            transform=ax.transAxes)
+
+    ax.plot([0.05, 0.15], [0.105, 0.105], lw=0.1, color='w', clip_on=False,
+            transform=ax.transAxes)
+
+    ax.plot([0.05, 0.05], [0.102, 0.107], lw=0.15, color='w', clip_on=False,
+            transform=ax.transAxes)
+    ax.plot([0.15, 0.15], [0.102, 0.107], lw=0.15, color='w', clip_on=False,
             transform=ax.transAxes)
 
     axis_to_data = ax.transAxes + ax.transData.inverted()
@@ -165,6 +172,9 @@ def single_frame(num, max_pixel, nframes):
           (right[0] - left[0]) / (ang_extent[1] - ang_extent[0]), dist)
 
     if dist > 0.1:
+        ax.text(0.1, 0.145, "%.1f cMpc" % (dist * (1 + z)),
+                transform=ax.transAxes, verticalalignment="top",
+                horizontalalignment='center', fontsize=1, color="w")
         ax.text(0.1, 0.065, "%.1f pMpc" % dist,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=1, color="w")
