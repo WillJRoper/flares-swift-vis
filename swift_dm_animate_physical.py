@@ -114,8 +114,8 @@ def getimage(data, poss, hsml, num, z):
     # colors = np.vstack((cmap2, cmap3))
     # cmap = mcolors.LinearSegmentedColormap.from_list('colormap', colors)
 
-    hex_list = ["#020300", "#36311f", "#59544b", "#7d8ca3", "#79a9d1",
-                "#e6e1c5", "#d4cb92", "#80a4ed", "#bcd3f2", "#ea526f"]
+    hex_list = ["#590925", "#2b2d42", "#007fff", "#7d83ff", "#d4dcff",
+                "#f6511d", "#ffb400", "#f7ec59", "#1affd5", "#7fb800"]
 
     cmap = get_continuous_cmap(hex_list, float_list=None)
 
