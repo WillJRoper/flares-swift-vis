@@ -109,11 +109,10 @@ def getimage(data, poss, hsml, num, z, v):
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
-    R.set_logscale()
     vimg = R.get_image()
 
     img = np.zeros_like(vimg)
-    img[dimg != 0] = vimg[dimg != 0] / dimg[dimg != 0]
+    img[dimg != 0] = np.log10(vimg[dimg != 0] / dimg[dimg != 0])
 
     print(img.max(),
           np.percentile(img, 99),
@@ -228,13 +227,13 @@ def single_frame(num, max_pixel, nframes):
     ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.15, color='w', clip_on=False,
             transform=ax.transAxes)
 
-    ax.plot([0.05, 0.15], [0.105, 0.105], lw=0.1, color='w', clip_on=False,
-            transform=ax.transAxes)
-
-    ax.plot([0.05, 0.05], [0.102, 0.107], lw=0.15, color='w', clip_on=False,
-            transform=ax.transAxes)
-    ax.plot([0.15, 0.15], [0.102, 0.107], lw=0.15, color='w', clip_on=False,
-            transform=ax.transAxes)
+    # ax.plot([0.05, 0.15], [0.105, 0.105], lw=0.1, color='w', clip_on=False,
+    #         transform=ax.transAxes)
+    #
+    # ax.plot([0.05, 0.05], [0.102, 0.107], lw=0.15, color='w', clip_on=False,
+    #         transform=ax.transAxes)
+    # ax.plot([0.15, 0.15], [0.102, 0.107], lw=0.15, color='w', clip_on=False,
+    #         transform=ax.transAxes)
 
     axis_to_data = ax.transAxes + ax.transData.inverted()
     left = axis_to_data.transform((0.05, 0.075))
@@ -245,7 +244,7 @@ def single_frame(num, max_pixel, nframes):
           (right[0] - left[0]) / (ang_extent[1] - ang_extent[0]), dist)
 
     if dist > 0.1:
-        ax.text(0.1, 0.065, '%.1f "' % dist,
+        ax.text(0.1, 0.065, '%.1f ^\circ' % dist,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=1, color="w")
     # elif 100 > dist * 10**3 > 1:
