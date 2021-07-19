@@ -83,6 +83,21 @@ def getimage(data, poss, hsml, num, z, v):
     print('There are', poss.shape[0], 'dark matter particles in the region')
     
     # Set up particle objects
+    P = sph.Particles(poss, mass=np.ones(poss.shape[0]), hsml=hsml)
+
+    # Initialise the scene
+    S = sph.Scene(P)
+
+    i = data[num]
+    i['xsize'] = 3840
+    i['ysize'] = 2160
+    i['roll'] = 0
+    S.update_camera(**i)
+    R = sph.Render(S)
+    R.set_logscale()
+    dimg = R.get_image()
+
+    # Set up particle objects
     P = sph.Particles(poss, mass=v, hsml=hsml)
 
     # Initialise the scene
@@ -95,7 +110,9 @@ def getimage(data, poss, hsml, num, z, v):
     S.update_camera(**i)
     R = sph.Render(S)
     R.set_logscale()
-    img = R.get_image()
+    vimg = R.get_image()
+
+    img = vimg / dimg
 
     print(img.max(),
           np.percentile(img, 99),
@@ -104,7 +121,7 @@ def getimage(data, poss, hsml, num, z, v):
           np.percentile(img, 67.5),
           np.percentile(img, 50))
 
-    vmax = 6.2
+    vmax = 6
     vmin = 0
 
     # # Get colormaps
@@ -156,7 +173,7 @@ def single_frame(num, max_pixel, nframes):
     anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['r'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['r'] = [0.1, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['p'] = [-50, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
@@ -185,8 +202,7 @@ def single_frame(num, max_pixel, nframes):
     # Get images
     rgb_DM, ang_extent = getimage(cam_data, poss, hsmls, num, z, v)
     i = cam_data[num]
-    extent = [0, 2 * np.tan(ang_extent[1]) * i['r'],
-              0, 2 * np.tan(ang_extent[-1]) * i['r']]
+    extent = ang_extent
     print(ang_extent, extent)
 
     dpi = rgb_DM.shape[0]
@@ -228,24 +244,21 @@ def single_frame(num, max_pixel, nframes):
           (right[0] - left[0]) / (ang_extent[1] - ang_extent[0]), dist)
 
     if dist > 0.1:
-        ax.text(0.1, 0.145, "%.1f cMpc" % (dist * (1 + z)),
+        ax.text(0.1, 0.065, '%.1f "' % dist,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=1, color="w")
-        ax.text(0.1, 0.065, "%.1f pMpc" % dist,
-                transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='center', fontsize=1, color="w")
-    elif 100 > dist * 10**3 > 1:
-        ax.text(0.1, 0.065, "%.1f pkpc" % dist * 10**3,
-                transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='center', fontsize=1, color="w")
-    else:
-        ax.text(0.1, 0.065, "%.1f pkpc" % dist * 10**6,
-                transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='center', fontsize=1, color="w")
+    # elif 100 > dist * 10**3 > 1:
+    #     ax.text(0.1, 0.065, "%.1f pkpc" % dist * 10**3,
+    #             transform=ax.transAxes, verticalalignment="top",
+    #             horizontalalignment='center', fontsize=1, color="w")
+    # else:
+    #     ax.text(0.1, 0.065, "%.1f pkpc" % dist * 10**6,
+    #             transform=ax.transAxes, verticalalignment="top",
+    #             horizontalalignment='center', fontsize=1, color="w")
 
     plt.margins(0, 0)
 
-    fig.savefig('plots/Ani/Physical/DM_recession_animation_' + snap + '.png',
+    fig.savefig('plots/Ani/Recession/DM_recession_animation_' + snap + '.png',
                 bbox_inches='tight', pad_inches=0)
     plt.close(fig)
 
