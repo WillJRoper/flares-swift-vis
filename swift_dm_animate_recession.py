@@ -198,6 +198,8 @@ def single_frame(num, max_pixel, nframes):
     dists, _ = tree.query(np.array([0, 0, 0]), k=poss.shape[0])
 
     v = cosmo.H(z) * dists
+    print(cosmo.H(z))
+    print(v)
 
     # Get images
     rgb_DM, ang_extent = getimage(cam_data, poss, hsmls, num, z, v)
@@ -244,7 +246,7 @@ def single_frame(num, max_pixel, nframes):
           (right[0] - left[0]) / (ang_extent[1] - ang_extent[0]), dist)
 
     if dist > 0.1:
-        ax.text(0.1, 0.065, '%.1f ^\circ' % dist,
+        ax.text(0.1, 0.065, '%.1f $^\circ$' % dist,
                 transform=ax.transAxes, verticalalignment="top",
                 horizontalalignment='center', fontsize=1, color="w")
     # elif 100 > dist * 10**3 > 1:
