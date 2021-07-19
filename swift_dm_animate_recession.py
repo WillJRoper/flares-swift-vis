@@ -83,21 +83,6 @@ def getimage(data, poss, hsml, num, z, v):
     print('There are', poss.shape[0], 'dark matter particles in the region')
     
     # Set up particle objects
-    P = sph.Particles(poss, mass=np.ones(poss.shape[0]), hsml=hsml)
-
-    # Initialise the scene
-    S = sph.Scene(P)
-
-    i = data[num]
-    i['xsize'] = 3840
-    i['ysize'] = 2160
-    i['roll'] = 0
-    S.update_camera(**i)
-    R = sph.Render(S)
-    R.set_logscale()
-    dimg = R.get_image()
-
-    # Set up particle objects
     P = sph.Particles(poss, mass=v, hsml=hsml)
 
     # Initialise the scene
@@ -109,10 +94,8 @@ def getimage(data, poss, hsml, num, z, v):
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
-    vimg = R.get_image()
-
-    img = np.zeros_like(vimg)
-    img[dimg != 0] = np.log10(vimg[dimg != 0] / dimg[dimg != 0])
+    R.set_logscale()
+    img = R.get_image()
 
     print(img.max(),
           np.percentile(img, 99),
@@ -121,7 +104,7 @@ def getimage(data, poss, hsml, num, z, v):
           np.percentile(img, 67.5),
           np.percentile(img, 50))
 
-    vmax = 7.4
+    vmax = 6
     vmin = 0
 
     # # Get colormaps
