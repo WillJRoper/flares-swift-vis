@@ -112,7 +112,8 @@ def getimage(data, poss, hsml, num, z, v):
     R.set_logscale()
     vimg = R.get_image()
 
-    img = vimg / dimg
+    img = np.zero_like(vimg)
+    img[dimg != 0] = vimg[dimg != 0] / dimg[dimg != 0]
 
     print(img.max(),
           np.percentile(img, 99),
