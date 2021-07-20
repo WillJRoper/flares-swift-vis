@@ -263,10 +263,10 @@ def single_frame(num, max_pixel, nframes):
     for tick in cbar.ax.xaxis.get_major_ticks():
         tick.label.set_fontsize(0.1)
         tick.label.set_color("w")
-        tick.label.set_y(5)
+        tick.label.set_y(7)
     cbar.ax.tick_params(axis='x', color='w', size=0.3, width=0.1)
     cbar.ax.set_xlabel("$\log_{10}(T / [\mathrm{K}])$", color='w',
-                       fontsize=0.4, labelpad=-2)
+                       fontsize=0.4, labelpad=-1)
     cbar.outline.set_edgecolor('white')
     cbar.outline.set_linewidth(0.05)
 
