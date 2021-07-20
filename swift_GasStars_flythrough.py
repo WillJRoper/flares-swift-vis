@@ -240,7 +240,7 @@ def single_frame(num, max_pixel, nframes):
     fig = plt.figure(figsize=(1, 1.77777777778), dpi=dpi)
     ax = fig.add_subplot(111)
 
-    ax.imshow(rgb_output, extent=extent, origin='lower')
+    ax.imshow(rgb_output, extent=ang_extent, origin='lower')
     ax.tick_params(axis='both', left=False, top=False, right=False,
                    bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
