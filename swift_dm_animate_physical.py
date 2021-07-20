@@ -117,7 +117,8 @@ def getimage(data, poss, hsml, num, z):
     hex_list = ["#000000", "#590925", "#6c1c55", "#7e2e84", "#ba4051",
                 "#f6511d", "#ffb400", "#f7ec59", "#fbf6ac", "#ffffff"]
 
-    cmap = get_continuous_cmap(hex_list, float_list=None)
+    #cmap = get_continuous_cmap(hex_list, float_list=None)
+    cmap = cmr.sepia
 
     img = ndimage.gaussian_filter(img, sigma=(3, 3), order=0)
 
