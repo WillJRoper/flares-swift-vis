@@ -224,8 +224,8 @@ def single_frame(num, max_pixel, nframes):
                    labeltop=False, labelright=False, labelbottom=False)
 
     ax.text(0.975, 0.975,
-            "$\log_{10}(T_{\mathrm{min}})=$%.1f K \n" % np.log10(np.min(temp))
-            + "$\log_{10}(T_{\mathrm{max}})=$%.1f K" % np.log10(np.max(temp)),
+            "$\log_{10}(T_{\mathrm{min}} / [\mathrm{K}])=$%.1f \n" % np.log10(np.min(temp))
+            + "$\log_{10}(T_{\mathrm{max}} / [\mathrm{K}])=$%.1f K" % np.log10(np.max(temp)),
             transform=ax.transAxes, verticalalignment="top",
             horizontalalignment='right', fontsize=0.7, color="w")
 
@@ -263,9 +263,10 @@ def single_frame(num, max_pixel, nframes):
     for tick in cbar.ax.xaxis.get_major_ticks():
         tick.label.set_fontsize(0.1)
         tick.label.set_color("w")
+        tick.label.set_y(-0.1)
     cbar.ax.tick_params(axis='x', color='w', size=0.3, width=0.1)
     cbar.ax.set_xlabel("$\log_{10}(T / [\mathrm{K}])$", color='w',
-                       fontsize=0.6)
+                       fontsize=0.6, labelpad=-1)
     cbar.outline.set_edgecolor('white')
     cbar.outline.set_linewidth(0.05)
 
