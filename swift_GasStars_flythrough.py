@@ -265,18 +265,9 @@ def single_frame(num, max_pixel, nframes):
     print(left, right,
           (right[0] - left[0]) / (ang_extent[1] - ang_extent[0]), dist)
 
-    if dist > 0.1:
-        ax.text(0.1, 0.065, "%.1f cMpc" % dist,
-                transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='center', fontsize=1, color="w")
-    elif 100 > dist * 10 ** 3 > 1:
-        ax.text(0.1, 0.065, "%.1f pkpc" % dist * 10 ** 3,
-                transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='center', fontsize=1, color="w")
-    else:
-        ax.text(0.1, 0.065, "%.1f pkpc" % dist * 10 ** 6,
-                transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='center', fontsize=1, color="w")
+    ax.text(0.1, 0.065, "%.2f cMpc" % dist,
+            transform=ax.transAxes, verticalalignment="top",
+            horizontalalignment='center', fontsize=1, color="w")
 
     plt.margins(0, 0)
 
