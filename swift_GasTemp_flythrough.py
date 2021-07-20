@@ -227,7 +227,7 @@ def single_frame(num, max_pixel, nframes):
             "$\log_{10}(T_{\mathrm{min}} / [\mathrm{K}])=$%.1f \n" % np.log10(np.min(temp))
             + "$\log_{10}(T_{\mathrm{max}} / [\mathrm{K}])=$%.1f K" % np.log10(np.max(temp)),
             transform=ax.transAxes, verticalalignment="top",
-            horizontalalignment='right', fontsize=0.7, color="w")
+            horizontalalignment='right', fontsize=0.5, color="w")
 
     ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
             transform=ax.transAxes, verticalalignment="top",
@@ -261,12 +261,12 @@ def single_frame(num, max_pixel, nframes):
     labels = ["$\leq3.5$", "5", "6", "$7.5\leq$"]
     cbar.ax.set_xticklabels(labels)
     for tick in cbar.ax.xaxis.get_major_ticks():
-        tick.label.set_fontsize(0.1)
+        tick.label.set_fontsize(0.05)
         tick.label.set_color("w")
         tick.label.set_y(7)
     cbar.ax.tick_params(axis='x', color='w', size=0.3, width=0.1)
     cbar.ax.set_xlabel("$\log_{10}(T / [\mathrm{K}])$", color='w',
-                       fontsize=0.4, labelpad=-1)
+                       fontsize=0.2, labelpad=-0.5)
     cbar.outline.set_edgecolor('white')
     cbar.outline.set_linewidth(0.05)
 
