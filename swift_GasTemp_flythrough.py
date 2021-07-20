@@ -101,8 +101,8 @@ def getimage(data, poss, temp, mass, hsml, num, max_pixel, cmap, Type="gas"):
     img2 = R2.get_image()
     img = img1 - img2
 
-    vmax = 7
-    vmin = 4
+    vmax = 8
+    vmin = 3.5
     print("gas temperature", np.min(img), np.max(img))
 
     # Convert images to rgb arrays
@@ -186,12 +186,12 @@ def single_frame(num, max_pixel, nframes):
     temp = data.gas.temperatures.value
     mass = data.gas.masses.value * 10 ** 10
     
-    print(temp.max(),
-          np.percentile(temp, 99),
-          np.percentile(temp, 95),
-          np.percentile(temp, 90),
-          np.percentile(temp, 67.5),
-          np.percentile(temp, 50))
+    print(np.log10(temp.max()),
+          np.log10(np.percentile(temp, 99)),
+          np.log10(np.percentile(temp, 95)),
+          np.log10(np.percentile(temp, 90)),
+          np.log10(np.percentile(temp, 67.5)),
+          np.log10(np.percentile(temp, 50)))
 
     # okinds = np.linalg.norm(poss - cent, axis=1) < 1
     # cent = np.average(poss[okinds], weights=rho_gas[okinds], axis=0)
