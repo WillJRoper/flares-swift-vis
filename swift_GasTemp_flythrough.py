@@ -75,7 +75,7 @@ def get_normalised_image(img, vmin=None, vmax=None):
     return img
 
 
-def getimage(data, poss, temp, mass, hsml, num, max_pixel, cmap, Type="gas"):
+def getimage(data, poss, temp, mass, hsml, num, norm, cmap):
 
     print('There are', poss.shape[0], 'gas particles in the region')
     
@@ -106,7 +106,7 @@ def getimage(data, poss, temp, mass, hsml, num, max_pixel, cmap, Type="gas"):
     print("gas temperature", np.min(img), np.max(img))
 
     # Convert images to rgb arrays
-    rgb = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
+    rgb = cmap(norm(img))
 
     return rgb, R1.get_extent()
 
@@ -179,10 +179,10 @@ def single_frame(num, max_pixel, nframes):
     hex_list = ["#590925", "#6c1c55", "#7e2e84", "#ba4051",
                 "#f6511d", "#ffb400", "#f7ec59", "#fbf6ac",
                 "#ffffff"]
-    float_list = [3.5, 3.75, 4, 4.5, 4.75, 5, 5.5, 6., 7.5]
+    float_list = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.8, 1]
 
     cmap = get_continuous_cmap(hex_list, float_list=float_list)
-    norm = plt.Normalize(vmin=3.5, vmax=7.5)
+    norm = plt.Normalize(vmin=3.5, vmax=7.5, clip=True)
 
     poss = data.gas.coordinates.value
     temp = data.gas.temperatures.value
@@ -207,7 +207,7 @@ def single_frame(num, max_pixel, nframes):
 
     # Get images
     rgb_output, ang_extent = getimage(cam_data, poss, temp, mass, hsmls, num,
-                                  max_pixel, cmap, Type="gas")
+                                      norm, cmap)
 
     i = cam_data[num]
     extent = [0, 2 * np.tan(ang_extent[1]) * i['r'],
