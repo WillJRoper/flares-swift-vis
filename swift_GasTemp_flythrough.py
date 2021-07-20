@@ -7,12 +7,59 @@ from sphviewer.tools import QuickView, cmaps, camera_tools, Blend
 from matplotlib.colors import LogNorm
 import matplotlib.pyplot as plt
 from astropy.cosmology import Planck13 as cosmo
+import matplotlib.colors as mcolors
 import sys
 from guppy import hpy; h=hpy()
 import os
 from swiftsimio import load
 import unyt
 import gc
+
+
+def hex_to_rgb(value):
+    '''
+    Converts hex to rgb colours
+    value: string of 6 characters representing a hex colour.
+    Returns: list length 3 of RGB values'''
+    value = value.strip("#") # removes hash symbol if present
+    lv = len(value)
+    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+
+
+def rgb_to_dec(value):
+    '''
+    Converts rgb to decimal colours (i.e. divides each value by 256)
+    value: list (length 3) of RGB values
+    Returns: list (length 3) of decimal values'''
+    return [v/256 for v in value]
+
+
+def get_continuous_cmap(hex_list, float_list=None):
+    ''' creates and returns a color map that can be used in heat map figures.
+        If float_list is not provided, colour map graduates linearly between each color in hex_list.
+        If float_list is provided, each color in hex_list is mapped to the respective location in float_list.
+
+        Parameters
+        ----------
+        hex_list: list of hex code strings
+        float_list: list of floats between 0 and 1, same length as hex_list. Must start with 0 and end with 1.
+
+        Returns
+        ----------
+        colour map'''
+    rgb_list = [rgb_to_dec(hex_to_rgb(i)) for i in hex_list]
+    if float_list:
+        pass
+    else:
+        float_list = list(np.linspace(0, 1, len(rgb_list)))
+
+    cdict = dict()
+    for num, col in enumerate(['red', 'green', 'blue']):
+        col_list = [[float_list[i], rgb_list[i][num], rgb_list[i][num]] for i
+                    in range(len(float_list))]
+        cdict[col] = col_list
+    cmp = mcolors.LinearSegmentedColormap('my_cmp', segmentdata=cdict, N=256)
+    return cmp
 
 
 def get_normalised_image(img, vmin=None, vmax=None):
@@ -41,8 +88,8 @@ def getimage(data, poss, temp, mass, hsml, num, max_pixel, cmap, Type="gas"):
     S2 = sph.Scene(P2)
 
     i = data[num]
-    i['xsize'] = 5000
-    i['ysize'] = 5000
+    i['xsize'] = 3840
+    i['ysize'] = 2160
     i['roll'] = 0
     S1.update_camera(**i)
     S2.update_camera(**i)
@@ -128,7 +175,11 @@ def single_frame(num, max_pixel, nframes):
 
     # Get colormap
     # cmap = cmaps.sunlight()
-    cmap = ml.cm.magma
+
+    hex_list = ["#000000", "#590925", "#6c1c55", "#7e2e84", "#ba4051",
+                "#f6511d", "#ffb400", "#f7ec59", "#fbf6ac", "#ffffff"]
+
+    cmap = get_continuous_cmap(hex_list, float_list=None)
     norm = plt.Normalize(vmin=4, vmax=7)
 
     poss = data.gas.coordinates.value
@@ -146,22 +197,22 @@ def single_frame(num, max_pixel, nframes):
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
     # Get images
-    rgb_output, extent = getimage(cam_data, poss, temp, mass, hsmls, num,
+    rgb_output, ang_extent = getimage(cam_data, poss, temp, mass, hsmls, num,
                                   max_pixel, cmap, Type="gas")
 
-    extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
-              0, 2 * anchors["r"][num] / anchors["zoom"][num]]
+    i = cam_data[num]
+    extent = [0, 2 * np.tan(ang_extent[1]) * i['r'],
+              0, 2 * np.tan(ang_extent[-1]) * i['r']]
+    print(ang_extent, extent)
 
-    fig = plt.figure(figsize=(4, 4))
+    dpi = rgb_output.shape[0]
+    print(dpi, rgb_output.shape)
+    fig = plt.figure(figsize=(1, 1.77777777778), dpi=dpi)
     ax = fig.add_subplot(111)
 
-    ax.imshow(rgb_output, extent=extent, origin='lower')
+    ax.imshow(rgb_output, extent=ang_extent, origin='lower')
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
-
-    ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
-            transform=ax.transAxes, verticalalignment="top",
-            horizontalalignment='right', fontsize=5, color="w")
 
     ax.text(0.975, 0.975,
             "$\log_{10}(T_{\mathrm{min}})=$%.1f K \n" % np.log10(np.min(temp))
@@ -169,31 +220,29 @@ def single_frame(num, max_pixel, nframes):
             transform=ax.transAxes, verticalalignment="top",
             horizontalalignment='right', fontsize=5, color="w")
 
-    ax.plot([0.05, 0.15], [0.025, 0.025], lw=0.75, color='w', clip_on=False,
+    ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
+            transform=ax.transAxes, verticalalignment="top",
+            horizontalalignment='right', fontsize=1, color="w")
+
+    ax.plot([0.05, 0.15], [0.025, 0.025], lw=0.1, color='w', clip_on=False,
             transform=ax.transAxes)
 
-    ax.plot([0.05, 0.05], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
+    ax.plot([0.05, 0.05], [0.022, 0.027], lw=0.15, color='w', clip_on=False,
             transform=ax.transAxes)
-    ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.75, color='w', clip_on=False,
+    ax.plot([0.15, 0.15], [0.022, 0.027], lw=0.15, color='w', clip_on=False,
             transform=ax.transAxes)
 
     axis_to_data = ax.transAxes + ax.transData.inverted()
     left = axis_to_data.transform((0.05, 0.075))
     right = axis_to_data.transform((0.15, 0.075))
-    dist = right[0] - left[0]
+    dist = extent[1] * (right[0] - left[0]) / (ang_extent[1] - ang_extent[0])
 
-    if dist > 0.1:
-        ax.text(0.1, 0.06, "%.1f cMpc" % dist,
-                transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='center', fontsize=5, color="w")
-    elif 100 > dist * 10**3 > 1:
-        ax.text(0.1, 0.06, "%.1f ckpc" % dist * 10**3,
-                transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='center', fontsize=5, color="w")
-    else:
-        ax.text(0.1, 0.06, "%.1f cpc" % dist * 10**6,
-                transform=ax.transAxes, verticalalignment="top",
-                horizontalalignment='center', fontsize=5, color="w")
+    print(left, right,
+          (right[0] - left[0]) / (ang_extent[1] - ang_extent[0]), dist)
+
+    ax.text(0.1, 0.065, "%.2f cMpc" % dist,
+            transform=ax.transAxes, verticalalignment="top",
+            horizontalalignment='center', fontsize=1, color="w")
 
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     sm._A = []  # # fake up the array of the scalar mappable
