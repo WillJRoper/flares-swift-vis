@@ -217,9 +217,9 @@ def single_frame(num, max_pixel, nframes):
               0, 2 * np.tan(ang_extent[-1]) * i['r']]
     print(ang_extent, extent)
 
-    dpi = rgb_output.shape[0]
+    dpi = rgb_output.shape[0] / 2
     print(dpi, rgb_output.shape)
-    fig = plt.figure(figsize=(1, 1.77777777778), dpi=dpi)
+    fig = plt.figure(figsize=(2, 2 * 1.77777777778), dpi=dpi)
     ax = fig.add_subplot(111)
 
     ax.imshow(rgb_output, extent=ang_extent, origin='lower')
