@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="434f4938-e556-4aae-b9a9-5cc711a21831" name="Default Changelist" comment="" />
+    <list default="true" id="434f4938-e556-4aae-b9a9-5cc711a21831" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/swift_GasStars_flythrough.py" beforeDir="false" afterPath="$PROJECT_DIR$/swift_GasStars_flythrough.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swift_GasTemp_flythrough.py" beforeDir="false" afterPath="$PROJECT_DIR$/swift_GasTemp_flythrough.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -122,7 +125,7 @@
       <workItem from="1623416750877" duration="591000" />
       <workItem from="1624975318090" duration="104000" />
       <workItem from="1624975435875" duration="7000" />
-      <workItem from="1626174153708" duration="36544000" />
+      <workItem from="1626174153708" duration="36826000" />
     </task>
     <servers />
   </component>
@@ -143,16 +146,5 @@
     </state>
     <state x="465" y="358" key="com.intellij.ide.util.TipDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1624975366531" />
     <state x="531" y="368" key="com.intellij.ide.util.TipDialog/0.23.1920.1057/-1680.283.1680.1027/1920.23.1920.1057@0.23.1920.1057" timestamp="1620224377886" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/swift_GasStars_flythrough.py</url>
-          <line>250</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
