@@ -6,12 +6,59 @@ import sphviewer as sph
 from sphviewer.tools import QuickView, cmaps, camera_tools, Blend
 import matplotlib.pyplot as plt
 from astropy.cosmology import Planck13 as cosmo
+import matplotlib.colors as mcolors
 import sys
 from guppy import hpy; h=hpy()
 import os
 from swiftsimio import load
 import unyt
 import gc
+
+
+def hex_to_rgb(value):
+    '''
+    Converts hex to rgb colours
+    value: string of 6 characters representing a hex colour.
+    Returns: list length 3 of RGB values'''
+    value = value.strip("#") # removes hash symbol if present
+    lv = len(value)
+    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+
+
+def rgb_to_dec(value):
+    '''
+    Converts rgb to decimal colours (i.e. divides each value by 256)
+    value: list (length 3) of RGB values
+    Returns: list (length 3) of decimal values'''
+    return [v/256 for v in value]
+
+
+def get_continuous_cmap(hex_list, float_list=None):
+    ''' creates and returns a color map that can be used in heat map figures.
+        If float_list is not provided, colour map graduates linearly between each color in hex_list.
+        If float_list is provided, each color in hex_list is mapped to the respective location in float_list.
+
+        Parameters
+        ----------
+        hex_list: list of hex code strings
+        float_list: list of floats between 0 and 1, same length as hex_list. Must start with 0 and end with 1.
+
+        Returns
+        ----------
+        colour map'''
+    rgb_list = [rgb_to_dec(hex_to_rgb(i)) for i in hex_list]
+    if float_list:
+        pass
+    else:
+        float_list = list(np.linspace(0, 1, len(rgb_list)))
+
+    cdict = dict()
+    for num, col in enumerate(['red', 'green', 'blue']):
+        col_list = [[float_list[i], rgb_list[i][num], rgb_list[i][num]] for i
+                    in range(len(float_list))]
+        cdict[col] = col_list
+    cmp = mcolors.LinearSegmentedColormap('my_cmp', segmentdata=cdict, N=256)
+    return cmp
 
 
 def get_normalised_image(img, vmin=None, vmax=None):
@@ -40,8 +87,8 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
     S = sph.Scene(P)
 
     i = data[num]
-    i['xsize'] = 5000
-    i['ysize'] = 5000
+    i['xsize'] = 3840
+    i['ysize'] = 2160
     i['roll'] = 0
     S.update_camera(**i)
     R = sph.Render(S)
@@ -68,7 +115,7 @@ def single_frame(num, max_pixel, nframes):
     snap = "%04d" % num
 
     # Define path
-    path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/hydro_1380/data/ani_hydro_' + snap + ".hdf5"
+    path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/hydro_1380_ani/data/ani_hydro_' + snap + ".hdf5"
 
     snap = "%05d" % num
 
@@ -125,9 +172,10 @@ def single_frame(num, max_pixel, nframes):
     # Define the camera trajectory
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
 
-    # Get colormap
-    # cmap = cmaps.sunlight()
-    cmap = ml.cm.magma
+    hex_list = ["#000000", "#590925", "#6c1c55", "#7e2e84", "#ba4051",
+                "#f6511d", "#ffb400", "#f7ec59", "#fbf6ac", "#ffffff"]
+
+    cmap = get_continuous_cmap(hex_list, float_list=None)
 
     poss = data.gas.coordinates.value
     mass = data.gas.masses.value * 10 ** 10
@@ -161,7 +209,7 @@ def single_frame(num, max_pixel, nframes):
             last_snap = "%04d" % (num - 1)
 
             # Define path
-            path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/hydro_1380/data/ani_hydro_' + last_snap + ".hdf5"
+            path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/hydro_1380_ani/data/ani_hydro_' + last_snap + ".hdf5"
 
             data = load(path)
             old_hsmls = data.stars.smoothing_lengths.value
@@ -182,10 +230,16 @@ def single_frame(num, max_pixel, nframes):
     blend = Blend.Blend(rgb_gas, rgb_stars)
     rgb_output = blend.Screen()
 
-    extent = [0, 2 * anchors["r"][num] / anchors["zoom"][num],
-              0, 2 * anchors["r"][num] / anchors["zoom"][num]]
+    # Get images
+    rgb_DM, ang_extent = getimage(cam_data, poss, hsmls, num, z)
+    i = cam_data[num]
+    extent = [0, 2 * np.tan(ang_extent[1]) * i['r'],
+              0, 2 * np.tan(ang_extent[-1]) * i['r']]
+    print(ang_extent, extent)
 
-    fig = plt.figure(figsize=(4, 4))
+    dpi = rgb_DM.shape[0]
+    print(dpi, rgb_DM.shape)
+    fig = plt.figure(figsize=(1, 1.77777777778), dpi=dpi)
     ax = fig.add_subplot(111)
 
     ax.imshow(rgb_output, extent=extent, origin='lower')
