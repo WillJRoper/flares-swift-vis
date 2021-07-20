@@ -101,7 +101,7 @@ def getimage(data, poss, temp, mass, hsml, num, max_pixel, cmap, Type="gas"):
     img2 = R2.get_image()
     img = img1 - img2
 
-    vmax = 8
+    vmax = 7.5
     vmin = 3.5
     print("gas temperature", np.min(img), np.max(img))
 
@@ -180,7 +180,7 @@ def single_frame(num, max_pixel, nframes):
                 "#f6511d", "#ffb400", "#f7ec59", "#fbf6ac", "#ffffff"]
 
     cmap = get_continuous_cmap(hex_list, float_list=None)
-    norm = plt.Normalize(vmin=4, vmax=7)
+    norm = plt.Normalize(vmin=3.5, vmax=7.5)
 
     poss = data.gas.coordinates.value
     temp = data.gas.temperatures.value
@@ -255,13 +255,13 @@ def single_frame(num, max_pixel, nframes):
     sm._A = []  # # fake up the array of the scalar mappable
     cbaxes = ax.inset_axes([0.05, 0.95, 0.25, 0.015])
     cbar = plt.colorbar(sm, cax=cbaxes, orientation="horizontal")
-    cbar.set_ticks([4, 5, 6, 7])
-    labels = ["$\leq4$", "5", "6", "$7\leq$"]
+    cbar.set_ticks([3.5, 5, 6, 7.5])
+    labels = ["$\leq3.5$", "5", "6", "$7.5\leq$"]
     cbar.ax.set_xticklabels(labels)
     for tick in cbar.ax.xaxis.get_major_ticks():
         tick.label.set_fontsize(0.2)
         tick.label.set_color("w")
-    cbar.ax.tick_params(axis='x', color='w', size=0.1)
+    cbar.ax.tick_params(axis='x', color='w', size=0.4, width=0.1)
     cbar.ax.set_xlabel("$\log_{10}(T / [\mathrm{K}])$", color='w', fontsize=0.6)
     cbar.outline.set_edgecolor('white')
     cbar.outline.set_linewidth(0.1)
