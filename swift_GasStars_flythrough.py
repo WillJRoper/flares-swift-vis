@@ -7,6 +7,7 @@ from sphviewer.tools import QuickView, cmaps, camera_tools, Blend
 import matplotlib.pyplot as plt
 from astropy.cosmology import Planck13 as cosmo
 import matplotlib.colors as mcolors
+import scipy.ndimage as ndimage
 import sys
 from guppy import hpy; h=hpy()
 import os
@@ -94,6 +95,8 @@ def getimage(data, poss, mass, hsml, num, max_pixel, cmap, Type="gas"):
     R = sph.Render(S)
     R.set_logscale()
     img = R.get_image()
+
+    img = ndimage.gaussian_filter(img, sigma=(3, 3), order=0)
 
     if Type == "gas":
         vmax =11
