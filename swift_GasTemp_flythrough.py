@@ -228,7 +228,7 @@ def single_frame(num, max_pixel, nframes):
 
     ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
             transform=ax.transAxes, verticalalignment="top",
-            horizontalalignment='right', fontsize=1, color="w")
+            horizontalalignment='right', fontsize=2, color="w")
 
     ax.plot([0.05, 0.15], [0.025, 0.025], lw=0.1, color='w', clip_on=False,
             transform=ax.transAxes)
@@ -246,7 +246,7 @@ def single_frame(num, max_pixel, nframes):
     print(left, right,
           (right[0] - left[0]) / (ang_extent[1] - ang_extent[0]), dist)
 
-    ax.text(0.1, 0.065, "%.2f cMpc" % dist,
+    ax.text(0.1, 0.055, "%.2f cMpc" % dist,
             transform=ax.transAxes, verticalalignment="top",
             horizontalalignment='center', fontsize=1, color="w")
 
@@ -260,7 +260,7 @@ def single_frame(num, max_pixel, nframes):
     for tick in cbar.ax.xaxis.get_major_ticks():
         tick.label.set_fontsize("xx-small")
         tick.label.set_color("w")
-        tick.label.set_y(7)
+        tick.label.set_y(1)
     cbar.ax.tick_params(axis='x', color='w', size=0.3, width=0.1)
     cbar.ax.set_xlabel(r"$\log_{10}\left(T / [\mathrm{K}]\right)$", color='w',
                        fontsize=0.2, labelpad=-0.1)
