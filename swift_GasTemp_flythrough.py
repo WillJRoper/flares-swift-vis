@@ -223,12 +223,6 @@ def single_frame(num, max_pixel, nframes):
     ax.tick_params(axis='both', left=False, top=False, right=False, bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
 
-    ax.text(0.975, 0.975,
-            "$\log_{10}(T_{\mathrm{min}} / [\mathrm{K}])=$%.1f \n" % np.log10(np.min(temp))
-            + "$\log_{10}(T_{\mathrm{max}} / [\mathrm{K}])=$%.1f K" % np.log10(np.max(temp)),
-            transform=ax.transAxes, verticalalignment="top",
-            horizontalalignment='right', fontsize=0.5, color="w")
-
     ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
             transform=ax.transAxes, verticalalignment="top",
             horizontalalignment='right', fontsize=1, color="w")
