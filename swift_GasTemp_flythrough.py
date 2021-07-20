@@ -176,10 +176,12 @@ def single_frame(num, max_pixel, nframes):
     # Get colormap
     # cmap = cmaps.sunlight()
 
-    hex_list = ["#000000", "#590925", "#6c1c55", "#7e2e84", "#ba4051",
-                "#f6511d", "#ffb400", "#f7ec59", "#fbf6ac", "#ffffff"]
+    hex_list = ["#590925", "#6c1c55", "#7e2e84", "#ba4051",
+                "#f6511d", "#ffb400", "#f7ec59", "#fbf6ac",
+                "#ffffff"]
+    float_list = [3.5, 3.75, 4, 4.5, 4.75, 5, 5.5, 6., 7.5]
 
-    cmap = get_continuous_cmap(hex_list, float_list=None)
+    cmap = get_continuous_cmap(hex_list, float_list=float_list)
     norm = plt.Normalize(vmin=3.5, vmax=7.5)
 
     poss = data.gas.coordinates.value
@@ -259,12 +261,13 @@ def single_frame(num, max_pixel, nframes):
     labels = ["$\leq3.5$", "5", "6", "$7.5\leq$"]
     cbar.ax.set_xticklabels(labels)
     for tick in cbar.ax.xaxis.get_major_ticks():
-        tick.label.set_fontsize(0.2)
+        tick.label.set_fontsize(0.1)
         tick.label.set_color("w")
-    cbar.ax.tick_params(axis='x', color='w', size=0.4, width=0.1)
-    cbar.ax.set_xlabel("$\log_{10}(T / [\mathrm{K}])$", color='w', fontsize=0.6)
+    cbar.ax.tick_params(axis='x', color='w', size=0.3, width=0.1)
+    cbar.ax.set_xlabel("$\log_{10}(T / [\mathrm{K}])$", color='w',
+                       fontsize=0.6, pad=-0.1)
     cbar.outline.set_edgecolor('white')
-    cbar.outline.set_linewidth(0.1)
+    cbar.outline.set_linewidth(0.05)
 
     plt.margins(0, 0)
 
