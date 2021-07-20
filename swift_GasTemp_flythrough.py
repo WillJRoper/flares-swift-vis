@@ -225,7 +225,7 @@ def single_frame(num, max_pixel, nframes):
             "$\log_{10}(T_{\mathrm{min}})=$%.1f K \n" % np.log10(np.min(temp))
             + "$\log_{10}(T_{\mathrm{max}})=$%.1f K" % np.log10(np.max(temp)),
             transform=ax.transAxes, verticalalignment="top",
-            horizontalalignment='right', fontsize=1, color="w")
+            horizontalalignment='right', fontsize=0.7, color="w")
 
     ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
             transform=ax.transAxes, verticalalignment="top",
@@ -259,17 +259,17 @@ def single_frame(num, max_pixel, nframes):
     labels = ["$\leq4$", "5", "6", "$7\leq$"]
     cbar.ax.set_xticklabels(labels)
     for tick in cbar.ax.xaxis.get_major_ticks():
-        tick.label.set_fontsize(0.7)
+        tick.label.set_fontsize(0.2)
         tick.label.set_color("w")
-    cbar.ax.tick_params(axis='x', color='w', size=1)
-    cbar.ax.set_xlabel("$\log_{10}(T / [\mathrm{K}])$", color='w', fontsize=1)
+    cbar.ax.tick_params(axis='x', color='w', size=0.1)
+    cbar.ax.set_xlabel("$\log_{10}(T / [\mathrm{K}])$", color='w', fontsize=0.6)
     cbar.outline.set_edgecolor('white')
     cbar.outline.set_linewidth(0.1)
 
     plt.margins(0, 0)
 
     fig.savefig('plots/Ani/GasTemp_flythrough_' + snap + '.png',
-                bbox_inches='tight', dpi=1200,
+                bbox_inches='tight',
                 pad_inches=0)
 
     plt.close(fig)

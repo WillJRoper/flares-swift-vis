@@ -275,7 +275,7 @@ def single_frame(num, max_pixel, nframes):
     plt.margins(0, 0)
 
     fig.savefig('plots/Ani/GasStars_flythrough_' + snap + '.png',
-                bbox_inches='tight', dpi=1200,
+                bbox_inches='tight',
                 pad_inches=0)
 
     plt.close(fig)
