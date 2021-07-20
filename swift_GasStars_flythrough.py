@@ -177,8 +177,9 @@ def single_frame(num, max_pixel, nframes):
 
     hex_list = ["#000000", "#590925", "#6c1c55", "#7e2e84", "#ba4051",
                 "#f6511d", "#ffb400", "#f7ec59", "#fbf6ac", "#ffffff"]
+    float_list = [0, 0.1, 0.2, 0.3, 0.4, 0.45, 0.5, 0.6, 0.8, 1]
 
-    cmap = get_continuous_cmap(hex_list, float_list=None)
+    cmap = get_continuous_cmap(hex_list, float_list=float_list)
 
     poss = data.gas.coordinates.value
     mass = data.gas.masses.value * 10 ** 10
