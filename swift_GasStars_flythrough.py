@@ -192,7 +192,7 @@ def single_frame(num, max_pixel, nframes):
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
     # Get images
-    rgb_gas, extent = getimage(cam_data, poss, mass, hsmls, num, max_pixel,
+    rgb_gas, ang_extent = getimage(cam_data, poss, mass, hsmls, num, max_pixel,
                                cmap, Type="gas")
 
     # Get colormap
@@ -222,7 +222,7 @@ def single_frame(num, max_pixel, nframes):
         poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
         # Get images
-        rgb_stars, extent = getimage(cam_data, poss, mass, hsmls, num,
+        rgb_stars, ang_extent = getimage(cam_data, poss, mass, hsmls, num,
                                      max_pixel, cmap, Type="star")
     except AttributeError:
         rgb_stars = np.zeros_like(rgb_gas)
@@ -230,8 +230,6 @@ def single_frame(num, max_pixel, nframes):
     blend = Blend.Blend(rgb_gas, rgb_stars)
     rgb_output = blend.Screen()
 
-    # Get images
-    rgb_DM, ang_extent = getimage(cam_data, poss, hsmls, num, z)
     i = cam_data[num]
     extent = [0, 2 * np.tan(ang_extent[1]) * i['r'],
               0, 2 * np.tan(ang_extent[-1]) * i['r']]
