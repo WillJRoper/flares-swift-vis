@@ -6,6 +6,7 @@ import sphviewer as sph
 from sphviewer.tools import QuickView, cmaps, camera_tools, Blend
 from matplotlib.colors import LogNorm
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 from astropy.cosmology import Planck13 as cosmo
 import matplotlib.colors as mcolors
 import sys
@@ -14,6 +15,8 @@ import os
 from swiftsimio import load
 import unyt
 import gc
+
+mpl.rcParams.update({'font.size': 1})
 
 
 def hex_to_rgb(value):
@@ -255,7 +258,7 @@ def single_frame(num, max_pixel, nframes):
     labels = ["$\leq3.5$", "5", "6", "$7.5\leq$"]
     cbar.ax.set_xticklabels(labels)
     for tick in cbar.ax.xaxis.get_major_ticks():
-        tick.label.set_fontsize(0.05)
+        tick.label.set_fontsize("xx-small")
         tick.label.set_color("w")
         tick.label.set_y(7)
     cbar.ax.tick_params(axis='x', color='w', size=0.3, width=0.1)
