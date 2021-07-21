@@ -342,7 +342,7 @@ def single_frame(num, max_pixel, nframes):
 
     plt.margins(0, 0)
 
-    fig.savefig('plots/Ani/GasTemp_flythrough_' + snap + '.png',
+    fig.savefig('plots/Ani/GasTempStars_flythrough_' + snap + '.png',
                 bbox_inches='tight',
                 pad_inches=0)
 
