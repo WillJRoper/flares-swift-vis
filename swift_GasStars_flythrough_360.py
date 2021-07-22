@@ -152,7 +152,7 @@ def single_frame(num, max_pixel, nframes):
     extent = np.full(len(id_frames), 10)
 
     t_projs = [90, 90, 90, 90, 0, 180]
-    p_projs = [0, 180, 90, 270, 360, 360]
+    p_projs = [0, 180, 90, 270, 90, 90]
     projs = [(1, 0, 0), (-1, 0, 0),
              (0, 1, 0), (0, -1, 0),
              (0, 0, 1), (0, 0, -1)]
