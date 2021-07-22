@@ -282,7 +282,7 @@ def single_frame(num, max_pixel, nframes):
         imgs[proj] = blend.Screen()
 
     cube = np.zeros((img_dimens * 3,
-                     img_dimens * 4),
+                     img_dimens * 4, 4),
                     dtype=np.float32)
 
     cube[img_dimens: img_dimens * 2 + 1, 0: img_dimens + 1] = imgs[(1, 0, 0)]
