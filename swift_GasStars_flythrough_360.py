@@ -379,7 +379,7 @@ def single_frame(num, max_pixel, nframes):
     posz = imgs[(0, 0, 1)]
     negz = imgs[(0, 0, -1)]
 
-    squareLength = posx.size[0]
+    squareLength = posx.shape[0]
     halfSquareLength = squareLength / 2
 
     outputWidth = squareLength * 2
