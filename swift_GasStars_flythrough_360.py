@@ -285,12 +285,12 @@ def single_frame(num, max_pixel, nframes):
                      img_dimens * 4, 4),
                     dtype=np.float32)
 
-    cube[img_dimens: img_dimens * 2 + 1, 0: img_dimens + 1] = imgs[(1, 0, 0)]
-    cube[img_dimens: img_dimens * 2 + 1, img_dimens: img_dimens * 2 + 1] = imgs[(0, 1, 0)]
-    cube[img_dimens: img_dimens * 2 + 1, img_dimens * 2: img_dimens * 3 + 1] = imgs[(-1, 0, 0)]
-    cube[img_dimens: img_dimens * 2 + 1, img_dimens * 3: img_dimens * 4 + 1] = imgs[(0, -1, 0)]
-    cube[img_dimens * 2: img_dimens * 3 + 1, img_dimens: img_dimens * 2 + 1] = imgs[(0, 0, 1)]
-    cube[0: img_dimens + 1, img_dimens: img_dimens * 2 + 1] = imgs[(0, 0, -1)]
+    cube[img_dimens: img_dimens * 2, 0: img_dimens] = imgs[(1, 0, 0)]
+    cube[img_dimens: img_dimens * 2, img_dimens: img_dimens * 2] = imgs[(0, 1, 0)]
+    cube[img_dimens: img_dimens * 2, img_dimens * 2: img_dimens * 3] = imgs[(-1, 0, 0)]
+    cube[img_dimens: img_dimens * 2, img_dimens * 3: img_dimens * 4] = imgs[(0, -1, 0)]
+    cube[img_dimens * 2: img_dimens * 3, img_dimens: img_dimens * 2] = imgs[(0, 0, 1)]
+    cube[0: img_dimens, img_dimens: img_dimens * 2] = imgs[(0, 0, -1)]
 
     dpi = 3 * img_dimens
     print(dpi, cube.shape)
