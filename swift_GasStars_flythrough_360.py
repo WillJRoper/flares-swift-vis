@@ -151,7 +151,7 @@ def single_frame(num, max_pixel, nframes):
     zoom = np.full(len(id_frames), 1)
     extent = np.full(len(id_frames), 10)
 
-    t_projs = [90, 90, 90, 90, 0, 180]
+    t_projs = [0, 0, 0, 0, -90, 90]
     p_projs = [0, 180, 90, 270, 90, 90]
     projs = [(1, 0, 0), (-1, 0, 0),
              (0, 1, 0), (0, -1, 0),
