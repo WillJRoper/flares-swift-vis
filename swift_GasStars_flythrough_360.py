@@ -439,6 +439,8 @@ def single_frame(num, max_pixel, nframes):
 
     plt.margins(0, 0)
 
+    ax.set_frame_on(False)
+
     fig.savefig('plots/Ani/360/Equirectangular_flythrough_' + snap + '.png',
                 bbox_inches='tight',
                 pad_inches=0)
