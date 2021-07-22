@@ -145,9 +145,6 @@ def single_frame(num, max_pixel, nframes):
 
     id_frames = np.arange(0, 1381, dtype=int)
     rs = np.zeros(len(id_frames), dtype=float)
-    rs[0: 151] = decay(id_frames[0:151])
-    rs[151:901] = 1.5
-    rs[901:] = anti_decay(id_frames[901:])
 
     simtimes = np.zeros(len(id_frames), dtype=int)
     id_targets = np.zeros(len(id_frames), dtype=int)
