@@ -423,9 +423,9 @@ def single_frame(num, max_pixel, nframes):
             elif (index == "Z-"):
                 output[loopY, loopX] = negz[cart["y"], cart["x"]]
 
-    dpi = 3 * img_dimens
+    dpi = output.shape[0]
     print(dpi, cube.shape)
-    fig = plt.figure(figsize=(3, 4), dpi=dpi)
+    fig = plt.figure(figsize=(1, 2), dpi=dpi)
     ax = fig.add_subplot(111)
 
     ax.imshow(output, origin='lower')
