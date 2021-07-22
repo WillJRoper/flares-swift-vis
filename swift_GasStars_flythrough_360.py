@@ -210,7 +210,7 @@ def single_frame(num, max_pixel, nframes):
 
     snap = "%05d" % num
 
-    img_dimens = 1000
+    img_dimens = 4096
 
     data = load(path)
 
