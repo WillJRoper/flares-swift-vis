@@ -75,6 +75,94 @@ def get_normalised_image(img, vmin=None, vmax=None):
     return img
 
 
+def unit3DToUnit2D(x, y, z, faceIndex):
+    if (faceIndex == "X+"):
+        x2D = y + 0.5
+        y2D = z + 0.5
+    elif (faceIndex == "Y+"):
+        x2D = (x * -1) + 0.5
+        y2D = z + 0.5
+    elif (faceIndex == "X-"):
+        x2D = (y * -1) + 0.5
+        y2D = z + 0.5
+    elif (faceIndex == "Y-"):
+        x2D = x + 0.5
+        y2D = z + 0.5
+    elif (faceIndex == "Z+"):
+        x2D = y + 0.5
+        y2D = (x * -1) + 0.5
+    else:
+        x2D = y + 0.5
+        y2D = x + 0.5
+
+    # need to do this as image.getPixel takes pixels from the top left corner.
+
+    y2D = 1 - y2D
+
+    return (x2D, y2D)
+
+
+def projectX(theta, phi, sign):
+    x = sign * 0.5
+    faceIndex = "X+" if sign == 1 else "X-"
+    rho = float(x) / (np.cos(theta) * np.sin(phi))
+    y = rho * np.sin(theta) * np.sin(phi)
+    z = rho * np.cos(phi)
+    return (x, y, z, faceIndex)
+
+
+def projectY(theta, phi, sign):
+    y = sign * 0.5
+    faceIndex = "Y+" if sign == 1 else "Y-"
+    rho = float(y) / (np.sin(theta) * np.sin(phi))
+    x = rho * np.cos(theta) * np.sin(phi)
+    z = rho * np.cos(phi)
+    return (x, y, z, faceIndex)
+
+
+def projectZ(theta, phi, sign):
+    z = sign * 0.5
+    faceIndex = "Z+" if sign == 1 else "Z-"
+    rho = float(z) / np.cos(phi)
+    x = rho * np.cos(theta) * np.sin(phi)
+    y = rho * np.sin(theta) * np.sin(phi)
+    return (x, y, z, faceIndex)
+
+
+def convertEquirectUVtoUnit2D(theta, phi, squareLength):
+    # calculate the unit vector
+
+    x = np.cos(theta) * np.sin(phi)
+    y = np.sin(theta) * np.sin(phi)
+    z = np.cos(phi)
+
+    # find the maximum value in the unit vector
+
+    maximum = max(abs(x), abs(y), abs(z))
+    xx = x / maximum
+    yy = y / maximum
+    zz = z / maximum
+
+    # project ray to cube surface
+
+    if (xx == 1 or xx == -1):
+        (x, y, z, faceIndex) = projectX(theta, phi, xx)
+    elif (yy == 1 or yy == -1):
+        (x, y, z, faceIndex) = projectY(theta, phi, yy)
+    else:
+        (x, y, z, faceIndex) = projectZ(theta, phi, zz)
+
+    (x, y) = unit3DToUnit2D(x, y, z, faceIndex)
+
+    x *= squareLength
+    y *= squareLength
+
+    x = int(x)
+    y = int(y)
+
+    return {"index": faceIndex, "x": x, "y": y}
+
+
 def getimage(data, poss, mass, hsml, num, img_dimens, cmap, Type="gas"):
 
     print('There are', poss.shape[0], 'gas particles in the region')
@@ -122,7 +210,7 @@ def single_frame(num, max_pixel, nframes):
 
     snap = "%05d" % num
 
-    img_dimens = 1000
+    img_dimens = 4096
 
     data = load(path)
 
@@ -137,11 +225,6 @@ def single_frame(num, max_pixel, nframes):
     
     # Define targets
     targets = [[0, 0, 0]]
-
-    ang_v = -360 / (1380 - 60)
-
-    decay = lambda t: (boxsize.value + 5) * np.exp(-0.01637823848547536 * t)
-    anti_decay = lambda t: 1.5 * np.exp(0.005139614587492267 * (t - 901))
 
     id_frames = np.arange(0, 1381, dtype=int)
     rs = np.zeros(len(id_frames), dtype=float)
@@ -289,12 +372,63 @@ def single_frame(num, max_pixel, nframes):
     cube[img_dimens * 2: img_dimens * 3, img_dimens: img_dimens * 2] = imgs[(0, 0, -1)]
     cube[0: img_dimens, img_dimens: img_dimens * 2] = imgs[(0, 0, 1)]
 
+    posx = imgs[(1, 0, 0)]
+    negx = imgs[(-1, 0, 0)]
+    posy = imgs[(0, 1, 0)]
+    negy = imgs[(0, -1, 0)]
+    posz = imgs[(0, 0, 1)]
+    negz = imgs[(0, 0, -1)]
+
+    squareLength = posx.size[0]
+    halfSquareLength = squareLength / 2
+
+    outputWidth = squareLength * 2
+    outputHeight = squareLength * 1
+    
+    output = np.zeros((outputHeight, outputWidth, 4))
+
+    for loopY in range(0, int(outputHeight)):  # 0..height-1 inclusive
+
+        print(loopY)
+
+        for loopX in range(0, int(outputWidth)):
+            # 2. get the normalised u,v coordinates for the current pixel
+
+            U = float(loopX) / (outputWidth - 1)  # 0..1
+            V = float(loopY) / (outputHeight - 1)  # no need for 1-... as the image output needs to start from the top anyway.
+
+            # 3. taking the normalised cartesian coordinates calculate the polar coordinate for the current pixel
+
+            theta = U * 2 * np.pi
+            phi = V * np.pi
+
+            # 4. calculate the 3D cartesian coordinate which has been projected to a cubes face
+
+            cart = convertEquirectUVtoUnit2D(theta, phi, squareLength)
+
+            # 5. use this pixel to extract the colour
+
+            index = cart["index"]
+
+            if (index == "X+"):
+                output[loopY, loopX] = posx[cart["y"], cart["x"]]
+            elif (index == "X-"):
+                output[loopY, loopX] = negx[cart["y"], cart["x"]]
+            elif (index == "Y+"):
+                output[loopY, loopX] = posy[cart["y"], cart["x"]]
+            elif (index == "Y-"):
+                output[loopY, loopX] = negy[cart["y"], cart["x"]]
+            elif (index == "Z+"):
+                output[loopY, loopX] = posz[cart["y"], cart["x"]]
+            elif (index == "Z-"):
+                output[loopY, loopX] = negz[cart["y"], cart["x"]]
+
     dpi = 3 * img_dimens
     print(dpi, cube.shape)
     fig = plt.figure(figsize=(3, 4), dpi=dpi)
     ax = fig.add_subplot(111)
 
-    ax.imshow(cube, origin='lower')
+    ax.imshow(output, origin='lower')
     ax.tick_params(axis='both', left=False, top=False, right=False,
                    bottom=False, labelleft=False,
                    labeltop=False, labelright=False, labelbottom=False)
@@ -305,7 +439,7 @@ def single_frame(num, max_pixel, nframes):
 
     plt.margins(0, 0)
 
-    fig.savefig('plots/Ani/360/CubeMap_flythrough_' + snap + '.png',
+    fig.savefig('plots/Ani/360/Equirectangular_flythrough_' + snap + '.png',
                 bbox_inches='tight',
                 pad_inches=0)
 
