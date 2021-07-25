@@ -199,8 +199,8 @@ def single_frame(num, max_pixel, nframes):
     poss = cart_to_spherical(poss)
     poss = spherical_to_equirectangular(poss)
 
-    print(boxsize.value * -np.pi, boxsize.value * np.pi,
-          boxsize.value * -np.pi / 2, boxsize.value * np.pi / 2)
+    print(boxsize.value * -np.pi / 2, boxsize.value * np.pi / 2,
+          boxsize.value * -np.pi / 4, boxsize.value * np.pi / 4)
 
     print(poss[:, 0].min(), poss[:, 0].max(),
           poss[:, 1].min(), poss[:, 1].max())
