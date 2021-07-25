@@ -86,6 +86,18 @@ def cart_to_spherical(pos):
 
     return s_pos
 
+def spherical_to_equirectangular(pos):
+
+    x = pos[:, 0] * pos[:, 2]
+    y = pos[:, 0] * pos[:, 1]
+
+    eq = np.zeros((pos.shape[0], 2))
+
+    eq[:, 0] = x
+    eq[:, 1] = y
+
+    return eq
+
 
 def getimage(data, poss, mass, hsml, num, img_dimens, cmap, Type="gas"):
 
@@ -185,10 +197,10 @@ def single_frame(num, max_pixel, nframes):
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
     poss = cart_to_spherical(poss)
+    poss = spherical_to_equirectangular(poss)
 
     print(poss[:, 0].min(), poss[:, 0].max(),
-          np.degrees(poss[:, 1].min()), np.degrees(poss[:, 1].max()),
-          np.degrees(poss[:, 2].min()), np.degrees(poss[:, 2].max()))
+          np.degrees(poss[:, 1].min()), np.degrees(poss[:, 1].max()))
 
     # # Get colormap
     # cmap = ml.cm.Greys_r
