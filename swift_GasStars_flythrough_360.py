@@ -200,7 +200,7 @@ def single_frame(num, max_pixel, nframes):
     poss = spherical_to_equirectangular(poss)
 
     print(poss[:, 0].min(), poss[:, 0].max(),
-          poss[:, 1].min()), poss[:, 1].max())
+          poss[:, 1].min(), poss[:, 1].max())
 
     # # Get colormap
     # cmap = ml.cm.Greys_r
