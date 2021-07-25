@@ -186,8 +186,8 @@ def single_frame(num, max_pixel, nframes):
     poss = cart_to_spherical(poss)
 
     print(poss[:, 0].min(), poss[:, 0].max(),
-          np.degree(poss[:, 1].min()), np.degree(poss[:, 1].max()),
-          np.degree(poss[:, 2].min()), np.degree(poss[:, 2].max()))
+          np.degrees(poss[:, 1].min()), np.degrees(poss[:, 1].max()),
+          np.degrees(poss[:, 2].min()), np.degrees(poss[:, 2].max()))
 
     # # Get colormap
     # cmap = ml.cm.Greys_r
