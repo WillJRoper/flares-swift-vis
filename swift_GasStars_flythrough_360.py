@@ -182,7 +182,7 @@ def single_frame(num, max_pixel, nframes):
 
     cmap = get_continuous_cmap(hex_list, float_list=float_list)
 
-    poss = data.gas.coordinates.value / boxsize
+    poss = data.gas.coordinates.value / boxsize.value
     mass = data.gas.masses.value * 10 ** 10
     rho_gas = data.gas.densities.value
 
