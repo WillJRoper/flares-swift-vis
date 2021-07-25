@@ -80,8 +80,8 @@ def cart_to_spherical(pos):
     s_pos = np.zeros_like(pos)
 
     s_pos[:, 0] = r = np.sqrt(pos[:, 0]**2 + pos[:, 1]**2 + pos[:, 2]**2)
-    s_pos[:, 1] = np.arccos(pos[:, 2] / r)
-    s_pos[:, 2] = np.arctan(pos[:, 1] / pos[:, 0])
+    s_pos[:, 1] = np.arctan(pos[:, 1] / pos[:, 0])
+    s_pos[:, 2] = np.arccos(pos[:, 2] / r)
 
     return s_pos
 
