@@ -201,8 +201,9 @@ def single_frame(num, max_pixel, nframes):
 
     max_rad = np.sqrt(3 * (boxsize.value / 2)**2)
 
-    print(max_rad * -np.pi / 2, max_rad * np.pi / 2,
-          max_rad * -np.pi / 4, max_rad * np.pi / 4)
+    print(max_rad,
+          max_rad * -np.pi, max_rad * np.pi,
+          max_rad * -np.pi / 2, max_rad * np.pi / 2)
 
     print(poss[:, 0].min(), poss[:, 0].max(),
           poss[:, 1].min(), poss[:, 1].max())
