@@ -197,16 +197,15 @@ def single_frame(num, max_pixel, nframes):
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
     poss = cart_to_spherical(poss)
+    print(poss.min(axis=0), poss.max(axis=0))
     poss = spherical_to_equirectangular(poss)
+    print(poss.min(axis=0), poss.max(axis=0))
 
     max_rad = np.sqrt(3 * (boxsize.value / 2)**2)
 
     print(max_rad,
           max_rad * -np.pi, max_rad * np.pi,
           max_rad * -np.pi / 2, max_rad * np.pi / 2)
-
-    print(poss[:, 0].min(), poss[:, 0].max(),
-          poss[:, 1].min(), poss[:, 1].max())
 
     # # Get colormap
     # cmap = ml.cm.Greys_r
