@@ -190,11 +190,11 @@ def single_frame(num, max_pixel, nframes):
     # cent = np.average(poss[okinds], weights=rho_gas[okinds], axis=0)
     print("Centered on:", cent)
 
-    poss -= cent
+    poss -= cent / boxsize.value
     hsmls = data.gas.smoothing_lengths.value
 
-    poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
-    poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
+    poss[np.where(poss > 1 / 2)] -= 1
+    poss[np.where(poss < - 1 / 2)] += 1
 
     poss = cart_to_spherical(poss)
     poss = spherical_to_equirectangular(poss)
