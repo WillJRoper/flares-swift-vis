@@ -75,92 +75,15 @@ def get_normalised_image(img, vmin=None, vmax=None):
     return img
 
 
-def unit3DToUnit2D(x, y, z, faceIndex):
-    if (faceIndex == "X+"):
-        x2D = y + 0.5
-        y2D = z + 0.5
-    elif (faceIndex == "Y+"):
-        x2D = (x * -1) + 0.5
-        y2D = z + 0.5
-    elif (faceIndex == "X-"):
-        x2D = (y * -1) + 0.5
-        y2D = z + 0.5
-    elif (faceIndex == "Y-"):
-        x2D = x + 0.5
-        y2D = z + 0.5
-    elif (faceIndex == "Z+"):
-        x2D = y + 0.5
-        y2D = (x * -1) + 0.5
-    else:
-        x2D = y + 0.5
-        y2D = x + 0.5
+def cart_to_spherical(pos):
 
-    # need to do this as image.getPixel takes pixels from the top left corner.
+    s_pos = np.zeros_like(pos)
 
-    y2D = 1 - y2D
+    s_pos[:, 0] = r = np.sqrt(pos[:, 0]**2 + pos[:, 1]**2 + pos[:, 2]**2)
+    s_pos[:, 1] = np.arccos(pos[:, 2] / r)
+    s_pos[:, 2] = np.arctan(pos[:, 1] / pos[:, 0])
 
-    return (x2D, y2D)
-
-
-def projectX(theta, phi, sign):
-    x = sign * 0.5
-    faceIndex = "X+" if sign == 1 else "X-"
-    rho = float(x) / (np.cos(theta) * np.sin(phi))
-    y = rho * np.sin(theta) * np.sin(phi)
-    z = rho * np.cos(phi)
-    return (x, y, z, faceIndex)
-
-
-def projectY(theta, phi, sign):
-    y = sign * 0.5
-    faceIndex = "Y+" if sign == 1 else "Y-"
-    rho = float(y) / (np.sin(theta) * np.sin(phi))
-    x = rho * np.cos(theta) * np.sin(phi)
-    z = rho * np.cos(phi)
-    return (x, y, z, faceIndex)
-
-
-def projectZ(theta, phi, sign):
-    z = sign * 0.5
-    faceIndex = "Z+" if sign == 1 else "Z-"
-    rho = float(z) / np.cos(phi)
-    x = rho * np.cos(theta) * np.sin(phi)
-    y = rho * np.sin(theta) * np.sin(phi)
-    return (x, y, z, faceIndex)
-
-
-def convertEquirectUVtoUnit2D(theta, phi, squareLength):
-    # calculate the unit vector
-
-    x = np.cos(theta) * np.sin(phi)
-    y = np.sin(theta) * np.sin(phi)
-    z = np.cos(phi)
-
-    # find the maximum value in the unit vector
-
-    maximum = max(abs(x), abs(y), abs(z))
-    xx = x / maximum
-    yy = y / maximum
-    zz = z / maximum
-
-    # project ray to cube surface
-
-    if (xx == 1 or xx == -1):
-        (x, y, z, faceIndex) = projectX(theta, phi, xx)
-    elif (yy == 1 or yy == -1):
-        (x, y, z, faceIndex) = projectY(theta, phi, yy)
-    else:
-        (x, y, z, faceIndex) = projectZ(theta, phi, zz)
-
-    (x, y) = unit3DToUnit2D(x, y, z, faceIndex)
-
-    x *= squareLength
-    y *= squareLength
-
-    x = int(x)
-    y = int(y)
-
-    return {"index": faceIndex, "x": x, "y": y}
+    return s_pos
 
 
 def getimage(data, poss, mass, hsml, num, img_dimens, cmap, Type="gas"):
@@ -227,7 +150,7 @@ def single_frame(num, max_pixel, nframes):
     targets = [[0, 0, 0]]
 
     id_frames = np.arange(0, 1381, dtype=int)
-    rs = np.full(len(id_frames), 0.1, dtype=float)
+    rs = np.full(len(id_frames), 0., dtype=float)
 
     simtimes = np.zeros(len(id_frames), dtype=int)
     id_targets = np.zeros(len(id_frames), dtype=int)
@@ -238,7 +161,7 @@ def single_frame(num, max_pixel, nframes):
     p_projs = [0, 180, 90, 270, 90, 90]
     projs = [(1, 0, 0), (-1, 0, 0),
              (0, 1, 0), (0, -1, 0),
-             (0, 0, 1), (0, 0, -1)]
+             (0, 0, -1), (0, 0, 1)]
 
     hex_list = ["#000000", "#590925", "#6c1c55", "#7e2e84", "#ba4051",
                 "#f6511d", "#ffb400", "#f7ec59", "#fbf6ac", "#ffffff"]
@@ -260,190 +183,164 @@ def single_frame(num, max_pixel, nframes):
     poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
-    gas_imgs = {}
-    star_imgs = {}
+    poss = cart_to_spherical(poss)
 
-    for proj_ind in range(6):
+    print(poss[:, 0].min(), poss[:, 0].max(),
+          poss[:, 1].min(), poss[:, 1].max(),
+          poss[:, 2].min(), poss[:, 2].max(), )
 
-        ts = np.full(len(id_frames), t_projs[proj_ind])
-        ps = np.full(len(id_frames), p_projs[proj_ind])
-
-        proj = projs[proj_ind]
-
-        # Define anchors dict for camera parameters
-        anchors = {}
-        anchors['sim_times'] = list(simtimes)
-        anchors['id_frames'] = list(id_frames)
-        anchors['id_targets'] = list(id_targets)
-        anchors['r'] = list(rs)
-        anchors['t'] = list(ts)
-        anchors['p'] = list(ps)
-        anchors['zoom'] = list(zoom)
-        anchors['extent'] = list(extent)
-
-        print(f"Processing projection {proj} with properties:")
-        for key, val in anchors.items():
-            print(key, "=", val[num])
-
-        # Define the camera trajectory
-        cam_data = camera_tools.get_camera_trajectory(targets, anchors)
-
-        # Get images
-        gas_imgs[proj], ang_extent = getimage(cam_data, poss, mass, hsmls, num, img_dimens,
-                                   cmap, Type="gas")
-
-    # Get colormap
-    cmap = ml.cm.Greys_r
-
-    try:
-        poss = data.stars.coordinates.value - cent
-        mass = data.stars.masses.value * 10 ** 10
-        hsmls = data.stars.smoothing_lengths.value
-
-        if hsmls.max() == 0.0:
-            print("Ill-defined smoothing lengths")
-
-            last_snap = "%04d" % (num - 1)
-
-            # Define path
-            path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/hydro_1380_ani/data/ani_hydro_' + last_snap + ".hdf5"
-
-            data = load(path)
-            old_hsmls = data.stars.smoothing_lengths.value
-            hsmls[:old_hsmls.size] = old_hsmls
-            hsmls[old_hsmls.size:] = np.median(old_hsmls)
-
-        print(np.min(hsmls), np.max(hsmls))
-
-        poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
-        poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
-
-        for proj_ind in range(6):
-
-            ts = np.full(len(id_frames), t_projs[proj_ind])
-            ps = np.full(len(id_frames), p_projs[proj_ind])
-
-            proj = projs[proj_ind]
-
-            # Define anchors dict for camera parameters
-            anchors = {}
-            anchors['sim_times'] = list(simtimes)
-            anchors['id_frames'] = list(id_frames)
-            anchors['id_targets'] = list(id_targets)
-            anchors['r'] = list(rs)
-            anchors['t'] = list(ts)
-            anchors['p'] = list(ps)
-            anchors['zoom'] = list(zoom)
-            anchors['extent'] = list(extent)
-
-            print(f"Processing projection {proj} with properties:")
-            for key, val in anchors.items():
-                print(key, "=", val[num])
-
-            # Define the camera trajectory
-            cam_data = camera_tools.get_camera_trajectory(targets, anchors)
-
-            # Get images
-            star_imgs[proj], ang_extent = getimage(cam_data, poss, mass,
-                                                   hsmls, num,
-                                                   img_dimens, cmap,
-                                                   Type="star")
-    except AttributeError:
-        for proj_ind in range(6):
-            proj = projs[proj_ind]
-            star_imgs[proj] = np.zeros_like(gas_imgs[proj])
-
-    imgs = {}
-
-    for proj_ind in range(6):
-        proj = projs[proj_ind]
-
-        blend = Blend.Blend(gas_imgs[proj], star_imgs[proj])
-        imgs[proj] = blend.Screen()
-
-    cube = np.zeros((img_dimens * 3,
-                     img_dimens * 4, 4),
-                    dtype=np.float32)
-
-    cube[img_dimens: img_dimens * 2, 0: img_dimens] = imgs[(1, 0, 0)]
-    cube[img_dimens: img_dimens * 2, img_dimens: img_dimens * 2] = imgs[(0, 1, 0)]
-    cube[img_dimens: img_dimens * 2, img_dimens * 2: img_dimens * 3] = imgs[(-1, 0, 0)]
-    cube[img_dimens: img_dimens * 2, img_dimens * 3: img_dimens * 4] = imgs[(0, -1, 0)]
-    cube[img_dimens * 2: img_dimens * 3, img_dimens: img_dimens * 2] = imgs[(0, 0, -1)]
-    cube[0: img_dimens, img_dimens: img_dimens * 2] = imgs[(0, 0, 1)]
-
-    posx = imgs[(1, 0, 0)]
-    negx = imgs[(-1, 0, 0)]
-    posy = imgs[(0, 1, 0)]
-    negy = imgs[(0, -1, 0)]
-    posz = imgs[(0, 0, 1)]
-    negz = imgs[(0, 0, -1)]
-
-    squareLength = posx.shape[0]
-    halfSquareLength = squareLength / 2
-
-    outputWidth = squareLength * 2
-    outputHeight = squareLength * 1
-    
-    output = np.zeros((outputHeight, outputWidth, 4))
-
-    for loopY in range(0, int(outputHeight)):  # 0..height-1 inclusive
-
-        print(loopY)
-
-        for loopX in range(0, int(outputWidth)):
-            # 2. get the normalised u,v coordinates for the current pixel
-
-            U = float(loopX) / (outputWidth - 1)  # 0..1
-            V = float(loopY) / (outputHeight - 1)  # no need for 1-... as the image output needs to start from the top anyway.
-
-            # 3. taking the normalised cartesian coordinates calculate the polar coordinate for the current pixel
-
-            theta = U * 2 * np.pi
-            phi = V * np.pi
-
-            # 4. calculate the 3D cartesian coordinate which has been projected to a cubes face
-
-            cart = convertEquirectUVtoUnit2D(theta, phi, squareLength)
-
-            # 5. use this pixel to extract the colour
-
-            index = cart["index"]
-
-            if (index == "X+"):
-                output[loopY, loopX] = posx[cart["y"], cart["x"]]
-            elif (index == "X-"):
-                output[loopY, loopX] = negx[cart["y"], cart["x"]]
-            elif (index == "Y+"):
-                output[loopY, loopX] = posy[cart["y"], cart["x"]]
-            elif (index == "Y-"):
-                output[loopY, loopX] = negy[cart["y"], cart["x"]]
-            elif (index == "Z+"):
-                output[loopY, loopX] = posz[cart["y"], cart["x"]]
-            elif (index == "Z-"):
-                output[loopY, loopX] = negz[cart["y"], cart["x"]]
-
-    dpi = output.shape[0]
-    print(dpi, cube.shape)
-    fig = plt.figure(figsize=(1, 2), dpi=dpi)
-    ax = fig.add_subplot(111)
-
-    ax.imshow(output, origin='lower')
-    ax.tick_params(axis='both', left=False, top=False, right=False,
-                   bottom=False, labelleft=False,
-                   labeltop=False, labelright=False, labelbottom=False)
-
-    # ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
-    #         transform=ax.transAxes, verticalalignment="top",
-    #         horizontalalignment='right', fontsize=1, color="w")
-
-    plt.margins(0, 0)
-
-    ax.set_frame_on(False)
-
-    fig.savefig('plots/Ani/360/Equirectangular_flythrough_' + snap + '.png',
-                bbox_inches='tight',
-                pad_inches=0)
+    # # Get colormap
+    # cmap = ml.cm.Greys_r
+    #
+    # try:
+    #     poss = data.stars.coordinates.value - cent
+    #     mass = data.stars.masses.value * 10 ** 10
+    #     hsmls = data.stars.smoothing_lengths.value
+    #
+    #     if hsmls.max() == 0.0:
+    #         print("Ill-defined smoothing lengths")
+    #
+    #         last_snap = "%04d" % (num - 1)
+    #
+    #         # Define path
+    #         path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/hydro_1380_ani/data/ani_hydro_' + last_snap + ".hdf5"
+    #
+    #         data = load(path)
+    #         old_hsmls = data.stars.smoothing_lengths.value
+    #         hsmls[:old_hsmls.size] = old_hsmls
+    #         hsmls[old_hsmls.size:] = np.median(old_hsmls)
+    #
+    #     print(np.min(hsmls), np.max(hsmls))
+    #
+    #     poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
+    #     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
+    #
+    #     for proj_ind in range(6):
+    #
+    #         ts = np.full(len(id_frames), t_projs[proj_ind])
+    #         ps = np.full(len(id_frames), p_projs[proj_ind])
+    #
+    #         proj = projs[proj_ind]
+    #
+    #         # Define anchors dict for camera parameters
+    #         anchors = {}
+    #         anchors['sim_times'] = list(simtimes)
+    #         anchors['id_frames'] = list(id_frames)
+    #         anchors['id_targets'] = list(id_targets)
+    #         anchors['r'] = list(rs)
+    #         anchors['t'] = list(ts)
+    #         anchors['p'] = list(ps)
+    #         anchors['zoom'] = list(zoom)
+    #         anchors['extent'] = list(extent)
+    #
+    #         print(f"Processing projection {proj} with properties:")
+    #         for key, val in anchors.items():
+    #             print(key, "=", val[num])
+    #
+    #         # Define the camera trajectory
+    #         cam_data = camera_tools.get_camera_trajectory(targets, anchors)
+    #
+    #         # Get images
+    #         star_imgs[proj], ang_extent = getimage(cam_data, poss, mass,
+    #                                                hsmls, num,
+    #                                                img_dimens, cmap,
+    #                                                Type="star")
+    # except AttributeError:
+    #     for proj_ind in range(6):
+    #         proj = projs[proj_ind]
+    #         star_imgs[proj] = np.zeros_like(gas_imgs[proj])
+    #
+    # imgs = {}
+    #
+    # for proj_ind in range(6):
+    #     proj = projs[proj_ind]
+    #
+    #     blend = Blend.Blend(gas_imgs[proj], star_imgs[proj])
+    #     imgs[proj] = blend.Screen()
+    #
+    # cube = np.zeros((img_dimens * 3,
+    #                  img_dimens * 4, 4),
+    #                 dtype=np.float32)
+    #
+    # cube[img_dimens: img_dimens * 2, 0: img_dimens] = imgs[(1, 0, 0)]
+    # cube[img_dimens: img_dimens * 2, img_dimens: img_dimens * 2] = imgs[(0, 1, 0)]
+    # cube[img_dimens: img_dimens * 2, img_dimens * 2: img_dimens * 3] = imgs[(-1, 0, 0)]
+    # cube[img_dimens: img_dimens * 2, img_dimens * 3: img_dimens * 4] = imgs[(0, -1, 0)]
+    # cube[img_dimens * 2: img_dimens * 3, img_dimens: img_dimens * 2] = imgs[(0, 0, -1)]
+    # cube[0: img_dimens, img_dimens: img_dimens * 2] = imgs[(0, 0, 1)]
+    #
+    # posx = imgs[(1, 0, 0)]
+    # negx = imgs[(-1, 0, 0)]
+    # posy = imgs[(0, 1, 0)]
+    # negy = imgs[(0, -1, 0)]
+    # posz = imgs[(0, 0, 1)]
+    # negz = imgs[(0, 0, -1)]
+    #
+    # squareLength = posx.shape[0]
+    # halfSquareLength = squareLength / 2
+    #
+    # outputWidth = squareLength * 2
+    # outputHeight = squareLength * 1
+    #
+    # output = np.zeros((outputHeight, outputWidth, 4))
+    #
+    # for loopY in range(0, int(outputHeight)):  # 0..height-1 inclusive
+    #
+    #     print(loopY)
+    #
+    #     for loopX in range(0, int(outputWidth)):
+    #         # 2. get the normalised u,v coordinates for the current pixel
+    #
+    #         U = float(loopX) / (outputWidth - 1)  # 0..1
+    #         V = float(loopY) / (outputHeight - 1)  # no need for 1-... as the image output needs to start from the top anyway.
+    #
+    #         # 3. taking the normalised cartesian coordinates calculate the polar coordinate for the current pixel
+    #
+    #         theta = U * 2 * np.pi
+    #         phi = V * np.pi
+    #
+    #         # 4. calculate the 3D cartesian coordinate which has been projected to a cubes face
+    #
+    #         cart = convertEquirectUVtoUnit2D(theta, phi, squareLength)
+    #
+    #         # 5. use this pixel to extract the colour
+    #
+    #         index = cart["index"]
+    #
+    #         if (index == "X+"):
+    #             output[loopY, loopX] = posx[cart["y"], cart["x"]]
+    #         elif (index == "X-"):
+    #             output[loopY, loopX] = negx[cart["y"], cart["x"]]
+    #         elif (index == "Y+"):
+    #             output[loopY, loopX] = posy[cart["y"], cart["x"]]
+    #         elif (index == "Y-"):
+    #             output[loopY, loopX] = negy[cart["y"], cart["x"]]
+    #         elif (index == "Z+"):
+    #             output[loopY, loopX] = posz[cart["y"], cart["x"]]
+    #         elif (index == "Z-"):
+    #             output[loopY, loopX] = negz[cart["y"], cart["x"]]
+    #
+    # dpi = output.shape[0]
+    # print(dpi, cube.shape)
+    # fig = plt.figure(figsize=(1, 2), dpi=dpi)
+    # ax = fig.add_subplot(111)
+    #
+    # ax.imshow(output, origin='lower')
+    # ax.tick_params(axis='both', left=False, top=False, right=False,
+    #                bottom=False, labelleft=False,
+    #                labeltop=False, labelright=False, labelbottom=False)
+    #
+    # # ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
+    # #         transform=ax.transAxes, verticalalignment="top",
+    # #         horizontalalignment='right', fontsize=1, color="w")
+    #
+    # plt.margins(0, 0)
+    #
+    # ax.set_frame_on(False)
+    #
+    # fig.savefig('plots/Ani/360/Equirectangular_flythrough_' + snap + '.png',
+    #             bbox_inches='tight',
+    #             pad_inches=0)
 
     plt.close(fig)
 
