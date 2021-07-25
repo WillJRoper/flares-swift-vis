@@ -182,7 +182,7 @@ def single_frame(num, max_pixel, nframes):
 
     cmap = get_continuous_cmap(hex_list, float_list=float_list)
 
-    poss = data.gas.coordinates.value / boxsize.value
+    poss = data.gas.coordinates.value
     mass = data.gas.masses.value * 10 ** 10
     rho_gas = data.gas.densities.value
 
@@ -190,11 +190,11 @@ def single_frame(num, max_pixel, nframes):
     # cent = np.average(poss[okinds], weights=rho_gas[okinds], axis=0)
     print("Centered on:", cent)
 
-    poss -= cent / boxsize.value
+    poss -= cent
     hsmls = data.gas.smoothing_lengths.value
 
-    poss[np.where(poss > 1 / 2)] -= 1
-    poss[np.where(poss < - 1 / 2)] += 1
+    poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
+    poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
     poss = cart_to_spherical(poss)
     poss = spherical_to_equirectangular(poss)
