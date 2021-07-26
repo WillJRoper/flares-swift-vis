@@ -254,6 +254,7 @@ def single_frame(num, max_pixel, nframes):
     poss[np.where(poss > boxsize.value / 2)] -= boxsize.value
     poss[np.where(poss < - boxsize.value / 2)] += boxsize.value
 
+    cart_poss = np.copy(poss)
     poss = cart_to_spherical(poss)
     print(poss.min(axis=0), poss.max(axis=0))
     poss, rs = spherical_to_equirectangular(poss)
@@ -283,7 +284,7 @@ def single_frame(num, max_pixel, nframes):
 
     print("Pixel tree built")
 
-    img = make_spline_img(poss, img_dimens, tree, mass, hsmls, rs)
+    img = make_spline_img(poss, cart_poss, img_dimens, tree, mass, hsmls, rs)
     img = cmap(img)
 
     # # Get colormap
