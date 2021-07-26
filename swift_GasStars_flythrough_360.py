@@ -87,10 +87,10 @@ def cart_to_spherical(pos):
 
     return s_pos
 
-def spherical_to_equirectangular(pos):
+def spherical_to_equirectangular(pos, t0=np.pi, p0=0):
 
-    x = pos[:, 0] * pos[:, 2]
-    y = pos[:, 0] * pos[:, 1]
+    x = pos[:, 0] * (pos[:, 2] - t0)
+    y = pos[:, 0] * (pos[:, 1] - p0)
 
     eq = np.zeros((pos.shape[0], 2))
 
