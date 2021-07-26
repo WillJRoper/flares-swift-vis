@@ -279,14 +279,16 @@ def single_frame(num, max_pixel, nframes):
     imgextent = (max_rad * -np.pi, max_rad * np.pi,
                  max_rad * -np.pi / 2, max_rad * np.pi / 2)
 
-    img = make_soft_img(poss, cart_poss, img_dimens, imgrange, mass, hsmls, rs)
-    print(np.max(img), np.min(img),
-          np.log10(np.max(img)), np.log10(np.min(img)))
-    log_img = np.zeros_like(img)
-    log_img[img > 0] = np.log10(img[img > 0])
+    ini_img = make_soft_img(poss, cart_poss, img_dimens, imgrange, mass, hsmls, rs)
+
+    img = np.zeros_like(ini_img)
+    img[ini_img > 0] = np.log10(ini_img[ini_img > 0])
 
     vmax = 9.7
     vmin = 6
+
+    print(np.max(img), np.min(img),
+          np.log10(np.max(img)), np.log10(np.min(img)))
 
     img = cmap(get_normalised_image(log_img, vmin=vmin, vmax=vmax))
 
