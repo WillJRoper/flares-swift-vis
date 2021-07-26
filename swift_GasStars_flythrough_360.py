@@ -144,16 +144,30 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
     Gx, Gy = np.meshgrid(np.linspace(imgrange[0][0], imgrange[0][1], img_dimens[1]),
                          np.linspace(imgrange[1][0], imgrange[1][1], img_dimens[0]))
 
+    # Define pixel position array for the KDTree
+    pix_pos = np.zeros((Gx.size, 2))
+    pix_pos[:, 0] = Gx.ravel()
+    pix_pos[:, 1] = Gy.ravel()
+
+    # Build KDTree
+    tree = cKDTree(pix_pos)
+
+    print("Pixel tree built")
+
     # Initialise the image array
     gsmooth_img = np.zeros((img_dimens[0], img_dimens[1]))
 
     # Loop over each star computing the smoothed gaussian
     # distribution for this particle
-    for x, y, l, sml, (i, r) in zip(pos[:, 0], pos[:, 1],
-                                    ls, smooth, enumerate(rs)):
+    for ipos, l, sml, (i, r) in zip(pos, ls, smooth, enumerate(rs)):
 
         if i % 100 == 0:
             print(i, end="\r")
+
+        x, y = ipos
+
+        # Query the tree for this particle
+        dist, inds = tree.query(ipos, k=int(np.pi * 10**2))
 
         x_sph1 = r * np.arctan2(poss[i, 1], poss[i, 0])
         x_sph2 = (r + sml) * np.arctan2(poss[i, 1] + sml, poss[i, 0] + sml)
@@ -168,8 +182,8 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
         ysml = y_sph2 - y_sph1
 
         # Compute the image
-        g = np.exp(-(((Gx - x) ** 2 / (2.0 * xsml ** 2))
-                     + ((Gy - y) ** 2 / (2.0 * ysml ** 2))))
+        g = np.exp(-(((Gx[inds] - x) ** 2 / (2.0 * xsml ** 2))
+                     + ((Gy[inds] - y) ** 2 / (2.0 * ysml ** 2))))
 
         # Get the sum of the gaussian
         gsum = np.sum(g)
@@ -177,7 +191,7 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
         # If there are stars within the image in this gaussian
         # add it to the image array
         if gsum > 0:
-            gsmooth_img += g * l / gsum
+            gsmooth_img[inds] += g * l / gsum
 
     # gsmooth_img, xedges, yedges = np.histogram2d(pos[:, i], pos[:, j],
     #                                      bins=Ndim,
