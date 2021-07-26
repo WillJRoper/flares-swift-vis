@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="434f4938-e556-4aae-b9a9-5cc711a21831" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swift_GasStars_flythrough_360.py" beforeDir="false" afterPath="$PROJECT_DIR$/swift_GasStars_flythrough_360.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,6 +73,9 @@
       <module name="flares-swift-vis" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="$USER_HOME$/anaconda3/bin/python3" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -125,6 +129,7 @@
       <workItem from="1624975318090" duration="104000" />
       <workItem from="1624975435875" duration="7000" />
       <workItem from="1626174153708" duration="58875000" />
+      <workItem from="1627300666823" duration="470000" />
     </task>
     <servers />
   </component>
@@ -140,10 +145,10 @@
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state x="468" y="190" key="SettingsEditor/0.23.1920.1057/1920.23.1920.1057/-1680.283.1680.1027@0.23.1920.1057" timestamp="1620821695730" />
-    <state x="465" y="358" key="com.intellij.ide.util.TipDialog" timestamp="1624975366531">
+    <state x="465" y="358" key="com.intellij.ide.util.TipDialog" timestamp="1627300789177">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state x="465" y="358" key="com.intellij.ide.util.TipDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1624975366531" />
+    <state x="465" y="358" key="com.intellij.ide.util.TipDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1627300789177" />
     <state x="531" y="368" key="com.intellij.ide.util.TipDialog/0.23.1920.1057/-1680.283.1680.1027/1920.23.1920.1057@0.23.1920.1057" timestamp="1620224377886" />
   </component>
 </project>
