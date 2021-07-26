@@ -10,6 +10,7 @@ import matplotlib.colors as mcolors
 import scipy.ndimage as ndimage
 import sys
 from guppy import hpy; h=hpy()
+from scipy.spatial import cKDTree
 import os
 from swiftsimio import load
 import unyt
@@ -96,7 +97,7 @@ def spherical_to_equirectangular(pos):
     eq[:, 0] = x
     eq[:, 1] = y
 
-    return eq
+    return eq, pos[:, 0]
 
 
 def getimage(data, poss, mass, hsml, num, img_dimens, cmap, Type="gas"):
@@ -137,6 +138,69 @@ def getimage(data, poss, mass, hsml, num, img_dimens, cmap, Type="gas"):
     return rgb, R.get_extent()
 
 
+def quartic_spline(q):
+
+    w = np.zeros_like(q)
+    okinds1 = q < 1 / 2
+    okinds2 = np.logical_and(1 / 2 <= q, q < 3 / 2)
+    okinds3 = np.logical_and(3 / 2 <= q, q < 5 / 2)
+
+    w[okinds1] = (5 / 2 - q[okinds1])**4 \
+                 - 5 * (3 / 2 - q[okinds1])**4 \
+                 + 10 * (1 / 2 - q[okinds1])**4
+    w[okinds2] = (5 / 2 - q[okinds2]) ** 4 \
+                 - 5 * (3 / 2 - q[okinds2]) ** 4
+    w[okinds3] = (5 / 2 - q[okinds3]) ** 4
+
+    return w
+
+
+def make_spline_img(part_pos, poss, img_dimens, tree, ls, smooth, rs,
+                    spline_func=quartic_spline, spline_cut_off=5/2):
+
+    # Initialise the image array
+    smooth_img = np.zeros((img_dimens[0], img_dimens[1]))
+
+    # Define x and y positions of pixels
+    X, Y = np.meshgrid(np.arange(0, img_dimens[0], 1),
+                       np.arange(0, img_dimens[1], 1))
+
+    # Define pixel position array for the KDTree
+    pix_pos = np.zeros((X.size, 2), dtype=int)
+    pix_pos[:, 0] = X.ravel()
+    pix_pos[:, 1] = Y.ravel()
+
+    # Define k constant for 3 dimensions
+    k3 = 7 / (478 * np.pi)
+    for (i, ipos), l, sml, r in zip(enumerate(part_pos), ls, smooth, rs):
+
+        x_sph1 = r * np.arctan2(poss[i, 1], poss[i, 0])
+        x_sph2 = (r + sml) * np.arctan2(poss[i, 1] + sml, poss[i, 0] + sml)
+
+        sml = x_sph2 - x_sph1
+
+        # Query the tree for this particle
+        dist, inds = tree.query(ipos, k=part_pos.shape[0],
+                                distance_upper_bound=spline_cut_off * sml)
+
+        if type(dist) is float:
+            continue
+
+        okinds = dist < spline_cut_off * sml
+        dist = dist[okinds]
+        inds = inds[okinds]
+
+        # Get the kernel
+        w = spline_func(dist / sml)
+
+        # Place the kernel for this particle within the img
+        kernel = k3 * w / sml**3
+        norm_kernel = kernel / np.sum(kernel)
+        smooth_img[pix_pos[inds, 0], pix_pos[inds, 1]] += l * norm_kernel
+
+    return smooth_img
+
+
 def single_frame(num, max_pixel, nframes):
 
     snap = "%04d" % num
@@ -146,7 +210,7 @@ def single_frame(num, max_pixel, nframes):
 
     snap = "%05d" % num
 
-    img_dimens = 4096
+    img_dimens = (4096, 2048)
 
     data = load(path)
 
@@ -170,12 +234,6 @@ def single_frame(num, max_pixel, nframes):
     zoom = np.full(len(id_frames), 1)
     extent = np.full(len(id_frames), 10)
 
-    t_projs = [0, 0, 0, 0, 90, -90]
-    p_projs = [0, 180, 90, 270, 90, 90]
-    projs = [(1, 0, 0), (-1, 0, 0),
-             (0, 1, 0), (0, -1, 0),
-             (0, 0, -1), (0, 0, 1)]
-
     hex_list = ["#000000", "#590925", "#6c1c55", "#7e2e84", "#ba4051",
                 "#f6511d", "#ffb400", "#f7ec59", "#fbf6ac", "#ffffff"]
     float_list = [0, 0.2, 0.3, 0.4, 0.45, 0.5, 0.7, 0.8, 0.9, 1]
@@ -198,14 +256,35 @@ def single_frame(num, max_pixel, nframes):
 
     poss = cart_to_spherical(poss)
     print(poss.min(axis=0), poss.max(axis=0))
-    poss = spherical_to_equirectangular(poss)
+    poss, rs = spherical_to_equirectangular(poss)
     print(poss.min(axis=0), poss.max(axis=0))
 
     max_rad = np.sqrt(3 * (boxsize.value / 2)**2)
 
-    print(max_rad,
-          max_rad * -np.pi, max_rad * np.pi,
-          max_rad * -np.pi / 2, max_rad * np.pi / 2)
+    # Define range and extent for the images in arc seconds
+    imgrange = ((max_rad * -np.pi, max_rad * np.pi),
+                (max_rad * -np.pi / 2, max_rad * np.pi / 2))
+    imgextent = (max_rad * -np.pi, max_rad * np.pi,
+                 max_rad * -np.pi / 2, max_rad * np.pi / 2)
+
+    # Define x and y positions of pixels
+    X, Y = np.meshgrid(np.linspace(imgrange[0][0], imgrange[0][1],
+                                   img_dimens[0]),
+                       np.linspace(imgrange[1][0], imgrange[1][1],
+                                   img_dimens[1]))
+
+    # Define pixel position array for the KDTree
+    pix_pos = np.zeros((X.size, 2))
+    pix_pos[:, 0] = X.ravel()
+    pix_pos[:, 1] = Y.ravel()
+
+    # Build KDTree
+    tree = cKDTree(pix_pos)
+
+    print("Pixel tree built")
+
+    img = make_spline_img(poss, img_dimens, tree, mass, hsmls, rs)
+    img = cmap(img)
 
     # # Get colormap
     # cmap = ml.cm.Greys_r
@@ -338,27 +417,27 @@ def single_frame(num, max_pixel, nframes):
     #         elif (index == "Z-"):
     #             output[loopY, loopX] = negz[cart["y"], cart["x"]]
     #
-    # dpi = output.shape[0]
-    # print(dpi, cube.shape)
-    # fig = plt.figure(figsize=(1, 2), dpi=dpi)
-    # ax = fig.add_subplot(111)
-    #
-    # ax.imshow(output, origin='lower')
-    # ax.tick_params(axis='both', left=False, top=False, right=False,
-    #                bottom=False, labelleft=False,
-    #                labeltop=False, labelright=False, labelbottom=False)
-    #
-    # # ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
-    # #         transform=ax.transAxes, verticalalignment="top",
-    # #         horizontalalignment='right', fontsize=1, color="w")
-    #
-    # plt.margins(0, 0)
-    #
-    # ax.set_frame_on(False)
-    #
-    # fig.savefig('plots/Ani/360/Equirectangular_flythrough_' + snap + '.png',
-    #             bbox_inches='tight',
-    #             pad_inches=0)
+    dpi = img.shape[0]
+    print(dpi, img.shape)
+    fig = plt.figure(figsize=(1, 2), dpi=dpi)
+    ax = fig.add_subplot(111)
+
+    ax.imshow(img, origin='lower')
+    ax.tick_params(axis='both', left=False, top=False, right=False,
+                   bottom=False, labelleft=False,
+                   labeltop=False, labelright=False, labelbottom=False)
+
+    # ax.text(0.975, 0.05, "$t=$%.1f Gyr" % cosmo.age(z).value,
+    #         transform=ax.transAxes, verticalalignment="top",
+    #         horizontalalignment='right', fontsize=1, color="w")
+
+    plt.margins(0, 0)
+
+    ax.set_frame_on(False)
+
+    fig.savefig('plots/Ani/360/Equirectangular_flythrough_' + snap + '.png',
+                bbox_inches='tight',
+                pad_inches=0)
 
     plt.close(fig)
 
