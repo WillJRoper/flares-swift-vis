@@ -177,6 +177,7 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
         # If there are stars within the image in this gaussian
         # add it to the image array
         if gsum > 0:
+            print(g.shape, l.shape, gsum.shape)
             gsmooth_img += g * l / gsum
 
     # gsmooth_img, xedges, yedges = np.histogram2d(pos[:, i], pos[:, j],
