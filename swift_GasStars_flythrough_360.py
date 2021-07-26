@@ -285,7 +285,7 @@ def single_frame(num, max_pixel, nframes):
     log_img = np.zeros_like(img)
     log_img[img > 0] = np.log10(img[img > 0])
 
-    vmax = 11
+    vmax = 9.7
     vmin = 6
 
     img = cmap(get_normalised_image(log_img, vmin=vmin, vmax=vmax))
