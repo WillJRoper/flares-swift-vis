@@ -83,7 +83,7 @@ def cart_to_spherical(pos):
     xy = pos[:, 0] ** 2 + pos[:, 1] ** 2
     s_pos[:, 0] = np.sqrt(xy + pos[:, 2] ** 2)
     s_pos[:, 1] = np.arctan2(np.sqrt(xy), pos[:, 2]) - (np.pi/2)
-    s_pos[:, 2] = np.arctan2(pos[:,1], pos[:,0])
+    s_pos[:, 2] = np.arctan2(pos[:, 1], pos[:, 0])
 
     return s_pos
 
@@ -121,7 +121,7 @@ def getimage(data, poss, mass, hsml, num, img_dimens, cmap, Type="gas"):
     R.set_logscale()
     img = R.get_image()
 
-    img = ndimage.gaussian_filter(img, sigma=(3, 3), order=0)
+    img = ndimage.gaussian_filter(img, sigma=(5, 5), order=0)
 
     if Type == "gas":
         vmax =11
@@ -138,74 +138,14 @@ def getimage(data, poss, mass, hsml, num, img_dimens, cmap, Type="gas"):
     return rgb, R.get_extent()
 
 
-def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
-
-    # Define x and y positions for the gaussians
-    Gy, Gx = np.meshgrid(np.linspace(imgrange[0][0], imgrange[0][1], img_dimens[1]),
-                         np.linspace(imgrange[1][0], imgrange[1][1], img_dimens[0]))
-
-    # Define pixel position array for the KDTree
-    pix_pos = np.zeros((Gx.size, 2))
-    pix_pos[:, 0] = Gx.ravel()
-    pix_pos[:, 1] = Gy.ravel()
-
-    # Build KDTree
-    tree = cKDTree(pix_pos)
-
-    print("Pixel tree built")
-
-    # Define x and y positions of pixels
-    X, Y = np.meshgrid(np.arange(0, img_dimens[0], 1),
-                       np.arange(0, img_dimens[1], 1))
-
-    # Define pixel position array for the KDTree
-    pix_pos = np.zeros((X.size, 2), dtype=int)
-    pix_pos[:, 0] = X.ravel()
-    pix_pos[:, 1] = Y.ravel()
-
-    # Initialise the image array
-    gsmooth_img = np.zeros((img_dimens[0], img_dimens[1]))
-
-    # Loop over each star computing the smoothed gaussian
-    # distribution for this particle
-    for ipos, l, sml, (i, r) in zip(pos, ls, smooth, enumerate(rs)):
-
-        if i % 100000 == 0:
-            print(i, end="\r")
-
-        x, y = ipos
-
-        # Query the tree for this particle
-        dist, inds = tree.query(ipos, k=int(np.pi * 5**2))
-
-        x_sph1 = r * np.arctan2(poss[i, 1], poss[i, 0])
-        x_sph2 = (r + sml) * np.arctan2(poss[i, 1] + sml, poss[i, 0] + sml)
-
-        xsml = x_sph2 - x_sph1
-
-        xy = poss[i, 0] ** 2 + poss[i, 1] ** 2
-        y_sph1 = r * np.arctan2(np.sqrt(xy), poss[i, 2]) - (np.pi / 2)
-        xy = (poss[i, 0] + sml) ** 2 + (poss[i, 1] + sml) ** 2
-        y_sph2 = (r + sml) * np.arctan2(np.sqrt(xy), poss[i, 2] + sml) - (np.pi / 2)
-
-        ysml = y_sph2 - y_sph1
-
-        # Compute the image
-        g = np.exp(-(((Gx[pix_pos[inds, 0], pix_pos[inds, 1]] - x) ** 2 / (2.0 * xsml ** 2))
-                     + ((Gy[pix_pos[inds, 0], pix_pos[inds, 1]] - y) ** 2 / (2.0 * ysml ** 2))))
-
-        # Get the sum of the gaussian
-        gsum = np.sum(g)
-
-        # If there are stars within the image in this gaussian
-        # add it to the image array
-        if gsum > 0:
-            gsmooth_img[pix_pos[inds, 0], pix_pos[inds, 1]] += g * l / gsum
+def make_soft_img(pos, poss, img_dimens, imgrange, ls, soft, rs):
 
     gsmooth_img, xedges, yedges = np.histogram2d(pos[:, 0], pos[:, 1],
                                                  bins=img_dimens,
                                                  range=imgrange,
                                                  weights=ls)
+
+    gsmooth_img = ndimage.gaussian_filter(gsmooth_img, sigma=(5, 5), order=0)
 
     return gsmooth_img
 
@@ -438,7 +378,7 @@ def single_frame(num, max_pixel, nframes):
 
     ax.set_frame_on(False)
 
-    fig.savefig('plots/Ani/360/Equirectangular_flythrough_' + snap + '.png',
+    fig.savefig('plots/Ani/360/Equirectangular_DM_flythrough_' + snap + '.png',
                 bbox_inches='tight',
                 pad_inches=0)
 
