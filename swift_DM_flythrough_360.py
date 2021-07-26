@@ -145,7 +145,7 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, soft, rs):
                                                  range=imgrange,
                                                  weights=ls)
 
-    gsmooth_img = ndimage.gaussian_filter(gsmooth_img, sigma=(5, 5), order=0)
+    gsmooth_img = ndimage.gaussian_filter(gsmooth_img, sigma=(3, 3), order=0)
 
     return gsmooth_img
 
