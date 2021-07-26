@@ -170,6 +170,9 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
     # distribution for this particle
     for ipos, l, sml, (i, r) in zip(pos, ls, smooth, enumerate(rs)):
 
+        if i % 10000 == 0:
+            print(i, end="\r")
+
         x, y = ipos
 
         # Query the tree for this particle
