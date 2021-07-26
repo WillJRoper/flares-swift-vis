@@ -203,9 +203,9 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
     #         gsmooth_img[pix_pos[inds, 0], pix_pos[inds, 1]] += g * l / gsum
 
     gsmooth_img, xedges, yedges = np.histogram2d(pos[:, 0], pos[:, 1],
-                                         bins=img_dimens,
-                                         range=imgrange,
-                                         weights=ls)
+                                                 bins=img_dimens,
+                                                 range=imgrange,
+                                                 weights=ls)
 
     return gsmooth_img
 
@@ -272,8 +272,8 @@ def single_frame(num, max_pixel, nframes):
     max_rad = np.sqrt(3 * (boxsize.value / 2)**2)
 
     # Define range and extent for the images in arc seconds
-    imgrange = ((-np.pi, np.pi),
-                (-np.pi / 2, np.pi / 2))
+    imgrange = ((-np.pi / 2, np.pi / 2),
+                (-np.pi, np.pi))
     # imgrange = ((poss[:, 0].min(), poss[:, 0].max()),
     #             (poss[:, 1].min(), poss[:, 1].max()))
     imgextent = (max_rad * -np.pi, max_rad * np.pi,
