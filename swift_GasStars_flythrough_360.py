@@ -280,7 +280,15 @@ def single_frame(num, max_pixel, nframes):
                  max_rad * -np.pi / 2, max_rad * np.pi / 2)
 
     img = make_soft_img(poss, cart_poss, img_dimens, imgrange, mass, hsmls, rs)
-    img = cmap(get_normalised_image(img))
+    print(np.max(img), np.min(img),
+          np.log10(np.max(img)), np.log10(np.min(img)))
+    log_img = np.zeros_like(img)
+    log_img[img > 0] = np.log10(img[img > 0])
+
+    vmax = 11
+    vmin = 6
+
+    img = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
 
     # # Get colormap
     # cmap = ml.cm.Greys_r
