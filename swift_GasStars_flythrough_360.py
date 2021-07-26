@@ -287,10 +287,9 @@ def single_frame(num, max_pixel, nframes):
     vmax = 9.7
     vmin = 6
 
-    print(np.max(img), np.min(img),
-          np.log10(np.max(img)), np.log10(np.min(img)))
+    print(np.max(img), np.min(img[img > 0]))
 
-    img = cmap(get_normalised_image(log_img, vmin=vmin, vmax=vmax))
+    img = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
 
     # # Get colormap
     # cmap = ml.cm.Greys_r
