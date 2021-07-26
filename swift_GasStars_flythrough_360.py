@@ -266,8 +266,8 @@ def single_frame(num, max_pixel, nframes):
     cart_poss = np.copy(poss)
     poss = cart_to_spherical(poss)
     print(poss.min(axis=0), poss.max(axis=0))
-    # poss, rs = spherical_to_equirectangular(poss)
-    # print(poss.min(axis=0), poss.max(axis=0))
+    poss, rs = spherical_to_equirectangular(poss)
+    print(poss.min(axis=0), poss.max(axis=0))
 
     max_rad = np.sqrt(3 * (boxsize.value / 2)**2)
 
