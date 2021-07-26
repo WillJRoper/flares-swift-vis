@@ -175,9 +175,9 @@ def single_frame(num, max_pixel, nframes):
     # Define the camera trajectory
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
 
-    hex_list = ["#000000", "#590925", "#6c1c55", "#7e2e84", "#ba4051",
-                "#f6511d", "#ffb400", "#f7ec59", "#fbf6ac", "#ffffff"]
-    float_list = [0, 0.2, 0.3, 0.4, 0.45, 0.5, 0.7, 0.8, 0.9, 1]
+    hex_list = ["#590925", "#6c1c55", "#7e2e84", "#ba4051",
+                "#f6511d", "#ffb400", "#f7ec59", "#fbf6ac"]
+    float_list = [0, 0.2, 0.3, 0.5, 0.7, 0.8, 0.9, 1]
 
     cmap = get_continuous_cmap(hex_list, float_list=float_list)
 

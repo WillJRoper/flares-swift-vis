@@ -22,7 +22,7 @@ i=$(($SLURM_ARRAY_TASK_ID - 1))
 
 # Run the program
 #./swift_dm_animate.py $i
-./swift_dm_animate_physical.py $i
+#./swift_dm_animate_physical.py $i
 #./swift_gas_animate.py $i
 #./swift_stars_animate.py $i
 #./swift_GasStars_animate.py $i
@@ -30,6 +30,7 @@ i=$(($SLURM_ARRAY_TASK_ID - 1))
 ./swift_GasStars_flythrough.py $i
 #./swift_GasStars_flythrough_starcolour.py $i
 ./swift_GasTemp_flythrough.py $i
+./swift_DM_flythrough_360.py $i
 
 source deactivate
 
