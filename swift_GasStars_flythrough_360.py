@@ -138,41 +138,19 @@ def getimage(data, poss, mass, hsml, num, img_dimens, cmap, Type="gas"):
     return rgb, R.get_extent()
 
 
-def quartic_spline(q):
+def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
 
-    w = np.zeros_like(q)
-    okinds1 = q < 1 / 2
-    okinds2 = np.logical_and(1 / 2 <= q, q < 3 / 2)
-    okinds3 = np.logical_and(3 / 2 <= q, q < 5 / 2)
-
-    w[okinds1] = (5 / 2 - q[okinds1])**4 \
-                 - 5 * (3 / 2 - q[okinds1])**4 \
-                 + 10 * (1 / 2 - q[okinds1])**4
-    w[okinds2] = (5 / 2 - q[okinds2]) ** 4 \
-                 - 5 * (3 / 2 - q[okinds2]) ** 4
-    w[okinds3] = (5 / 2 - q[okinds3]) ** 4
-
-    return w
-
-
-def make_spline_img(part_pos, poss, img_dimens, tree, ls, smooth, rs,
-                    spline_func=quartic_spline, spline_cut_off=5/2):
+    # Define x and y positions for the gaussians
+    Gx, Gy = np.meshgrid(np.linspace(imgrange[0][0], imgrange[0][1], img_dimens[0]),
+                         np.linspace(imgrange[1][0], imgrange[1][1], img_dimens[1]))
 
     # Initialise the image array
-    smooth_img = np.zeros((img_dimens[0], img_dimens[1]))
+    gsmooth_img = np.zeros((img_dimens[0], img_dimens[1]))
 
-    # Define x and y positions of pixels
-    X, Y = np.meshgrid(np.arange(0, img_dimens[0], 1),
-                       np.arange(0, img_dimens[1], 1))
-
-    # Define pixel position array for the KDTree
-    pix_pos = np.zeros((X.size, 2), dtype=int)
-    pix_pos[:, 0] = X.ravel()
-    pix_pos[:, 1] = Y.ravel()
-
-    # Define k constant for 3 dimensions
-    k3 = 7 / (478 * np.pi)
-    for (i, ipos), l, sml, r in zip(enumerate(part_pos), ls, smooth, rs):
+    # Loop over each star computing the smoothed gaussian
+    # distribution for this particle
+    for x, y, l, sml, (i, r) in zip(pos[:, 0], pos[:, 1],
+                                    ls, smooth, enumerate(rs)):
 
         if i % 100 == 0:
             print(i, end="\r")
@@ -180,28 +158,32 @@ def make_spline_img(part_pos, poss, img_dimens, tree, ls, smooth, rs,
         x_sph1 = r * np.arctan2(poss[i, 1], poss[i, 0])
         x_sph2 = (r + sml) * np.arctan2(poss[i, 1] + sml, poss[i, 0] + sml)
 
-        sml = x_sph2 - x_sph1
+        xsml = x_sph2 - x_sph1
 
-        # Query the tree for this particle
-        dist, inds = tree.query(ipos, k=part_pos.shape[0],
-                                distance_upper_bound=spline_cut_off * sml)
+        xy = poss[:, 0] ** 2 + poss[:, 1] ** 2
+        y_sph1 = r * np.arctan2(np.sqrt(xy), poss[:, 2]) - (np.pi / 2)
+        y_sph2 = (r + sml) * np.arctan2(np.sqrt(xy + sml), poss[:, 2] + sml) - (np.pi / 2)
 
-        if type(dist) is float:
-            continue
+        ysml = y_sph2 - y_sph1
 
-        okinds = dist < spline_cut_off * sml
-        dist = dist[okinds]
-        inds = inds[okinds]
+        # Compute the image
+        g = np.exp(-(((Gx - x) ** 2 / (2.0 * xsml ** 2))
+                     + ((Gy - y) ** 2 / (2.0 * ysml ** 2))))
 
-        # Get the kernel
-        w = spline_func(dist / sml)
+        # Get the sum of the gaussian
+        gsum = np.sum(g)
 
-        # Place the kernel for this particle within the img
-        kernel = k3 * w / sml**3
-        norm_kernel = kernel / np.sum(kernel)
-        smooth_img[pix_pos[inds, 0], pix_pos[inds, 1]] += l * norm_kernel
+        # If there are stars within the image in this gaussian
+        # add it to the image array
+        if gsum > 0:
+            gsmooth_img += g * l / gsum
 
-    return smooth_img
+    # gsmooth_img, xedges, yedges = np.histogram2d(pos[:, i], pos[:, j],
+    #                                      bins=Ndim,
+    #                                      range=imgrange,
+    #                                      weights=ls)
+
+    return gsmooth_img
 
 
 def single_frame(num, max_pixel, nframes):
@@ -271,23 +253,7 @@ def single_frame(num, max_pixel, nframes):
     imgextent = (max_rad * -np.pi, max_rad * np.pi,
                  max_rad * -np.pi / 2, max_rad * np.pi / 2)
 
-    # Define x and y positions of pixels
-    X, Y = np.meshgrid(np.linspace(imgrange[0][0], imgrange[0][1],
-                                   img_dimens[0]),
-                       np.linspace(imgrange[1][0], imgrange[1][1],
-                                   img_dimens[1]))
-
-    # Define pixel position array for the KDTree
-    pix_pos = np.zeros((X.size, 2))
-    pix_pos[:, 0] = X.ravel()
-    pix_pos[:, 1] = Y.ravel()
-
-    # Build KDTree
-    tree = cKDTree(pix_pos)
-
-    print("Pixel tree built")
-
-    img = make_spline_img(poss, cart_poss, img_dimens, tree, mass, hsmls, rs)
+    img = make_soft_img(poss, cart_poss, img_dimens, imgrange, mass, hsmls, rs)
     img = cmap(img)
 
     # # Get colormap
