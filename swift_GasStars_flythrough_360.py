@@ -202,8 +202,8 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
     #     if gsum > 0:
     #         gsmooth_img[pix_pos[inds, 0], pix_pos[inds, 1]] += g * l / gsum
 
-    gsmooth_img, xedges, yedges = np.histogram2d(pos[:, i], pos[:, j],
-                                         bins=Ndim,
+    gsmooth_img, xedges, yedges = np.histogram2d(pos[:, 0], pos[:, 1],
+                                         bins=img_dimens,
                                          range=imgrange,
                                          weights=ls)
 
