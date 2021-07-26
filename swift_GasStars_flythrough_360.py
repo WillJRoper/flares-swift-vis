@@ -155,8 +155,8 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
     print("Pixel tree built")
 
     # Define x and y positions of pixels
-    X, Y = np.meshgrid(np.arange(0, img_dimens[1], 1),
-                       np.arange(0, img_dimens[0], 1))
+    X, Y = np.meshgrid(np.arange(0, img_dimens[0], 1),
+                       np.arange(0, img_dimens[1], 1))
 
     # Define pixel position array for the KDTree
     pix_pos = np.zeros((X.size, 2), dtype=int)
