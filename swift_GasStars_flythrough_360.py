@@ -174,6 +174,9 @@ def make_spline_img(part_pos, poss, img_dimens, tree, ls, smooth, rs,
     k3 = 7 / (478 * np.pi)
     for (i, ipos), l, sml, r in zip(enumerate(part_pos), ls, smooth, rs):
 
+        if i % 100 == 0:
+            print(i, end="\r")
+
         x_sph1 = r * np.arctan2(poss[i, 1], poss[i, 0])
         x_sph2 = (r + sml) * np.arctan2(poss[i, 1] + sml, poss[i, 0] + sml)
 
