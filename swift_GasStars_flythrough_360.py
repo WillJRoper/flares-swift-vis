@@ -191,8 +191,8 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
         ysml = y_sph2 - y_sph1
 
         # Compute the image
-        g = np.exp(-(((Gx[pix_pos[inds, 0], pix_pos[inds, 1]] - x) ** 2 / (2.0 * xsml ** 2))
-                     + ((Gy[pix_pos[inds, 0], pix_pos[inds, 1]] - y) ** 2 / (2.0 * ysml ** 2))))
+        g = np.exp(-(((Gx[pix_pos[inds, 1], pix_pos[inds, 0]] - x) ** 2 / (2.0 * xsml ** 2))
+                     + ((Gy[pix_pos[inds, 1], pix_pos[inds, 0]] - y) ** 2 / (2.0 * ysml ** 2))))
 
         # Get the sum of the gaussian
         gsum = np.sum(g)
@@ -200,12 +200,12 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
         # If there are stars within the image in this gaussian
         # add it to the image array
         if gsum > 0:
-            gsmooth_img[pix_pos[inds, 0], pix_pos[inds, 1]] += g * l / gsum
+            gsmooth_img[pix_pos[inds, 1], pix_pos[inds, 0]] += g * l / gsum
 
-    # gsmooth_img, xedges, yedges = np.histogram2d(pos[:, 0], pos[:, 1],
-    #                                              bins=img_dimens,
-    #                                              range=imgrange,
-    #                                              weights=ls)
+    gsmooth_img, xedges, yedges = np.histogram2d(pos[:, 0], pos[:, 1],
+                                                 bins=img_dimens,
+                                                 range=imgrange,
+                                                 weights=ls)
 
     return gsmooth_img
 
