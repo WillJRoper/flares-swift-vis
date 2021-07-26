@@ -166,46 +166,46 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
     # Initialise the image array
     gsmooth_img = np.zeros((img_dimens[0], img_dimens[1]))
 
-    # Loop over each star computing the smoothed gaussian
-    # distribution for this particle
-    for ipos, l, sml, (i, r) in zip(pos, ls, smooth, enumerate(rs)):
+    # # Loop over each star computing the smoothed gaussian
+    # # distribution for this particle
+    # for ipos, l, sml, (i, r) in zip(pos, ls, smooth, enumerate(rs)):
+    #
+    #     if i % 1000 == 0:
+    #         print(i, end="\r")
+    #
+    #     x, y = ipos
+    #
+    #     # Query the tree for this particle
+    #     dist, inds = tree.query(ipos, k=int(np.pi * 20**2))
+    #
+    #     x_sph1 = r * np.arctan2(poss[i, 1], poss[i, 0])
+    #     x_sph2 = (r + sml) * np.arctan2(poss[i, 1] + sml, poss[i, 0] + sml)
+    #
+    #     xsml = x_sph2 - x_sph1
+    #
+    #     xy = poss[i, 0] ** 2 + poss[i, 1] ** 2
+    #     y_sph1 = r * np.arctan2(np.sqrt(xy), poss[i, 2]) - (np.pi / 2)
+    #     xy = (poss[i, 0] + sml) ** 2 + (poss[i, 1] + sml) ** 2
+    #     y_sph2 = (r + sml) * np.arctan2(np.sqrt(xy), poss[i, 2] + sml) - (np.pi / 2)
+    #
+    #     ysml = y_sph2 - y_sph1
+    #
+    #     # Compute the image
+    #     g = np.exp(-(((Gx[pix_pos[inds, 0], pix_pos[inds, 1]] - x) ** 2 / (2.0 * xsml ** 2))
+    #                  + ((Gy[pix_pos[inds, 0], pix_pos[inds, 1]] - y) ** 2 / (2.0 * ysml ** 2))))
+    #
+    #     # Get the sum of the gaussian
+    #     gsum = np.sum(g)
+    #
+    #     # If there are stars within the image in this gaussian
+    #     # add it to the image array
+    #     if gsum > 0:
+    #         gsmooth_img[pix_pos[inds, 0], pix_pos[inds, 1]] += g * l / gsum
 
-        if i % 1000 == 0:
-            print(i, end="\r")
-
-        x, y = ipos
-
-        # Query the tree for this particle
-        dist, inds = tree.query(ipos, k=int(np.pi * 20**2))
-
-        x_sph1 = r * np.arctan2(poss[i, 1], poss[i, 0])
-        x_sph2 = (r + sml) * np.arctan2(poss[i, 1] + sml, poss[i, 0] + sml)
-
-        xsml = x_sph2 - x_sph1
-
-        xy = poss[i, 0] ** 2 + poss[i, 1] ** 2
-        y_sph1 = r * np.arctan2(np.sqrt(xy), poss[i, 2]) - (np.pi / 2)
-        xy = (poss[i, 0] + sml) ** 2 + (poss[i, 1] + sml) ** 2
-        y_sph2 = (r + sml) * np.arctan2(np.sqrt(xy), poss[i, 2] + sml) - (np.pi / 2)
-
-        ysml = y_sph2 - y_sph1
-
-        # Compute the image
-        g = np.exp(-(((Gx[pix_pos[inds, 0], pix_pos[inds, 1]] - x) ** 2 / (2.0 * xsml ** 2))
-                     + ((Gy[pix_pos[inds, 0], pix_pos[inds, 1]] - y) ** 2 / (2.0 * ysml ** 2))))
-
-        # Get the sum of the gaussian
-        gsum = np.sum(g)
-
-        # If there are stars within the image in this gaussian
-        # add it to the image array
-        if gsum > 0:
-            gsmooth_img[pix_pos[inds, 0], pix_pos[inds, 1]] += g * l / gsum
-
-    # gsmooth_img, xedges, yedges = np.histogram2d(pos[:, 0], pos[:, 1],
-    #                                      bins=img_dimens,
-    #                                      range=imgrange,
-    #                                      weights=ls)
+    gsmooth_img, xedges, yedges = np.histogram2d(pos[:, 0], pos[:, 1],
+                                         bins=img_dimens,
+                                         range=imgrange,
+                                         weights=ls)
 
     return gsmooth_img
 
@@ -272,10 +272,10 @@ def single_frame(num, max_pixel, nframes):
     max_rad = np.sqrt(3 * (boxsize.value / 2)**2)
 
     # Define range and extent for the images in arc seconds
-    # imgrange = ((max_rad * -np.pi, max_rad * np.pi),
-    #             (max_rad * -np.pi / 2, max_rad * np.pi / 2))
-    imgrange = ((poss[:, 0].min(), poss[:, 0].max()),
-                (poss[:, 1].min(), poss[:, 1].max()))
+    imgrange = ((-np.pi, np.pi),
+                (-np.pi / 2, np.pi / 2))
+    # imgrange = ((poss[:, 0].min(), poss[:, 0].max()),
+    #             (poss[:, 1].min(), poss[:, 1].max()))
     imgextent = (max_rad * -np.pi, max_rad * np.pi,
                  max_rad * -np.pi / 2, max_rad * np.pi / 2)
 
