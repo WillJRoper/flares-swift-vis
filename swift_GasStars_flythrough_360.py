@@ -154,6 +154,15 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
 
     print("Pixel tree built")
 
+    # Define x and y positions of pixels
+    X, Y = np.meshgrid(np.arange(0, img_dimens[1], 1),
+                       np.arange(0, img_dimens[0], 1))
+
+    # Define pixel position array for the KDTree
+    pix_pos = np.zeros((X.size, 2), dtype=int)
+    pix_pos[:, 0] = X.ravel()
+    pix_pos[:, 1] = Y.ravel()
+
     # Initialise the image array
     gsmooth_img = np.zeros((img_dimens[0], img_dimens[1]))
 
@@ -182,8 +191,8 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
         ysml = y_sph2 - y_sph1
 
         # Compute the image
-        g = np.exp(-(((Gx[inds] - x) ** 2 / (2.0 * xsml ** 2))
-                     + ((Gy[inds] - y) ** 2 / (2.0 * ysml ** 2))))
+        g = np.exp(-(((Gx[pix_pos[inds, 0], pix_pos[inds, 1]] - x) ** 2 / (2.0 * xsml ** 2))
+                     + ((Gy[pix_pos[inds, 0], pix_pos[inds, 1]] - y) ** 2 / (2.0 * ysml ** 2))))
 
         # Get the sum of the gaussian
         gsum = np.sum(g)
@@ -191,7 +200,7 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
         # If there are stars within the image in this gaussian
         # add it to the image array
         if gsum > 0:
-            gsmooth_img[inds] += g * l / gsum
+            gsmooth_img[pix_pos[inds, 0], pix_pos[inds, 1]] += g * l / gsum
 
     # gsmooth_img, xedges, yedges = np.histogram2d(pos[:, i], pos[:, j],
     #                                      bins=Ndim,
