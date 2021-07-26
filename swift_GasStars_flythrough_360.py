@@ -83,7 +83,7 @@ def cart_to_spherical(pos):
     xy = pos[:, 0] ** 2 + pos[:, 1] ** 2
     s_pos[:, 0] = np.sqrt(xy + pos[:, 2] ** 2)
     s_pos[:, 1] = np.arctan2(np.sqrt(xy), pos[:, 2]) - (np.pi/2)
-    s_pos[:, 2] = np.arctan2(pos[:, 2], np.sqrt(xy))
+    s_pos[:, 2] = np.arctan2(pos[:,1], pos[:,0])
 
     return s_pos
 
