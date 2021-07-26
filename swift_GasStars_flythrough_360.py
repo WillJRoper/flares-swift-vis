@@ -285,7 +285,7 @@ def single_frame(num, max_pixel, nframes):
     img[ini_img > 0] = np.log10(ini_img[ini_img > 0])
 
     vmax = 9.7
-    vmin = 6
+    vmin = 6.5
 
     print(np.max(img), np.min(img[img > 0]))
 
