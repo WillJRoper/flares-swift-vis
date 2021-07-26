@@ -141,8 +141,8 @@ def getimage(data, poss, mass, hsml, num, img_dimens, cmap, Type="gas"):
 def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
 
     # Define x and y positions for the gaussians
-    Gx, Gy = np.meshgrid(np.linspace(imgrange[0][0], imgrange[0][1], img_dimens[0]),
-                         np.linspace(imgrange[1][0], imgrange[1][1], img_dimens[1]))
+    Gx, Gy = np.meshgrid(np.linspace(imgrange[0][0], imgrange[0][1], img_dimens[1]),
+                         np.linspace(imgrange[1][0], imgrange[1][1], img_dimens[0]))
 
     # Initialise the image array
     gsmooth_img = np.zeros((img_dimens[0], img_dimens[1]))
