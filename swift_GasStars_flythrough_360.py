@@ -160,9 +160,10 @@ def make_soft_img(pos, poss, img_dimens, imgrange, ls, smooth, rs):
 
         xsml = x_sph2 - x_sph1
 
-        xy = poss[:, 0] ** 2 + poss[:, 1] ** 2
-        y_sph1 = r * np.arctan2(np.sqrt(xy), poss[:, 2]) - (np.pi / 2)
-        y_sph2 = (r + sml) * np.arctan2(np.sqrt(xy + sml), poss[:, 2] + sml) - (np.pi / 2)
+        xy = poss[i, 0] ** 2 + poss[i, 1] ** 2
+        y_sph1 = r * np.arctan2(np.sqrt(xy), poss[i, 2]) - (np.pi / 2)
+        xy = (poss[i, 0] + sml) ** 2 + (poss[i, 1] + sml) ** 2
+        y_sph2 = (r + sml) * np.arctan2(np.sqrt(xy), poss[i, 2] + sml) - (np.pi / 2)
 
         ysml = y_sph2 - y_sph1
 
