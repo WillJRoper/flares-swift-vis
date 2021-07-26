@@ -288,7 +288,7 @@ def single_frame(num, max_pixel, nframes):
     vmax = 11
     vmin = 6
 
-    img = cmap(get_normalised_image(img, vmin=vmin, vmax=vmax))
+    img = cmap(get_normalised_image(log_img, vmin=vmin, vmax=vmax))
 
     # # Get colormap
     # cmap = ml.cm.Greys_r
