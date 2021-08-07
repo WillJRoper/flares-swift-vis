@@ -161,7 +161,7 @@ def single_frame(num, max_pixel, nframes):
     anchors['t'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['p'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['extent'] = [100, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['extent'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
 
     # Define the camera trajectory
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
