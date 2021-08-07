@@ -168,7 +168,6 @@ def single_frame(num, max_pixel, nframes):
 
     poss = data.dark_matter.coordinates.value
     hsmls = data.dark_matter.softenings.value / (1 + z)
-    print(hsmls)
 
     poss -= cent
 
@@ -177,14 +176,15 @@ def single_frame(num, max_pixel, nframes):
 
     poss /= (1 + z)
 
-    wrapped_boxes = np.ceil(1 + z)
+    wrapped_boxes = int(np.ceil(1 + z))
+    half_wrapped_boxes = int(wrapped_boxes / 2)
     wrapped_poss = np.zeros((wrapped_boxes ** 3, 3))
     wrapped_hsmls = np.zeros((wrapped_boxes ** 3, 3))
     print(wrapped_poss.shape)
     n = 0
-    for i in range(-wrapped_boxes / 2, wrapped_boxes / 2, 1):
-        for j in range(-wrapped_boxes / 2, wrapped_boxes / 2, 1):
-            for k in range(-wrapped_boxes / 2, wrapped_boxes / 2, 1):
+    for i in range(-half_wrapped_boxes, half_wrapped_boxes, 1):
+        for j in range(-half_wrapped_boxes,half_wrapped_boxes, 1):
+            for k in range(-half_wrapped_boxes, half_wrapped_boxes, 1):
                 wrapped_poss[poss.shape * n: poss.shape * (n + 1), 3] = poss + np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)])
                 wrapped_hsmls[poss.shape * n: poss.shape * (n + 1)] = hsmls
 
