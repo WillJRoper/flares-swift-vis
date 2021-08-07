@@ -162,8 +162,8 @@ def single_frame(num, max_pixel, nframes):
     anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['r'] = [8, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['t'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['p'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['p'] = [-30, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['extent'] = [1, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
 
@@ -200,7 +200,7 @@ def single_frame(num, max_pixel, nframes):
           np.max(wrapped_poss, axis=0) * (1 + z) / boxsize)
 
     # Get images
-    cmap = cmr.rainforest
+    cmap = cmr.apple
     rgb_DM_box, ang_extent = getimage(cam_data, poss, hsmls, num, z, cmap)
     cmap = cmr.neutral
     rgb_DM_wrapped, ang_extent = getimage(cam_data, wrapped_poss,
@@ -210,8 +210,8 @@ def single_frame(num, max_pixel, nframes):
               0, 2 * np.tan(ang_extent[-1]) * i['r']]
     print(ang_extent, extent)
 
-    blend = Blend.Blend(rgb_DM_box, rgb_DM_wrapped)
-    rgb_DM = blend.Screen()
+    blend = Blend.Blend(rgb_DM_wrapped, rgb_DM_box)
+    rgb_DM = blend.Overlay()
 
     dpi = rgb_DM.shape[0]
     print(dpi, rgb_DM.shape)
