@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="434f4938-e556-4aae-b9a9-5cc711a21831" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swift_dm_animate_physical_wrapped.py" beforeDir="false" afterPath="$PROJECT_DIR$/swift_dm_animate_physical_wrapped.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -129,7 +128,7 @@
       <workItem from="1624975318090" duration="104000" />
       <workItem from="1624975435875" duration="7000" />
       <workItem from="1626174153708" duration="58875000" />
-      <workItem from="1627300666823" duration="10639000" />
+      <workItem from="1627300666823" duration="10992000" />
     </task>
     <servers />
   </component>
