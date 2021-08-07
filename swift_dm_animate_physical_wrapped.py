@@ -161,7 +161,7 @@ def single_frame(num, max_pixel, nframes):
     anchors['t'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['p'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['extent'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['extent'] = [1, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
 
     # Define the camera trajectory
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
@@ -180,14 +180,14 @@ def single_frame(num, max_pixel, nframes):
     if wrapped_boxes % 2 == 0:
         wrapped_boxes += 1
     half_wrapped_boxes = int(wrapped_boxes / 2)
-    wrapped_poss = np.zeros((poss.shape[0] * wrapped_boxes ** 3, 3), dtype=np.float32)
-    wrapped_hsmls = np.zeros(poss.shape[0] * wrapped_boxes ** 3, dtype=np.float32)
+    wrapped_poss = np.zeros((poss.shape[0] * wrapped_boxes ** 3, 3), dtype=np.float16)
+    wrapped_hsmls = np.zeros(poss.shape[0] * wrapped_boxes ** 3, dtype=np.float16)
     print(wrapped_poss.shape[0]**(1/3))
     n = 0
     for i in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
         for j in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
             for k in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
-                print(n, i, j, k, np.array([i * boxsize, j * boxsize, k * boxsize]), end="\r")
+                print(n, end="\r")
                 wrapped_poss[poss.shape[0] * n: poss.shape[0] * (n + 1), :] = poss + np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)])
                 wrapped_hsmls[poss.shape[0] * n: poss.shape[0] * (n + 1)] = hsmls
                 n += 1
