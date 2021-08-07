@@ -185,7 +185,7 @@ def single_frame(num, max_pixel, nframes):
     for i in range(-half_wrapped_boxes, half_wrapped_boxes, 1):
         for j in range(-half_wrapped_boxes,half_wrapped_boxes, 1):
             for k in range(-half_wrapped_boxes, half_wrapped_boxes, 1):
-                wrapped_poss[poss.shape[0] * n: poss.shape[0] * (n + 1), 3] = poss + np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)])
+                wrapped_poss[poss.shape[0] * n: poss.shape[0] * (n + 1), :] = poss + np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)])
                 wrapped_hsmls[poss.shape[0] * n: poss.shape[0] * (n + 1)] = hsmls
                 n += 1
 
