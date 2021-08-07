@@ -179,8 +179,8 @@ def single_frame(num, max_pixel, nframes):
     wrapped_boxes = int(np.ceil(1 + z))
     half_wrapped_boxes = int(wrapped_boxes / 2)
     wrapped_poss = np.zeros((poss.shape[0] * wrapped_boxes ** 3, 3))
-    wrapped_hsmls = np.zeros((poss.shape[0] * wrapped_boxes ** 3, 3))
-    print(wrapped_poss.shape)
+    wrapped_hsmls = np.zeros(poss.shape[0] * wrapped_boxes ** 3)
+    print(wrapped_poss.shape[0]**(1/3))
     n = 0
     for i in range(-half_wrapped_boxes, half_wrapped_boxes, 1):
         for j in range(-half_wrapped_boxes,half_wrapped_boxes, 1):
