@@ -97,7 +97,7 @@ def getimage(data, poss, hsml, num, z, cmap):
     img = R.get_image()
 
     print(img.max(),
-          np.percentile(img, 99),
+          np.percentile(img, 99.99),
           np.percentile(img, 95),
           np.percentile(img, 90),
           np.percentile(img, 67.5),
@@ -177,7 +177,7 @@ def single_frame(num, max_pixel, nframes):
     poss /= (1 + z)
 
     wrapped_boxes = int(np.ceil(1 + z))
-    if wrapped_boxes % 2 != 0:
+    if wrapped_boxes % 2 == 0:
         wrapped_boxes += 1
     half_wrapped_boxes = int(wrapped_boxes / 2)
     wrapped_poss = np.zeros((poss.shape[0] * wrapped_boxes ** 3, 3))
@@ -187,8 +187,8 @@ def single_frame(num, max_pixel, nframes):
     for i in range(-half_wrapped_boxes, half_wrapped_boxes, 1):
         for j in range(-half_wrapped_boxes,half_wrapped_boxes, 1):
             for k in range(-half_wrapped_boxes, half_wrapped_boxes, 1):
-                print(i, j, k)
-                print(np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)]))
+                # print(i, j, k)
+                # print(np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)]))
                 wrapped_poss[poss.shape[0] * n: poss.shape[0] * (n + 1), :] = poss + np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)])
                 wrapped_hsmls[poss.shape[0] * n: poss.shape[0] * (n + 1)] = hsmls
                 n += 1
