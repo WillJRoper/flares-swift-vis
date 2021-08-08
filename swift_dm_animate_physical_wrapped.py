@@ -108,7 +108,7 @@ def getimage(data, poss, hsml, num, z, cmap):
           np.percentile(img, 50))
 
     vmax = 6.9
-    vmin = 0.5
+    vmin = 0.1
 
     # # Get colormaps
     # cmap2 = cmr.torch_r(np.linspace(0, 1, 128))
@@ -161,7 +161,7 @@ def single_frame(num, max_pixel, nframes):
     anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['r'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['r'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['t'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['p'] = [-20, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
@@ -181,8 +181,8 @@ def single_frame(num, max_pixel, nframes):
     poss /= (1 + z)
 
     wrapped_boxes = int(np.ceil(1 + z))
-    if wrapped_boxes < 3:
-        wrapped_boxes = 3
+    if wrapped_boxes < 5:
+        wrapped_boxes = 5
     elif wrapped_boxes % 2 == 0:
         wrapped_boxes += 1
     half_wrapped_boxes = int(wrapped_boxes / 2)
