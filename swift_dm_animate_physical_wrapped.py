@@ -108,7 +108,7 @@ def getimage(data, poss, hsml, num, z, cmap):
           np.percentile(img, 50))
 
     vmax = 6.9
-    vmin = 0
+    vmin = 1
 
     # # Get colormaps
     # cmap2 = cmr.torch_r(np.linspace(0, 1, 128))
