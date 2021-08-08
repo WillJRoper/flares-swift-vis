@@ -95,8 +95,8 @@ def getimage(data, poss, hsml, num, z, cmap):
     print("Scene")
     R = sph.Render(S)
     print("Render")
-    # R.set_logscale()
-    # print("Logscale")
+    R.set_logscale()
+    print("Logscale")
     img = R.get_image()
     print("Image")
 
@@ -107,8 +107,8 @@ def getimage(data, poss, hsml, num, z, cmap):
           np.percentile(img, 67.5),
           np.percentile(img, 50))
 
-    vmax = np.percentile(img, 99)
-    vmin = np.percentile(img, 50)
+    vmax = 6.9
+    vmin = 0.5
 
     # # Get colormaps
     # cmap2 = cmr.torch_r(np.linspace(0, 1, 128))
