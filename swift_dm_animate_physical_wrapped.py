@@ -95,8 +95,8 @@ def getimage(data, poss, hsml, num, z, cmap):
     print("Scene")
     R = sph.Render(S)
     print("Render")
-    R.set_logscale()
-    print("Logscale")
+    # R.set_logscale()
+    # print("Logscale")
     img = R.get_image()
     print("Image")
 
@@ -107,8 +107,8 @@ def getimage(data, poss, hsml, num, z, cmap):
           np.percentile(img, 67.5),
           np.percentile(img, 50))
 
-    vmax = 6.9
-    vmin = 1
+    vmax = np.percentile(img, 99)
+    vmin = np.percentile(img, 50)
 
     # # Get colormaps
     # cmap2 = cmr.torch_r(np.linspace(0, 1, 128))
@@ -162,8 +162,8 @@ def single_frame(num, max_pixel, nframes):
     anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['r'] = [8, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['t'] = [5, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['p'] = [-30, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['t'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['p'] = [-20, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['extent'] = [1, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
 
