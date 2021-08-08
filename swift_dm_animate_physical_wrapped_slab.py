@@ -162,7 +162,8 @@ def single_frame(num, max_pixel, nframes):
     # Define anchors dict for camera parameters
     anchors = {}
     anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['id_frames'] = list(np.linspace(0, 1379, 8, dtype=int)).append(2000)
+    anchors['id_frames'] = list(np.linspace(0, 1379, 8, dtype=int))
+    anchors['id_frames'].append(2000)
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['r'] = [15, 'same', 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['t'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same', 'same']
