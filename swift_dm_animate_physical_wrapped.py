@@ -181,8 +181,8 @@ def single_frame(num, max_pixel, nframes):
     poss /= (1 + z)
 
     wrapped_boxes = int(np.ceil(1 + z))
-    if wrapped_boxes < 5:
-        wrapped_boxes = 5
+    if wrapped_boxes < 3:
+        wrapped_boxes = 3
     elif wrapped_boxes % 2 == 0:
         wrapped_boxes += 1
     half_wrapped_boxes = int(wrapped_boxes / 2)
