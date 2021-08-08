@@ -162,8 +162,8 @@ def single_frame(num, max_pixel, nframes):
     anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
     anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['r'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['t'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['p'] = [-20, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['t'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['p'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
     anchors['extent'] = [1, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
 
