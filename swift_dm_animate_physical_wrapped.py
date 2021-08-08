@@ -186,16 +186,23 @@ def single_frame(num, max_pixel, nframes):
     elif wrapped_boxes % 2 == 0:
         wrapped_boxes += 1
     half_wrapped_boxes = int(wrapped_boxes / 2)
-    wrapped_poss = np.zeros((poss.shape[0] * wrapped_boxes ** 3, 3), dtype=np.float64)
-    wrapped_hsmls = np.zeros(poss.shape[0] * wrapped_boxes ** 3, dtype=np.float64)
+    wrapped_poss = np.zeros((poss.shape[0] * wrapped_boxes ** 2, 3), dtype=np.float64)
+    wrapped_hsmls = np.zeros(poss.shape[0] * wrapped_boxes ** 2, dtype=np.float64)
     print(wrapped_poss.shape[0]**(1/3))
+    # n = 0
+    # for i in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
+    #     for j in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
+    #         for k in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
+    #             wrapped_poss[poss.shape[0] * n: poss.shape[0] * (n + 1), :] = poss + np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)])
+    #             wrapped_hsmls[poss.shape[0] * n: poss.shape[0] * (n + 1)] = hsmls
+    #             n += 1
     n = 0
+    k = 0
     for i in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
         for j in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
-            for k in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
-                wrapped_poss[poss.shape[0] * n: poss.shape[0] * (n + 1), :] = poss + np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)])
-                wrapped_hsmls[poss.shape[0] * n: poss.shape[0] * (n + 1)] = hsmls
-                n += 1
+            wrapped_poss[poss.shape[0] * n: poss.shape[0] * (n + 1), :] = poss + np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)])
+            wrapped_hsmls[poss.shape[0] * n: poss.shape[0] * (n + 1)] = hsmls
+            n += 1
 
     print(np.min(wrapped_poss, axis=0) * (1 + z), np.max(wrapped_poss, axis=0) * (1 + z))
     print(np.min(wrapped_poss, axis=0) * (1 + z) / boxsize,
@@ -271,7 +278,7 @@ def single_frame(num, max_pixel, nframes):
 
     plt.margins(0, 0)
 
-    fig.savefig('plots/Ani/Physical/DMphysical_animation_wrapped_' + snap + '.png',
+    fig.savefig('plots/Ani/Physical/DMphysical_animation_wrapped2D_' + snap + '.png',
                 bbox_inches='tight', pad_inches=0)
     plt.close(fig)
 
