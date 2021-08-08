@@ -133,7 +133,10 @@ def getimage(data, poss, hsml, num, z, cmap):
 
 def single_frame(num, max_pixel, nframes):
 
-    snap = "%04d" % num
+    if num <= 1379:
+        snap = "%04d" % num
+    else:
+        snap = "%04d" % 1379
 
     # Define path
     path = '/cosma/home/dp004/dc-rope1/cosma7/SWIFT/hydro_1380_ani/data/ani_hydro_' + snap + ".hdf5"
@@ -151,21 +154,21 @@ def single_frame(num, max_pixel, nframes):
     print("Boxes in frame:", (1 + z))
 
     # Define centre
-    cent = np.array([boxsize / 2, boxsize / 2, boxsize / 2])
+    cent = np.array([11.76119931, 3.95795609, 1.26561173])
 
     # Define targets
     targets = [[0, 0, 0], ]
 
     # Define anchors dict for camera parameters
     anchors = {}
-    anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['id_frames'] = np.linspace(0, nframes, 8, dtype=int)
-    anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['r'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['t'] = [10, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['p'] = [-20, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same']
-    anchors['extent'] = [1, 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['sim_times'] = [0.0, 'same', 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['id_frames'] = list(np.linspace(0, 1379, 8, dtype=int)).append(2000)
+    anchors['id_targets'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['r'] = [15, 'same', 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['t'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['p'] = [0, 'same', 'same', 'same', 'same', 'same', 'same', 'same', -720]
+    anchors['zoom'] = [1., 'same', 'same', 'same', 'same', 'same', 'same', 'same', 'same']
+    anchors['extent'] = [1, 'same', 'same', 'same', 'same', 'same', 'same', 'same', 'same']
 
     # Define the camera trajectory
     cam_data = camera_tools.get_camera_trajectory(targets, anchors)
@@ -180,22 +183,29 @@ def single_frame(num, max_pixel, nframes):
 
     poss /= (1 + z)
 
-    wrapped_boxes = int(np.ceil(1 + z))
-    if wrapped_boxes < 5:
-        wrapped_boxes = 5
+    wrapped_boxes = int(np.ceil(1 + z)) * 2
+    if wrapped_boxes < 3:
+        wrapped_boxes = 3
     elif wrapped_boxes % 2 == 0:
         wrapped_boxes += 1
     half_wrapped_boxes = int(wrapped_boxes / 2)
-    wrapped_poss = np.zeros((poss.shape[0] * wrapped_boxes ** 3, 3), dtype=np.float64)
-    wrapped_hsmls = np.zeros(poss.shape[0] * wrapped_boxes ** 3, dtype=np.float64)
+    wrapped_poss = np.zeros((poss.shape[0] * wrapped_boxes ** 2, 3), dtype=np.float64)
+    wrapped_hsmls = np.zeros(poss.shape[0] * wrapped_boxes ** 2, dtype=np.float64)
     print(wrapped_poss.shape[0]**(1/3))
+    # n = 0
+    # for i in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
+    #     for j in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
+    #         for k in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
+    #             wrapped_poss[poss.shape[0] * n: poss.shape[0] * (n + 1), :] = poss + np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)])
+    #             wrapped_hsmls[poss.shape[0] * n: poss.shape[0] * (n + 1)] = hsmls
+    #             n += 1
     n = 0
+    k = 0
     for i in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
         for j in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
-            for k in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
-                wrapped_poss[poss.shape[0] * n: poss.shape[0] * (n + 1), :] = poss + np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)])
-                wrapped_hsmls[poss.shape[0] * n: poss.shape[0] * (n + 1)] = hsmls
-                n += 1
+            wrapped_poss[poss.shape[0] * n: poss.shape[0] * (n + 1), :] = poss + np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)])
+            wrapped_hsmls[poss.shape[0] * n: poss.shape[0] * (n + 1)] = hsmls
+            n += 1
 
     print(np.min(wrapped_poss, axis=0) * (1 + z), np.max(wrapped_poss, axis=0) * (1 + z))
     print(np.min(wrapped_poss, axis=0) * (1 + z) / boxsize,
@@ -271,7 +281,7 @@ def single_frame(num, max_pixel, nframes):
 
     plt.margins(0, 0)
 
-    fig.savefig('plots/Ani/Physical/DMphysical_animation_wrapped_' + snap + '.png',
+    fig.savefig('plots/Ani/Physical/DMphysical_animation_wrapped2D_' + snap + '.png',
                 bbox_inches='tight', pad_inches=0)
     plt.close(fig)
 

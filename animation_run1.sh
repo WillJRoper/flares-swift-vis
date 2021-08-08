@@ -1,10 +1,10 @@
 #!/bin/bash -l
 #SBATCH --ntasks 1 # The number of cores you need...
 #SBATCH --array=1-1000
-#SBATCH --cpus-per-task=14
+#SBATCH --cpus-per-task=16
 #SBATCH -J FLARES-pysphv #Give it something meaningful.
 #SBATCH -o logs/output_flythrough.%J.out
-#SBATCH -p cosma7 #or some other partition, e.g. cosma, cosma6, etc.
+#SBATCH -p cosma6 #or some other partition, e.g. cosma, cosma6, etc.
 #SBATCH -A dp004
 #SBATCH --exclusive
 #SBATCH -t 72:00:00
@@ -23,7 +23,7 @@ i=$(($SLURM_ARRAY_TASK_ID - 1))
 # Run the program
 #./swift_dm_animate.py $i
 #./swift_dm_animate_physical.py $i
-./swift_dm_animate_physical_wrapped.py $i
+./swift_dm_animate_physical_wrapped_slab.py $i
 #./swift_gas_animate.py $i
 #./swift_stars_animate.py $i
 #./swift_GasStars_animate.py $i

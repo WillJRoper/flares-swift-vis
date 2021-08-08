@@ -23,7 +23,7 @@ i=$(($SLURM_ARRAY_TASK_ID - 1 + 1000))
 # Run the program
 #./swift_dm_animate.py $i
 #./swift_dm_animate_physical.py $i
-./swift_dm_animate_physical_wrapped.py $i
+./swift_dm_animate_physical_wrapped_slab.py $i
 #./swift_gas_animate.py $i
 #./swift_stars_animate.py $i
 #./swift_GasStars_animate.py $i
