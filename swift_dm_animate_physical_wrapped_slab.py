@@ -184,31 +184,32 @@ def single_frame(num, max_pixel, nframes):
 
     poss /= (1 + z)
 
-    wrapped_boxes = int(np.ceil(1 + z)) * 2
-    if wrapped_boxes < 3:
-        wrapped_boxes = 3
-    elif wrapped_boxes % 2 == 0:
-        wrapped_boxes += 1
-    half_wrapped_boxes = int(wrapped_boxes / 2)
-    wrapped_poss = np.zeros((poss.shape[0] * wrapped_boxes ** 2, 3), dtype=np.float64)
-    wrapped_hsmls = np.zeros(poss.shape[0] * wrapped_boxes ** 2, dtype=np.float64)
+    axis_ratio = 3840 / 2160
+    xwrapped_boxes = int(np.ceil(1 + z)) * 2
+    ywrapped_boxes = int(xwrapped_boxes * axis_ratio)
+    if xwrapped_boxes < 3:
+        xwrapped_boxes = 3
+    elif xwrapped_boxes % 2 == 0:
+        xwrapped_boxes += 1
+    if ywrapped_boxes < 3:
+        ywrapped_boxes = 3
+    elif ywrapped_boxes % 2 == 0:
+        ywrapped_boxes += 1
+    half_xwrapped_boxes = int(xwrapped_boxes / 2)
+    half_ywrapped_boxes = int(ywrapped_boxes / 2)
+    wrapped_poss = np.zeros((poss.shape[0] * xwrapped_boxes * ywrapped_boxes, 3), dtype=np.float64)
+    wrapped_hsmls = np.zeros(poss.shape[0] * xwrapped_boxes * ywrapped_boxes, dtype=np.float64)
     print(wrapped_poss.shape[0]**(1/3))
-    # n = 0
-    # for i in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
-    #     for j in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
-    #         for k in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
-    #             wrapped_poss[poss.shape[0] * n: poss.shape[0] * (n + 1), :] = poss + np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)])
-    #             wrapped_hsmls[poss.shape[0] * n: poss.shape[0] * (n + 1)] = hsmls
-    #             n += 1
     n = 0
     k = 0
-    for i in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
-        for j in range(-half_wrapped_boxes, half_wrapped_boxes + 1, 1):
+    for i in range(-half_xwrapped_boxes, half_xwrapped_boxes + 1, 1):
+        for j in range(-half_ywrapped_boxes, half_ywrapped_boxes + 1, 1):
             wrapped_poss[poss.shape[0] * n: poss.shape[0] * (n + 1), :] = poss + np.array([i * boxsize / (1 + z), j * boxsize / (1 + z), k * boxsize / (1 + z)])
             wrapped_hsmls[poss.shape[0] * n: poss.shape[0] * (n + 1)] = hsmls
             n += 1
 
-    print(np.min(wrapped_poss, axis=0) * (1 + z), np.max(wrapped_poss, axis=0) * (1 + z))
+    print(np.min(wrapped_poss, axis=0) * (1 + z),
+          np.max(wrapped_poss, axis=0) * (1 + z))
     print(np.min(wrapped_poss, axis=0) * (1 + z) / boxsize,
           np.max(wrapped_poss, axis=0) * (1 + z) / boxsize)
 
